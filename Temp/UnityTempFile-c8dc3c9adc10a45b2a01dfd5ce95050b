@@ -16,7 +16,7 @@
 -define:UNITY_5_3_OR_NEWER
 -define:UNITY_5_4_OR_NEWER
 -define:UNITY_5_5_OR_NEWER
--define:UNITY_5_5_0
+-define:UNITY_5_5_1
 -define:UNITY_5_5
 -define:UNITY_5
 -define:UNITY_64
