@@ -14,8 +14,13 @@ public class dumpRender2Texture : MonoBehaviour {
 
 
 	public dumpRender2Texture() {
-		cam_droite = GameObject.Find("Camera_droite").GetComponent<Camera>();
-		cam_gauche = GameObject.Find("Camera_gauche").GetComponent<Camera>();
+		cam_droite = GameObject.Find("/Robot/Camera_droite").GetComponent<Camera>();
+		cam_gauche = GameObject.Find("/Robot/Camera_gauche").GetComponent<Camera>();
+
+		if (cam_droite == null || cam_gauche == null) {
+			print ("Erreur, caméras non trouvées");
+			return;
+		}
 
 		width = Screen.width;
 		height = Screen.height;
@@ -38,8 +43,8 @@ public class dumpRender2Texture : MonoBehaviour {
 		capture_droite.ReadPixels(new Rect(width/2, 0, width, height), 0, 0);
 		capture_gauche.ReadPixels(new Rect(0, 0, width/2, height), 0, 0);
 
-		camera_droite.targetTexture = null;
-		camera_gauche.targetTexture = null;
+		cam_droite.targetTexture = null;
+		cam_gauche.targetTexture = null;
 
 		Destroy (render_tex_droite);
 		Destroy (render_tex_gauche);

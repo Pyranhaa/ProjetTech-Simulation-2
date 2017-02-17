@@ -46,8 +46,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ImageToolsManager.cs" />
      <Compile Include="Assets\Player.cs" />
      <Compile Include="Assets\ScreenCapture.cs" />
+     <Compile Include="Assets\dist_cam.cs" />
+     <Compile Include="Assets\dumpRender2Texture.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
