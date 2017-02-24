@@ -1,1 +1,0 @@
-//TODO Point d'entrée du plugin, pour interface entre opencv et Unity (entrée: type d'image unity, sortie image unity modifiée par opencv)
