@@ -11,7 +11,7 @@ using namespace std;
 
 //TODO TMP
 extern "C" {
-    void display_img(cv::Mat img);
+    void display_img(cv::Mat img, const string& title);
 }
     
 
@@ -62,7 +62,7 @@ int main (int argc, char** argv) {
         //On applique l'action voulue
         switch (args.action_arg) {
             case action_arg_display:
-                display_img(img);
+                display_img(img, string(iterator->d_name));
                 doSave = false;
                 break;
         }

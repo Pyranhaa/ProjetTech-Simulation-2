@@ -1,6 +1,7 @@
-#include <stdlib.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+
+#include <string>
 
 #ifdef UNITY
 
@@ -28,12 +29,13 @@ extern "C"{
   }
 
 }
-#endif
+#endif /* UNITY */
 
 extern "C"{
-  void display_img(cv::Mat img) { //tmp
-    cv::namedWindow( "OMGWTFBBQ", cv::WINDOW_AUTOSIZE );
-    cv::imshow("OMGWTFBBQ", img);
+  void display_img(cv::Mat img, const std::string& title) { //tmp
+    //cv::namedWindow(title, cv::WINDOW_AUTOSIZE ); //Implicite dans imshow
+    cv::imshow(title, img);
     cv::waitKey(0); //sa race le waitkey
+    cv::destroyWindow(title);
   }
 }
