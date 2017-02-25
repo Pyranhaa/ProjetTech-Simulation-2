@@ -24,16 +24,16 @@ extern "C"{
   EXPORT void display_texture(int tex_id, int width, int height){
     cv::Mat tex = tex2Mat(tex_id, width, height);
     cv::imshow("display", tex);
+    cv::waitKey(0);
   }
 
 }
 #endif
-#ifndef UNITY
 
 extern "C"{
   void display_img(cv::Mat img) { //tmp
-    cv::namedWindow( "Test", cv::WINDOW_AUTOSIZE );
-    cv::imshow("Test", img);
+    cv::namedWindow( "OMGWTFBBQ", cv::WINDOW_AUTOSIZE );
+    cv::imshow("OMGWTFBBQ", img);
+    cv::waitKey(0); //sa race le waitkey
   }
 }
-#endif

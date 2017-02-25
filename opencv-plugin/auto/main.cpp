@@ -52,6 +52,7 @@ int main (int argc, char** argv) {
             cout << inputFile << "\t==>\t" << outputFile << endl;
             continue;
         }
+        //Ouverture d'image
         cv::Mat img = cv::imread(inputFile.c_str());
         if (img.data == NULL) {
             cerr << "Erreur lecture du fichier " << inputFile << endl;
@@ -65,6 +66,7 @@ int main (int argc, char** argv) {
                 doSave = false;
                 break;
         }
+        //Sauvegarde
         if (doSave) {
             if (!cv::imwrite(outputFile.c_str(), img))
                 cerr << "Erreur ? Enregistrement image" << endl;
