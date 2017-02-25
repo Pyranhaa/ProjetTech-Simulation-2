@@ -6,13 +6,9 @@
 #include <dirent.h>
 
 #include "cmdline.h"
+#include "processor.hpp"
 
 using namespace std;
-
-//TODO TMP
-extern "C" {
-    void display_img(cv::Mat img, const string& title);
-}
     
 
 int main (int argc, char** argv) {
@@ -40,14 +36,16 @@ int main (int argc, char** argv) {
     while ((iterator = readdir(inputDir)) != NULL) { //Retourne NULL à la fin du dossier
         if (iterator->d_type != DT_REG) continue; //On saute si c'est pas un fichier normal (dossier, lien, etc -voir man readdir)
 
-        string inputFile("/");
-        inputFile.append(args.prefix_arg);
+        string inputFile(args.input_arg);
+        inputFile.push_back('/');
         inputFile.append(iterator->d_name);
 
-        string outputFile(inputFile);
-        outputFile.insert(0, args.output_arg);
-        inputFile.insert(0, args.input_arg);
+        string outputFile(args.output_arg);
+        outputFile.push_back('/');        
+        outputFile.append(args.prefix_arg);
+        outputFile.append(iterator->d_name);
         
+        //Si print, on le traite avant pour ne pas charger d'image pour rien
         if (args.action_arg == action_arg_print) {
             cout << inputFile << "\t==>\t" << outputFile << endl;
             continue;
@@ -64,6 +62,15 @@ int main (int argc, char** argv) {
             case action_arg_display:
                 display_img(img, string(iterator->d_name));
                 doSave = false;
+                break;
+            default: //Correspond aux disparity maps (si aucune option donnée le défaut est display, donc pas de soucis)
+                cv::Mat left, right;
+                split(img, left, right);
+                if (args.action_arg == action_arg_bm) {
+                    img = disparityMap(left, right, StereoMode::STEREO_MODE_BM);
+                } else {
+                    img = disparityMap(left, right, StereoMode::STEREO_MODE_SGBM);                    
+                }
                 break;
         }
         //Sauvegarde

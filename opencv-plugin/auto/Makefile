@@ -1,8 +1,8 @@
 CC=g++
 
-CXXFLAGS=-fpermissive -std=c++11
+CXXFLAGS=-fpermissive -std=c++11 -I..
 LDFLAGS=-L/usr/local/opencv-2.4.13/lib -L.. -L. -Wl,-rpath=.
-LDLIBS=-lopencv_core -lopencv_highgui -lProcessor #-lGL
+LDLIBS=-lopencv_core -lopencv_highgui -lprocessor #-lGL
 
 TARGET=automate
 

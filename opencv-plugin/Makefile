@@ -1,11 +1,11 @@
 CXXFLAGS=-shared -fPIC -std=c++11
-LDFLAGS=-L/usr/local/opencv-2.4.13/lib
-LDLIBS=-lopencv_core -lopencv_highgui #-lGL
+#LDFLAGS=-L/usr/local/opencv-2.4.13/lib
+LDLIBS=-lopencv_core -lopencv_highgui -lopencv_calib3d#-lGL
 
 
-SRC=libProcessor.cpp
+SRC=processor.cpp
 
-TARGET=libProcessor.so
+TARGET=lib$(SRC:%.cpp=%.so)
 
 all: unity
 
