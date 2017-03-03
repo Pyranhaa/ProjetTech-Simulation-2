@@ -18,6 +18,7 @@ install: $(TARGET)
 cmdline.c cmdline.h: options.ggo
 	gengetopt < options.ggo
 
+	
 .PHONY: clean
 clean:
 	$(RM) -rf *.o $(TARGET) cmdline*

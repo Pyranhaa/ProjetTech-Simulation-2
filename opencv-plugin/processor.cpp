@@ -19,10 +19,13 @@ cv::Mat tex2Mat(int tex_id, int width, int height){
 
   unsigned char* data = (unsigned char*) malloc(sizeof(unsigned char) * width * height * nb_c);
 
-  glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+  glGetTexImage(GL_TEXTURE_2D, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 
-  return cv::Mat(width, height, CV_8UC4, data);
-  
+  cv::Mat img(width, height, CV_8UC3, data);
+  cv::Mat flipped;
+
+  cv::flip(img, flipped, 0);
+  return flipped;
 }
 
 

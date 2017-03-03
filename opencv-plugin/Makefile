@@ -19,6 +19,7 @@ strip: $(SRC) #Même build mais en unset UNITY
 automate: strip
 	make -C auto/ install
 
+	
 .PHONY: clean
 clean:
 	rm -f $(TARGET) automate

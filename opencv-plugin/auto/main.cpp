@@ -58,27 +58,24 @@ int main (int argc, char** argv) {
         }
         bool doSave = true;
         //On applique l'action voulue
-        switch (args.action_arg) {
-            case action_arg_display:
-                display_img(img, string(iterator->d_name));
-                doSave = false;
-                break;
-            default: //Correspond aux disparity maps (si aucune option donnée le défaut est display, donc pas de soucis)
-                cv::Mat left, right;
-                split(img, left, right);
-                if (args.action_arg == action_arg_bm) {
-                    img = disparityMap(left, right, StereoMode::STEREO_MODE_BM);
-                } else {
-                    img = disparityMap(left, right, StereoMode::STEREO_MODE_SGBM);                    
-                }
-                break;
+        if (args.action_arg == action_arg_display) {
+            display_img(img, string(iterator->d_name));
+            doSave = false;
+        } else { //Disparity
+            cv::Mat left, right;
+            split(img, left, right);
+            if (args.action_arg == action_arg_bm) {
+                img = disparityMap(left, right, StereoMode::STEREO_MODE_BM);
+            } else {
+                img = disparityMap(left, right, StereoMode::STEREO_MODE_SGBM);                    
+            }
         }
+
         //Sauvegarde
         if (doSave) {
             if (!cv::imwrite(outputFile.c_str(), img))
                 cerr << "Erreur ? Enregistrement image" << endl;
         }
-
     }
 
 

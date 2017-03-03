@@ -31,7 +31,7 @@ public class export_screen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.F)) {
+		if (Input.GetKeyDown (KeyCode.F12)) {
 			print("1");			
 			display_texture((int) cg.targetTexture.GetNativeTexturePtr (), width, height);
 			print("2");

@@ -5,10 +5,10 @@ version "0.0.1"
 versiontext "None"
 
 #gengetopt args
-args "-u" #Unnamed options (file names)
+#args "-u" #Unnamed options (file names)
 
 option  "input"     i   "Le dossier contenant les images à traiter"     string  required
-option  "output"    o   "Le dossier qui contiendra les images traitées" string  required
+option  "output"    o   "Le dossier qui contiendra les images traitées" string  optional
 option  "prefix"    p   "Prefix à appliquer aux noms de fichiers"       string  optional    default=""
 
 option  "action"    a   "L'action a effectuer sur chaque fichier"       values="print","display","bm","sgbm"   enum    optional    default="display"
