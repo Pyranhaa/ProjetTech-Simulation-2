@@ -12,6 +12,9 @@
 
 #define EXPORT __attribute__((visibility("default")))
 
+static cv::Mat gauche;
+static cv::Mat droite;
+
 #include <GL/gl.h>
 cv::Mat tex2Mat(int tex_id, int width, int height){
   glBindTexture(GL_TEXTURE_2D, tex_id);
@@ -36,6 +39,18 @@ extern "C"{
     cv::waitKey(0);
   }
 
+  EXPORT void load_left(int tex_id, int width, int height) {
+    gauche = tex2Mat(tex_id, width, height);
+  }
+
+  EXPORT void load_right(int tex_id, int width, int height) {
+    droite = tex2Mat(tex_id, width, height);
+  }
+
+  EXPORT void display_disparity() {
+    cv::Mat img = disparityMap(gauche, droite, StereoMode::STEREO_MODE_SGBM);
+    display_img(img, "Ma carte de disp !");
+  }
 }
 #endif /* UNITY */
 

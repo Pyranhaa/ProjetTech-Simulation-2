@@ -13,6 +13,14 @@ public class export_screen : MonoBehaviour {
 
 	[DllImport ("opencv-plugin/libprocessor.so")]
 	protected static extern void display_texture (int tex_id, int width, int height);
+	//*
+	[DllImport ("opencv-plugin/libprocessor.so")]
+	protected static extern void load_left(int tex_id, int width, int height);
+	[DllImport ("opencv-plugin/libprocessor.so")]
+	protected static extern void load_right(int tex_id, int width, int height);
+	[DllImport ("opencv-plugin/libprocessor.so")]
+	protected static extern void display_disparity();
+	//*/
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +39,7 @@ public class export_screen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//print("Spam");
 		if (Input.GetKeyDown (KeyCode.F12)) {
 			print("1");			
 			display_texture((int) cg.targetTexture.GetNativeTexturePtr (), width, height);
@@ -38,5 +47,13 @@ public class export_screen : MonoBehaviour {
 			//display_texture((int) cd.targetTexture.GetNativeTexturePtr (), width, height);
 			print("Fin");
 		}
+		//*
+		if (Input.GetKeyDown (KeyCode.F11)) {
+			print("Disparity");
+			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
+			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
+			display_disparity();
+		}
+		//*/
 	}
 }
