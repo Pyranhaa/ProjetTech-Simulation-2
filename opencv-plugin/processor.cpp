@@ -16,7 +16,7 @@ static cv::Mat gauche;
 static cv::Mat droite;
 
 #include <GL/gl.h>
-cv::Mat tex2Mat(int tex_id, int width, int height){
+void tex2Mat(int tex_id, int width, int height, cv::Mat& target){
   glBindTexture(GL_TEXTURE_2D, tex_id);
   int nb_c = 3; // RGB
 
@@ -25,31 +25,50 @@ cv::Mat tex2Mat(int tex_id, int width, int height){
   glGetTexImage(GL_TEXTURE_2D, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 
   cv::Mat img(width, height, CV_8UC3, data);
-  cv::Mat flipped;
 
-  cv::flip(img, flipped, 0);
-  return flipped;
+  cv::flip(img, target, 0);
 }
 
 
 extern "C"{
   EXPORT void display_texture(int tex_id, int width, int height){
-    cv::Mat tex = tex2Mat(tex_id, width, height);
+    cv::Mat tex;
+    tex2Mat(tex_id, width, height, tex);
     cv::imshow("display", tex);
-    cv::waitKey(0);
+    //cv::waitKey(0);
   }
 
   EXPORT void load_left(int tex_id, int width, int height) {
-    gauche = tex2Mat(tex_id, width, height);
+    tex2Mat(tex_id, width, height, gauche);
   }
 
   EXPORT void load_right(int tex_id, int width, int height) {
-    droite = tex2Mat(tex_id, width, height);
+    tex2Mat(tex_id, width, height, droite);
   }
 
-  EXPORT void display_disparity() {
+  EXPORT int display_disparity() {
+    if (gauche.empty())
+      return 1;
+    if (droite.empty())
+      return 2;
     cv::Mat img = disparityMap(gauche, droite, StereoMode::STEREO_MODE_SGBM);
+    if (img.empty())
+      return 3;
     display_img(img, "Ma carte de disp !");
+    return 0;
+  }
+
+  EXPORT int display_cams() {
+    if (gauche.empty())
+      return 1;
+    if (droite.empty())
+      return 2;
+    cv::Mat img;
+    merge(gauche, droite, img);
+    if (img.empty())
+      return 3;
+    display_img(img, "Display");
+    return 0;
   }
 }
 #endif /* UNITY */
@@ -58,12 +77,9 @@ extern "C"{
   void display_img(cv::Mat img, const std::string& title) { //tmp
     //cv::namedWindow(title, cv::WINDOW_AUTOSIZE ); //Implicite dans imshow
     cv::imshow(title, img);
-    cv::waitKey(0); //sa race le waitkey
-    cv::destroyWindow(title);
   }
 
-  void split(const cv::Mat& input, cv::Mat& outputLeft, cv::Mat& outputRight)
-  {
+  void split(const cv::Mat& input, cv::Mat& outputLeft, cv::Mat& outputRight) {
     cv::Mat tmp = input(cv::Rect(0, 0, input.cols / 2, input.rows));
     tmp.copyTo(outputLeft);
 
@@ -71,8 +87,20 @@ extern "C"{
     tmp.copyTo(outputRight);
   }
 
-  cv::Mat disparityMap(cv::Mat& leftImage, cv::Mat& rightImage, StereoMode mode)
-  {
+  void merge(const cv::Mat& left, const cv::Mat& right, cv::Mat& output) {
+    cv::Mat tmp(left.rows, left.cols + right.cols, CV_8UC3);
+    //Je déconseille de toucher à ça, l'ordre dans la matrice est incompréhensible
+    for (int y = 0; y < tmp.rows; y++) {
+      for (int x = 0; x < left.cols; x++)
+        tmp.at<unsigned int>(y, x) = left.at<unsigned int>(y, x);
+      for (int x = 0; x < right.cols; x++)
+        tmp.at<unsigned int>(y, x + left.cols) = right.at<unsigned int>(y, x);
+    }
+
+    tmp.copyTo(output);
+  }
+
+  cv::Mat disparityMap(cv::Mat& leftImage, cv::Mat& rightImage, StereoMode mode) {
     cv::Mat disp16 = cv::Mat(leftImage.rows, leftImage.cols, CV_16S);
     cv::Mat disp8 = cv::Mat(leftImage.rows, leftImage.cols, CV_8UC1);
     cv::Mat lImg, dImg;

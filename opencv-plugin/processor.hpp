@@ -25,6 +25,11 @@ extern "C" {
     void split(const cv::Mat& input, cv::Mat& outputLeft, cv::Mat& outputRight);
 
     /*
+    Pastes left and right together to form output
+    */
+    void merge(const cv::Mat& left, const cv::Mat& right, cv::Mat& output);
+
+    /*
     Returns a disparity map from two images
     */
     cv::Mat disparityMap(cv::Mat& leftImage, cv::Mat& rightImage, StereoMode mode);

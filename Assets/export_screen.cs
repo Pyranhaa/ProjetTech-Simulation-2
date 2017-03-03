@@ -13,14 +13,14 @@ public class export_screen : MonoBehaviour {
 
 	[DllImport ("opencv-plugin/libprocessor.so")]
 	protected static extern void display_texture (int tex_id, int width, int height);
-	//*
 	[DllImport ("opencv-plugin/libprocessor.so")]
 	protected static extern void load_left(int tex_id, int width, int height);
 	[DllImport ("opencv-plugin/libprocessor.so")]
 	protected static extern void load_right(int tex_id, int width, int height);
 	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern void display_disparity();
-	//*/
+	protected static extern int display_disparity();
+	[DllImport ("opencv-plugin/libprocessor.so")]
+	protected static extern int display_cams();
 
 	// Use this for initialization
 	void Start () {
@@ -41,18 +41,17 @@ public class export_screen : MonoBehaviour {
 	void Update () {
 		//print("Spam");
 		if (Input.GetKeyDown (KeyCode.F12)) {
-			print("1");			
-			display_texture((int) cg.targetTexture.GetNativeTexturePtr (), width, height);
-			print("2");
-			//display_texture((int) cd.targetTexture.GetNativeTexturePtr (), width, height);
-			print("Fin");
+			print("Display");			
+			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
+			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
+			print(display_cams());
 		}
 		//*
 		if (Input.GetKeyDown (KeyCode.F11)) {
 			print("Disparity");
 			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
 			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
-			display_disparity();
+			print(display_disparity());
 		}
 		//*/
 	}

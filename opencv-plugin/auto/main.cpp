@@ -60,6 +60,7 @@ int main (int argc, char** argv) {
         //On applique l'action voulue
         if (args.action_arg == action_arg_display) {
             display_img(img, string(iterator->d_name));
+            cv::waitKey(0);
             doSave = false;
         } else { //Disparity
             cv::Mat left, right;
