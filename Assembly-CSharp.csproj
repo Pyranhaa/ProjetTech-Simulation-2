@@ -51,6 +51,7 @@
      <Compile Include="Assets\ScreenCapture.cs" />
      <Compile Include="Assets\dist_cam.cs" />
      <Compile Include="Assets\dumpRender2Texture.cs" />
+     <Compile Include="Assets\export_screen.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
