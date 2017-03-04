@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 
 public class export_screen : MonoBehaviour {
 
-	protected static int width = 500;
-	protected static int height = 500;
+	protected static int width = 700;
+	protected static int height = 700;
 	protected static int depth = 24; //Je sais pas ce que c'est
 
 	protected Camera cg, cd;
@@ -41,10 +41,15 @@ public class export_screen : MonoBehaviour {
 	void Update () {
 		//print("Spam");
 		if (Input.GetKeyDown (KeyCode.F12)) {
-			print("Display");			
+			print("Display");
+			//*
 			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
 			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
 			print(display_cams());
+			//*/
+			/*
+			display_texture( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
+			//*/
 		}
 		//*
 		if (Input.GetKeyDown (KeyCode.F11)) {

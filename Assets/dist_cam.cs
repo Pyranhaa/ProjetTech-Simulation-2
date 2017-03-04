@@ -14,6 +14,8 @@ public class dist_cam : MonoBehaviour {
 	void Start () {
 		cg = GameObject.Find("/Robot/Camera_gauche");
 		cd = GameObject.Find("/Robot/Camera_droite");
+
+		setValue();
 	}
 	
 	// Update is called once per frame
@@ -32,7 +34,7 @@ public class dist_cam : MonoBehaviour {
 
 	private void setValue() {
 		float diff = (cg.transform.position - cd.transform.position).magnitude;
-		float f = Mathf.Abs(diff - dist)/2;
+		float f = (dist - diff)/2;
 		Vector3 v = new Vector3 (f, 0, 0);
 		
 		cg.transform.Translate (-v);

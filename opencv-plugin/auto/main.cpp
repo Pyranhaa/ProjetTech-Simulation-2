@@ -62,7 +62,10 @@ int main (int argc, char** argv) {
             display_img(img, string(iterator->d_name));
             cv::waitKey(0);
             doSave = false;
-        } else { //Disparity
+        } else if (args.action_arg == action_arg_test) {
+            //Utiliser ça pour des tests rapides d'algo
+            goto quit;
+        }else { //Disparity
             cv::Mat left, right;
             split(img, left, right);
             if (args.action_arg == action_arg_bm) {

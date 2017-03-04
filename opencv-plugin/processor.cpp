@@ -2,9 +2,13 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/legacy/legacy.hpp>
+#include <opencv2/stitching/stitcher.hpp>
 
 
 #include <string>
+#ifndef UNITY
+#include <iostream>
+#endif
 
 #include "processor.hpp"
 
@@ -89,12 +93,15 @@ extern "C"{
 
   void merge(const cv::Mat& left, const cv::Mat& right, cv::Mat& output) {
     cv::Mat tmp(left.rows, left.cols + right.cols, CV_8UC3);
-    //Je déconseille de toucher à ça, l'ordre dans la matrice est incompréhensible
+    //Oui, les coordonnées sont dans le bon sens, c'est triste
     for (int y = 0; y < tmp.rows; y++) {
-      for (int x = 0; x < left.cols; x++)
-        tmp.at<unsigned int>(y, x) = left.at<unsigned int>(y, x);
-      for (int x = 0; x < right.cols; x++)
-        tmp.at<unsigned int>(y, x + left.cols) = right.at<unsigned int>(y, x);
+      for (int x = 0; x < left.cols; x++) {
+        tmp.at<cv::Vec3b>(y, x) = left.at<cv::Vec3b>(y, x);
+      }
+      for (int x = 0; x < right.cols; x++) {
+        tmp.at<cv::Vec3b>(y, x + left.cols) = right.at<cv::Vec3b>(y, x);
+        //std::cout << x + left.cols+1 << std::endl;
+      }
     }
 
     tmp.copyTo(output);
