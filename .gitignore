@@ -32,4 +32,5 @@ sysinfo.txt
 # Custom
 *.png
 *.jpeg
+![Aa]ssets/[Tt]extures/*
 /bin/
