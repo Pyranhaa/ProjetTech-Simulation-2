@@ -35,13 +35,19 @@ extern "C" {
     cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoMode mode);
 
     /*
+    Get points of interests in image containing chessboard
+    Returns false if no chessboard found
+    */
+    bool getPOI(const cv::Mat& img, const cv::Size& boardSize, std::vector<cv::Point2f>& POI);
+
+    /*
     Return false if calibration failed (no chessboard detected?)
     Expect chessboard in image, of size boardSize. Returns calibration matrices cameraMatrix*, distCoeffs*
     rotation matrix between the two cams and translation vector
     */
-    bool runCalibration(const cv::Mat& left, const cv::Mat& right, const cv::Size& boardSize, const float squareSize,
-                      cv::Mat& cameraMatrixL, cv::Mat& distCoeffsL,
-                      cv::Mat& cameraMatrixR, cv::Mat& distCoeffsR,
+    bool runCalibration(const cv::Size& size, const cv::Size& boardSize, const float squareSize,
+                      cv::Mat& cameraMatrixL, cv::Mat& distCoeffsL, std::vector<std::vector<cv::Point2f>>& imagePointsL,
+                      cv::Mat& cameraMatrixR, cv::Mat& distCoeffsR, std::vector<std::vector<cv::Point2f>>& imagePointsR,
                       cv::Mat& R, cv::Mat& T);
 }
 #endif

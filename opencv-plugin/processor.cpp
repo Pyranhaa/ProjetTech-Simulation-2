@@ -176,27 +176,22 @@ extern "C"{
     return disp16;
   }
 
-  bool runCalibration(const cv::Mat& left, const cv::Mat& right, const cv::Size& boardSize, const float squareSize,
-                      cv::Mat& cameraMatrixL, cv::Mat& distCoeffsL,
-                      cv::Mat& cameraMatrixR, cv::Mat& distCoeffsR,
+  bool getPOI(const cv::Mat& img, const cv::Size& boardSize, std::vector<cv::Point2f>& POI) {
+    bool found = cv::findChessboardCorners(img, boardSize, POI, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE);// | CV_CALIB_CB_FAST_CHECK);
+    if (!found) return false;
+
+    cv::Mat viewGray;
+    cv::cvtColor(img, viewGray, CV_BGR2GRAY);
+    cv::cornerSubPix( viewGray, POI, cv::Size(11,11), cv::Size(-1,-1), cv::TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.1 ));
+
+    return true;
+  }
+
+  bool runCalibration(const cv::Size& size, const cv::Size& boardSize, const float squareSize,
+                      cv::Mat& cameraMatrixL, cv::Mat& distCoeffsL, std::vector<std::vector<cv::Point2f>>& imagePointsL,
+                      cv::Mat& cameraMatrixR, cv::Mat& distCoeffsR, std::vector<std::vector<cv::Point2f>>& imagePointsR,
                       cv::Mat& R, cv::Mat& T) {
     std::vector<cv::Point2f> pointBufL, pointBufR;
-    //On cherche le pattern dans les deux images et on garde dans pointBuf*
-    bool found = cv::findChessboardCorners(left, boardSize, pointBufL, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FAST_CHECK | CV_CALIB_CB_NORMALIZE_IMAGE);
-    if (!found) return false;
-    found = cv::findChessboardCorners(right, boardSize, pointBufR, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FAST_CHECK | CV_CALIB_CB_NORMALIZE_IMAGE);
-    if (!found) return false;
-
-    //Améliore la précision des positions des points d'interêt
-    cv::Mat viewGray;
-    cv::cvtColor(left, viewGray, CV_BGR2GRAY);
-    cv::cornerSubPix( viewGray, pointBufL, cv::Size(11,11), cv::Size(-1,-1), cv::TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.1 ));
-    cv::cvtColor(right, viewGray, CV_BGR2GRAY);
-    cv::cornerSubPix( viewGray, pointBufR, cv::Size(11,11), cv::Size(-1,-1), cv::TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.1 ));
-
-    std::vector<std::vector<cv::Point2f> > imagePointsL, imagePointsR;
-    imagePointsL.push_back(pointBufL);
-    imagePointsR.push_back(pointBufR);    
 
     std::vector<std::vector<cv::Point3f>> objectPoints(1);
     //Fokin wot? Je sais pas trop pourquoi
@@ -207,7 +202,8 @@ extern "C"{
     objectPoints.resize(imagePointsL.size(),objectPoints[0]);
     
     cv::Mat E, F; //Essential and fundamental matrices (wot)
-    cv::stereoCalibrate(objectPoints, imagePointsL, imagePointsR, cameraMatrixL, distCoeffsL, cameraMatrixR, distCoeffsR, left.size(), R, T, E, F);
+    cv::stereoCalibrate(objectPoints, imagePointsL, imagePointsR, cameraMatrixL, distCoeffsL, cameraMatrixR, distCoeffsR, size, R, T, E, F);
+    return true;
   }
 
 }
