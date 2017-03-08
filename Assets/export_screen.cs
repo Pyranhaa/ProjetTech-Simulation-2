@@ -21,6 +21,12 @@ public class export_screen : MonoBehaviour {
 	protected static extern int display_disparity();
 	[DllImport ("opencv-plugin/libprocessor.so")]
 	protected static extern int display_cams();
+	[DllImport ("opencv-plugin/libprocessor.so")]
+	protected static extern void dump_left(char[] name);
+	[DllImport ("opencv-plugin/libprocessor.so")]
+	protected static extern void dump_right(char[] name);
+	[DllImport ("opencv-plugin/libprocessor.so")]
+	protected static extern void test_undistort();
 
 	// Use this for initialization
 	void Start () {
@@ -46,18 +52,17 @@ public class export_screen : MonoBehaviour {
 			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
 			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
 			print(display_cams());
-			//*/
-			/*
-			display_texture( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
-			//*/
 		}
-		//*
 		if (Input.GetKeyDown (KeyCode.F11)) {
 			print("Disparity");
 			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
 			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
 			print(display_disparity());
 		}
-		//*/
+		if (Input.GetKeyDown (KeyCode.N)) {
+			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
+			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
+			test_undistort();
+		}
 	}
 }

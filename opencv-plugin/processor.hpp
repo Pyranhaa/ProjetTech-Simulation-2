@@ -32,6 +32,16 @@ extern "C" {
     /*
     Returns a disparity map from two images
     */
-    cv::Mat disparityMap(cv::Mat& leftImage, cv::Mat& rightImage, StereoMode mode);
+    cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoMode mode);
+
+    /*
+    Return false if calibration failed (no chessboard detected?)
+    Expect chessboard in image, of size boardSize. Returns calibration matrices cameraMatrix*, distCoeffs*
+    rotation matrix between the two cams and translation vector
+    */
+    bool runCalibration(const cv::Mat& left, const cv::Mat& right, const cv::Size& boardSize, const float squareSize,
+                      cv::Mat& cameraMatrixL, cv::Mat& distCoeffsL,
+                      cv::Mat& cameraMatrixR, cv::Mat& distCoeffsR,
+                      cv::Mat& R, cv::Mat& T);
 }
 #endif
