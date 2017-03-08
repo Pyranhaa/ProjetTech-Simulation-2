@@ -86,6 +86,8 @@ extern "C"{
   }
 
   EXPORT void test_undistort() {
+    /* TODO runCalibration a changée mais pas cette fonction
+    //Il faut appeler getPOI avant pour obtenir les POI (ah)
     if (left.empty() || right.empty()) return;
 
     cv::Mat cML, cMR, dCL, dCR, R, T;
@@ -100,6 +102,7 @@ extern "C"{
 
     display_img(cL, "Gauche corrigée");
     display_img(cR, "Droite corrigée");    
+    */
   }
 }
 #endif /* UNITY */

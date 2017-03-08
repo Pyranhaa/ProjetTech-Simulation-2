@@ -60,9 +60,11 @@ public class export_screen : MonoBehaviour {
 			print(display_disparity());
 		}
 		if (Input.GetKeyDown (KeyCode.N)) {
+			/* //TODO implémenter undistort, créer une fonction pour charger les deux images
 			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
 			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
 			test_undistort();
+			*/
 		}
 	}
 }
