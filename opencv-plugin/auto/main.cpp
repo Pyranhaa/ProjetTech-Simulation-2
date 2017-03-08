@@ -40,10 +40,6 @@ int main (int argc, char** argv) {
         inputFile.push_back('/');
         inputFile.append(iterator->d_name);
 
-        string outputFile(args.output_arg);
-        outputFile.push_back('/');        
-        outputFile.append(args.prefix_arg);
-        outputFile.append(iterator->d_name);
         
         //Si print, on le traite avant pour ne pas charger d'image pour rien
         if (args.action_arg == action_arg_print) {
@@ -77,6 +73,10 @@ int main (int argc, char** argv) {
 
         //Sauvegarde
         if (doSave) {
+            string outputFile(args.output_arg);
+            outputFile.push_back('/');        
+            outputFile.append(args.prefix_arg);
+            outputFile.append(iterator->d_name);
             if (!cv::imwrite(outputFile.c_str(), img))
                 cerr << "Erreur ? Enregistrement image" << endl;
         }

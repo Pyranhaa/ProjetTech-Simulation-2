@@ -8,8 +8,8 @@ versiontext "None"
 #args "-u" #Unnamed options (file names)
 
 option  "input"     i   "Le dossier contenant les images à traiter"     string  required
-option  "output"    o   "Le dossier qui contiendra les images traitées" string  optional
-option  "prefix"    p   "Prefix à appliquer aux noms de fichiers"       string  optional    default=""
+option  "output"    o   "Le dossier qui contiendra les images traitées" string  optional            default="."
+option  "prefix"    p   "Prefix à appliquer aux noms de fichiers à sauvegarder" string  optional    default=""
 
 option  "action"    a   "L'action a effectuer sur chaque fichier"       values="print","display","bm","sgbm","test"  enum    optional    default="display"
     details="print: affiche le path vers chaque fichier d'entrée et chaque fichier en sortie
