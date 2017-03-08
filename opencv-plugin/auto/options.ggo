@@ -12,9 +12,9 @@ option  "output"    o   "Le dossier qui contiendra les images traitées" string 
 option  "prefix"    p   "Prefix à appliquer aux noms de fichiers à sauvegarder" string  optional    default=""
 
 option  "action"    a   "L'action a effectuer sur chaque fichier"       values="print","display","bm","sgbm","calibrate","undistort","test"  enum    optional    default="display"
-    details="print: affiche le path vers chaque fichier d'entrée et chaque fichier en sortie
+    details="print: affiche le chemin vers chaque fichier d'entrée et chaque fichier en sortie
 display: affiche chaque image dans une fenêtre
-bm: génère une disparity map avec l'algorithme StereoBM
-sgbm: génère une disparity map avec l'algorithme StereoSGBM
-calibrate: calibre les caméras à partir et dump le résultat dans le fichier de config opencv cal.yaml
-undistort: enlève la distortion sur les images à partir des matrices de calibration de cal.yaml"
+bm: génère une carte de disparité avec l'algorithme StereoBM
+sgbm: génère une carte de disparité avec l'algorithme StereoSGBM
+calibrate: calibre les caméras à partir d'images contenant un échiquier et enregistre le résultat dans le fichier de config opencv cal.yaml
+undistort: enlève la distortion sur les images à partir des matrices de calibration de cal.yaml (NON IMPLEMENTE)"

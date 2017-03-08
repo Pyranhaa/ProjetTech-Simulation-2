@@ -93,6 +93,7 @@ int main (int argc, char** argv) {
             //TODO Undistort
         } else if (args.action_arg == action_arg_test) {
             //Utiliser ça pour des tests rapides d'algo
+            cout << "Rien" << endl;
             goto quit;
         } else { //Disparity
             cv::Mat left, right;
