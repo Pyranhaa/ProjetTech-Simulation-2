@@ -9,6 +9,7 @@ TARGET=lib$(SRC:%.cpp=%.so)
 
 all: unity
 
+.PHONY: unity
 unity: $(SRC)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) -D UNITY -o $(TARGET) $<
 
@@ -16,6 +17,7 @@ unity: $(SRC)
 .PHONY: strip
 strip: $(SRC) #Même build mais en unset UNITY
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) -o $(TARGET) $<
+
 automate: strip
 	make -C auto/ install
 
@@ -23,4 +25,4 @@ automate: strip
 .PHONY: clean
 clean:
 	rm -f $(TARGET) automate
-	make -sC auto/ clean 
+	make -C auto/ clean 
