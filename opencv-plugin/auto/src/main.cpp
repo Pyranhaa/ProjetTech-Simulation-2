@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 #include <dirent.h>
 
@@ -12,17 +13,17 @@
 
 using namespace std;
 
-typedef unordered_map<enum enum_action, GenericProcessor*> processormap;
+typedef unordered_map<enum enum_action, unique_ptr<GenericProcessor>> processormap;
 
 /*!
  * brief: Associe une action avec un processeur
 */
 void registerProcessors(processormap& map) {
     map.reserve(10);
-    map[action_arg_display] = new DisplayProcessor();
-    map[action_arg_sgbm] = new DisparityProcessor(true);
-    map[action_arg_bm] = new DisparityProcessor(false);
-    map[action_arg_calibrate] = new CalibrateProcessor(cv::Size(3, 3), 1); //TODO board and square size
+    map.emplace(action_arg_display, new DisplayProcessor()); //(key, value)
+    map.emplace(action_arg_sgbm, new DisparityProcessor(true));
+    map.emplace(action_arg_bm, new DisparityProcessor(false));
+    map.emplace(action_arg_calibrate, new CalibrateProcessor(cv::Size(3, 3), 1)); //TODO Changer les tailles / les configurer en paramètres (voir doc constructeur)
 }
 
 int main(int argc, char** argv) {
