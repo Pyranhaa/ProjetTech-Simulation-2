@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simu", "Assembly-CSharp-firstpass.csproj", "{C5AAA436-D35D-168F-5691-607B42235329}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simu", "Assembly-CSharp.csproj", "{032ECB19-C14C-7A9F-8FF6-466BA7989B6C}"
 EndProject
 Global
@@ -11,10 +9,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C5AAA436-D35D-168F-5691-607B42235329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5AAA436-D35D-168F-5691-607B42235329}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5AAA436-D35D-168F-5691-607B42235329}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5AAA436-D35D-168F-5691-607B42235329}.Release|Any CPU.Build.0 = Release|Any CPU
 		{032ECB19-C14C-7A9F-8FF6-466BA7989B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{032ECB19-C14C-7A9F-8FF6-466BA7989B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{032ECB19-C14C-7A9F-8FF6-466BA7989B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU

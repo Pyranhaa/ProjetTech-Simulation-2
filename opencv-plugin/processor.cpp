@@ -2,7 +2,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/legacy/legacy.hpp>
-#include <opencv2/stitching/stitcher.hpp>
 
 
 #include <string>
@@ -147,9 +146,8 @@ extern "C"{
     lImg.convertTo(lImg, CV_8UC1);
     dImg.convertTo(dImg, CV_8UC1);
 
-    int ratio = 7;
-    int numDisp = ratio * 16;
-    int SADWindowSize = 21;
+    int numDisp = 32;
+    int SADWindowSize = 10;
     
     switch(mode)
     {

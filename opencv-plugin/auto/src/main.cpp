@@ -23,7 +23,7 @@ void registerProcessors(processormap& map) {
     map.emplace(action_arg_display, new DisplayProcessor()); //(key, value)
     map.emplace(action_arg_sgbm, new DisparityProcessor(true));
     map.emplace(action_arg_bm, new DisparityProcessor(false));
-    map.emplace(action_arg_calibrate, new CalibrateProcessor(cv::Size(3, 3), 1)); //TODO Changer les tailles / les configurer en paramètres (voir doc constructeur)
+    map.emplace(action_arg_calibrate, new CalibrateProcessor(cv::Size(8, 14), 1)); //TODO Changer les tailles / les configurer en paramètres (voir doc constructeur)
 }
 
 int main(int argc, char** argv) {
