@@ -181,7 +181,7 @@ extern "C"{
     cv::Mat viewGray;
     cv::cvtColor(img, viewGray, CV_BGR2GRAY);
 
-    bool found = cv::findChessboardCorners(viewGray, boardSize, POI, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE);// | CV_CALIB_CB_FAST_CHECK);
+    bool found = cv::findChessboardCorners(viewGray, boardSize, POI, CV_CALIB_CB_FAST_CHECK);//, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS | CV_CALIB_CB_FAST_CHECK);
     if (!found) return false;
 
     cv::cornerSubPix( viewGray, POI, cv::Size(11,11), cv::Size(-1,-1), cv::TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.1 ));

@@ -21,7 +21,7 @@ void CalibrateProcessor::process(Mat& img, const string& fileName) {
     
     bool f1 = getPOI(left, boardSize, POI1);
     bool f2 = getPOI(right, boardSize, POI2);
-    if (!(f1 && f2)){
+    if (!(f1 || f2)){
         cerr << "Echiquier non trouvé dans " << fileName << ". Ignoré" << endl;
         return;
     }

@@ -10,6 +10,7 @@
 #include "displayprocessor.hpp"
 #include "calibrateprocessor.hpp"
 #include "disparityprocessor.hpp"
+#include "testpoiprocessor.hpp"
 
 using namespace std;
 
@@ -23,7 +24,8 @@ void registerProcessors(processormap& map) {
     map.emplace(action_arg_display, new DisplayProcessor()); //(key, value)
     map.emplace(action_arg_sgbm, new DisparityProcessor(true));
     map.emplace(action_arg_bm, new DisparityProcessor(false));
-    map.emplace(action_arg_calibrate, new CalibrateProcessor(cv::Size(8, 14), 1)); //TODO Changer les tailles / les configurer en paramètres (voir doc constructeur)
+    map.emplace(action_arg_poi, new TestPOIProcessor(cv::Size(14, 9)));
+    map.emplace(action_arg_calibrate, new CalibrateProcessor(cv::Size(14, 8), 1)); //TODO Changer les tailles / les configurer en paramètres (voir doc constructeur)
 }
 
 int main(int argc, char** argv) {
