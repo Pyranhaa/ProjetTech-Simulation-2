@@ -148,24 +148,12 @@ extern "C"{
 
     int numDisp = 32;
     int SADWindowSize = 10;
-    
-    switch(mode)
-    {
-        case StereoMode::STEREO_MODE_BM:
-        {
-            cv::StereoBM sbm = cv::StereoBM(cv::StereoBM::BASIC_PRESET, numDisp, SADWindowSize);
-            sbm(lImg, dImg, disp16);
-            break;
-        }
 
-        case StereoMode::STEREO_MODE_SGBM:
-        {
-            int minDisp = 0;
-            cv::StereoSGBM sgbm = cv::StereoSGBM(minDisp, numDisp, SADWindowSize);
-            sgbm(lImg, dImg, disp16);
-            break;
-        }
-    }
+    int minDisp = 0;
+    cv::StereoSGBM sgbm = cv::StereoSGBM(minDisp, numDisp, SADWindowSize);
+    sgbm(lImg, dImg, disp16);
+    break;
+
     
     double minVal; double maxVal;
     cv::minMaxLoc(disp16, &minVal, &maxVal);

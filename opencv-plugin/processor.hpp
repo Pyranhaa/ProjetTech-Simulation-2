@@ -4,16 +4,6 @@
 #include <opencv2/core/core.hpp>
 
 extern "C" {
-    /*!
-     * \enum StereoMode
-     * \brief Enum used to select algorithm for stereo image computation.
-     */
-    enum StereoMode
-    {
-        STEREO_MODE_BM = 0,     /*!< Allows to compute stereo correspondence using the block matching algorithm. */
-        STEREO_MODE_SGBM        /*!< Semi-global Matching and Mutual Information algorithm. */
-    };
-
     /*
     Displays img in a window named title, waits for keystroke then closes the window
     */
@@ -32,7 +22,7 @@ extern "C" {
     /*
     Returns a disparity map from two images
     */
-    cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoMode mode);
+    cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage);
 
     /*
     Get points of interests in image containing chessboard
