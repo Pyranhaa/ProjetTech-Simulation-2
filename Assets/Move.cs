@@ -9,24 +9,47 @@ public class Move : MonoBehaviour {
 	void Start () {
 		
 	}
-	
+
+	/** MOVEMENT FUNCTIONS **/
+	// MOVE FORWARD
+	void moveForward(){
+		transform.Translate (Vector3.forward * Time.deltaTime);
+	}
+	// MOVE BACKWARD
+	void moveBackward(){
+		transform.Translate (Vector3.back * Time.deltaTime);
+	}
+	// MOVE TO THE LEFT
+	void moveLeft(){
+		transform.Translate(Vector3.left * Time.deltaTime);
+	}
+	// MOVE TO THE RIGHT
+	void moveRight(){
+		transform.Translate (Vector3.right * Time.deltaTime);
+	}
+
 	// Update is called once per frame
 	void Update () {
-		// Forward
+		
+		/***********************/
+		/** INPUTS MANAGEMENT **/
+		/***********************/
+		// MOVE INPUTS
+		// UPARROW
 		if (Input.GetKey(KeyCode.UpArrow)) {
-			transform.Translate(Vector3.forward * Time.deltaTime);
+			moveForward ();
 		}
-		// Backward
+		// DOWNARROW
 		if (Input.GetKey(KeyCode.DownArrow)) {
-			transform.Translate(Vector3.back * Time.deltaTime);
+			moveBackward ();
 		}
-		// Left
+		// LEFTARROW
 		if (Input.GetKey(KeyCode.LeftArrow)) {
-			transform.Translate(Vector3.left * Time.deltaTime);
+			moveLeft ();
 		}
-		// Right
+		// RIGHTARROW
 		if (Input.GetKey(KeyCode.RightArrow)) {
-			transform.Translate(Vector3.right * Time.deltaTime);
+			moveRight ();
 		}
 	}
 }
