@@ -146,13 +146,20 @@ extern "C"{
     lImg.convertTo(lImg, CV_8UC1);
     dImg.convertTo(dImg, CV_8UC1);
 
-    int numDisp = 32;
-    int SADWindowSize = 10;
 
-    int minDisp = 0;
-    cv::StereoSGBM sgbm = cv::StereoSGBM(minDisp, numDisp, SADWindowSize);
-    sgbm(lImg, dImg, disp16);
-    break;
+		cv::StereoSGBM sgbm;
+
+		sgbm.minDisparity = properties.minDisparity;
+		sgbm.numDisparity = properties.numDisparity;
+		sgbm.SadWindowSize = properties.SadWindowSize;
+		sgbm.P1 = properties.P1;
+		sgbm.P2 = properties.P2;
+		sgbm.disp12MaxDiff = properties.disp12MaxDiff;
+		sgbm.preFilterCap = properties.preFilterCap;
+		sgbm.uniquenessRatio = properties.uniquenessRatio;
+		sgbm.speckleWindowSize = properties.speckleWindowSize;
+		sgbm.fullDP = properties.fullDP;
+
 
     
     double minVal; double maxVal;

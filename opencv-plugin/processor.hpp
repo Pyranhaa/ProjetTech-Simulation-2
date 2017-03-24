@@ -4,6 +4,31 @@
 #include <opencv2/core/core.hpp>
 
 extern "C" {
+	/* Paramètres testés en simulation et jugés bon:
+		Pre filter clip: 0
+		Sad window size: 21
+		Minimum disparity: -3
+		Number of disparity: 64
+		Texture threshomd: 0
+		Uniqueness ratio: 0
+		Speckle size: 79
+		Speckle range: 2
+		Disparity Max difference: -1
+	*/
+
+	typedef struct StereoProperties{
+		int minDisparity;
+		int numDisparity;
+		int SadWindowSize;
+		int P1;
+		int P2;
+		int disp12MaxDiff;
+		int preFilterCap;
+		int uniquenessRatio;
+		int speckleWindowSize;
+		bool fullDP;
+	}StereoProperties;
+
     /*
     Displays img in a window named title, waits for keystroke then closes the window
     */
