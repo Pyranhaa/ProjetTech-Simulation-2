@@ -171,6 +171,12 @@ extern "C"{
     
     return disp16;
   }
+	
+	cv::Mat create3Dimage(cv::Mat& dispMat, cv::Mat& Q, bool handleMissingValues=false, int ddepth=-1){
+		cv::Mat 3D_img = cv::Mat(dispMat.rows, dispMat.cols, CV_32FC3);
+		cv::reprojectImageTo3D(dispMat, 3D_img, Q, handleMissingValues, ddepth);
+		return 3D_img;
+	}
 
   bool getPOI(const cv::Mat& img, const cv::Size& boardSize, std::vector<cv::Point2f>& POI) {
     cv::Mat viewGray;
