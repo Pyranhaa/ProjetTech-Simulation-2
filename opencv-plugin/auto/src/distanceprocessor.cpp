@@ -20,6 +20,7 @@ void DistanceProcessor::process(cv::Mat& img, const std::string& fileName) {
         depth.at<unsigned char>(y, x) = calculateDepth(img.at<unsigned char>(y, x));
       }
     }
+    depth.copyTo(img);
 }
 
 unsigned char DistanceProcessor::calculateDepth(unsigned char disp) {
