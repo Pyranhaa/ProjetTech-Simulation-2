@@ -118,7 +118,7 @@ extern "C"{
 
   cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoProperties properties) {
     cv::Mat disp16 = cv::Mat(leftImage.rows, leftImage.cols, CV_16S);
-    cv::Mat disp8 = cv::Mat(leftImage.rows, leftImage.cols, CV_8UC1);
+    //cv::Mat disp8 = cv::Mat(leftImage.rows, leftImage.cols, CV_8UC1); //Voir normalize en bas de la fonction
     cv::Mat lImg, dImg;
 
     cv::cvtColor(leftImage, lImg, CV_BGR2GRAY);
@@ -140,14 +140,15 @@ extern "C"{
 		sgbm.speckleWindowSize = properties.speckleWindowSize;
 		sgbm.fullDP = properties.fullDP;
 
-
+    sgbm(lImg, dImg, disp16);
     
     double minVal; double maxVal;
     cv::minMaxLoc(disp16, &minVal, &maxVal);
 
-    disp16.convertTo(disp16, CV_8UC1, 255/(maxVal - minVal));
-    cv::cvtColor(disp16, disp16, CV_GRAY2BGR);
-    cv::normalize(disp16, disp8, 0, 255, CV_MINMAX, CV_8U);
+    disp16.convertTo(disp16, CV_8U, 255.0 / (sgbm.numberOfDisparities * 16.0));
+    //disp16.convertTo(disp16, CV_8UC1, 255/(maxVal - minVal));
+    //cv::cvtColor(disp16, disp16, CV_GRAY2BGR);
+    //cv::normalize(disp16, disp8, 0, 255, CV_MINMAX, CV_8U); //Ne sert à rien si on ne retourne pas disp8
     
     return disp16;
   }
