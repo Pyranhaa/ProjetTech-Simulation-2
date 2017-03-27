@@ -20,7 +20,7 @@ class GenericProcessor {
         /*
          * brief: Should the images be saved ?
          */
-        bool doSave() {return false;}
+        virtual bool doSave() {return false;}
 };
 
 #endif
