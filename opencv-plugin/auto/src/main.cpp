@@ -8,9 +8,10 @@
 #include "cmdline.h"
 #include "genericprocessor.hpp"
 #include "displayprocessor.hpp"
-#include "calibrateprocessor.hpp"
 #include "disparityprocessor.hpp"
+#include "distanceprocessor.hpp"
 #include "testpoiprocessor.hpp"
+#include "calibrateprocessor.hpp"
 
 using namespace std;
 
@@ -22,10 +23,12 @@ typedef unordered_map<enum enum_action, unique_ptr<GenericProcessor>> processorm
 void registerProcessors(processormap& map) {
     map.reserve(10);
     map.emplace(action_arg_display, new DisplayProcessor()); //(key, value)
-    map.emplace(action_arg_sgbm, new DisparityProcessor(true));
-    map.emplace(action_arg_bm, new DisparityProcessor(false));
+    map.emplace(action_arg_sgbm, new DisparityProcessor());
+    map.emplace(action_arg_dist, new DistanceProcessor(102, 3.5, 6)); //En mm, SensorSize 1/3" == 6mm
+    
     map.emplace(action_arg_poi, new TestPOIProcessor(cv::Size(14, 9)));
     map.emplace(action_arg_calibrate, new CalibrateProcessor(cv::Size(14, 8), 1)); //TODO Changer les tailles / les configurer en paramètres (voir doc constructeur)
+
 }
 
 int main(int argc, char** argv) {
@@ -50,6 +53,7 @@ int main(int argc, char** argv) {
     registerProcessors(processors);
 
     //On parcours chaque image
+    cout << "Reading " << args.input_arg << endl;
     DIR* inputDir = opendir(args.input_arg);
     if (inputDir == NULL) {
         perror("Erreur à l'ouverture de input");
@@ -58,7 +62,10 @@ int main(int argc, char** argv) {
 
     struct dirent* iterator;
     while ((iterator = readdir(inputDir)) != NULL) { //Retourne NULL à la fin du dossier
-        if (iterator->d_type != DT_REG) continue; //On saute si c'est pas un fichier normal (dossier, lien, etc -voir man readdir)
+        if (iterator->d_type != DT_REG) {
+            cerr << iterator->d_name << " is not a file, jumping." << endl;
+            continue; //On saute si c'est pas un fichier normal (dossier, lien, etc -voir man readdir)
+        }    
 
         string inputFile(args.input_arg);
         inputFile.push_back('/');
@@ -73,15 +80,17 @@ int main(int argc, char** argv) {
         //Ouverture d'image
         cv::Mat img = cv::imread(inputFile.c_str());
         if (img.data == NULL) {
-            cerr << "Erreur lecture du fichier " << inputFile << ". Ignoré" << endl;
+            cerr << "Erreur lecture du fichier " << inputFile << ". Ignoré." << endl;
             continue;
         }
 
+        cout << "Processing " << inputFile << endl;
         processors[args.action_arg]->process(img, inputFile);
 
         if (processors[args.action_arg]->doSave()) {
+            cout << "Saving to " << outputFile << endl;
             if (!cv::imwrite(outputFile.c_str(), img))
-                cerr << "Erreur ? Enregistrement image" << endl;
+                cerr << "Erreur ? Enregistrement image." << endl;
         }
     }
 

@@ -83,26 +83,6 @@ extern "C"{
   EXPORT void dump_right(char* name) {
     cv::imwrite(name, right);
   }
-
-  EXPORT void test_undistort() {
-    /* TODO runCalibration a changée mais pas cette fonction
-    //Il faut appeler getPOI avant pour obtenir les POI (ah)
-    if (left.empty() || right.empty()) return;
-
-    cv::Mat cML, cMR, dCL, dCR, R, T;
-
-    if (!runCalibration(left, right, cv::Size(1,1), 0.25,
-                      cML, dCL,
-                      cMR, dCR,
-                      R, T)) return;
-    cv::Mat cL, cR;
-    cv::undistort(left, cL, cML, dCL);
-    cv::undistort(right, cR, cMR, dCR);
-
-    display_img(cL, "Gauche corrigée");
-    display_img(cR, "Droite corrigée");    
-    */
-  }
 }
 #endif /* UNITY */
 
@@ -136,7 +116,7 @@ extern "C"{
     tmp.copyTo(output);
   }
 
-  cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoMode mode) {
+  cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoProperties properties) {
     cv::Mat disp16 = cv::Mat(leftImage.rows, leftImage.cols, CV_16S);
     cv::Mat disp8 = cv::Mat(leftImage.rows, leftImage.cols, CV_8UC1);
     cv::Mat lImg, dImg;
@@ -150,8 +130,8 @@ extern "C"{
 		cv::StereoSGBM sgbm;
 
 		sgbm.minDisparity = properties.minDisparity;
-		sgbm.numDisparity = properties.numDisparity;
-		sgbm.SadWindowSize = properties.SadWindowSize;
+		sgbm.numberOfDisparities = properties.numDisparity;
+		sgbm.SADWindowSize = properties.SadWindowSize;
 		sgbm.P1 = properties.P1;
 		sgbm.P2 = properties.P2;
 		sgbm.disp12MaxDiff = properties.disp12MaxDiff;
@@ -171,18 +151,20 @@ extern "C"{
     
     return disp16;
   }
-	
-	cv::Mat create3Dimage(cv::Mat& dispMat, cv::Mat& Q, bool handleMissingValues=false, int ddepth=-1){
+
+  /*
+	cv::Mat create3Dimage(cv::Mat& dispMat, cv::Mat& Q, bool handleMissingValues=false, int ddepth){
 		cv::Mat 3D_img = cv::Mat(dispMat.rows, dispMat.cols, CV_32FC3);
 		cv::reprojectImageTo3D(dispMat, 3D_img, Q, handleMissingValues, ddepth);
 		return 3D_img;
 	}
+  */
 
   bool getPOI(const cv::Mat& img, const cv::Size& boardSize, std::vector<cv::Point2f>& POI) {
     cv::Mat viewGray;
     cv::cvtColor(img, viewGray, CV_BGR2GRAY);
 
-    bool found = cv::findChessboardCorners(viewGray, boardSize, POI, CV_CALIB_CB_FAST_CHECK);//, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS | CV_CALIB_CB_FAST_CHECK);
+    bool found = cv::findChessboardCorners(viewGray, boardSize, POI, CV_CALIB_CB_FAST_CHECK);//, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS | //_CALIB_CB_FAST_CHECK);
     if (!found) return false;
 
     cv::cornerSubPix( viewGray, POI, cv::Size(11,11), cv::Size(-1,-1), cv::TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.1 ));

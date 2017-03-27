@@ -9,17 +9,15 @@
 
 class DisparityProcessor : public GenericProcessor {
     public:
-        /*
-         * param: useSGBM : use SGBM or BM algorithm (defaults to BM)
-         */
-        DisparityProcessor(bool useSGBM);
+
+        DisparityProcessor();
         
         void process(cv::Mat& img, const std::string& fileName);
         void post() {};
         bool doSave() { return true; }
 
     private:
-        enum StereoMode mode;
+        StereoProperties prop;
 };
 
 #endif

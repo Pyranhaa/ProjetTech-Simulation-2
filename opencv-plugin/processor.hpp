@@ -47,9 +47,9 @@ extern "C" {
     /*
     Returns a disparity map from two images
     */
-    cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage);
+    cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoProperties properties);
 
-	cv::Mat create3Dimage(cv::Mat& dispMat, cv::Mat& Q, bool handleMissingValues=false, int ddepth=-1);
+	//cv::Mat create3Dimage(cv::Mat& dispMat, cv::Mat& Q, bool handleMissingValues=false, int ddepth=-1);
 
     /*
     Get points of interests in image containing chessboard
@@ -66,5 +66,6 @@ extern "C" {
                       cv::Mat& cameraMatrixL, cv::Mat& distCoeffsL, std::vector<std::vector<cv::Point2f>>& imagePointsL,
                       cv::Mat& cameraMatrixR, cv::Mat& distCoeffsR, std::vector<std::vector<cv::Point2f>>& imagePointsR,
                       cv::Mat& R, cv::Mat& T);
+
 }
 #endif
