@@ -1,6 +1,8 @@
 #include "distanceprocessor.hpp"
 #include "disparityprocessor.hpp"
+#include <iostream>
 
+using namespace std;
 using namespace cv;
 
 DistanceProcessor::DistanceProcessor(float bl, float f, float ss)
@@ -24,5 +26,6 @@ void DistanceProcessor::process(cv::Mat& img, const std::string& fileName) {
 }
 
 unsigned char DistanceProcessor::calculateDepth(unsigned char disp) {
-    return (baseline * focal) / (disp * sensorSize);
+	//Where is the distance ?
+    return ((baseline * focal) / (disp * sensorSize))*100;
 }

@@ -22,7 +22,7 @@ extern "C" {
 		int SadWindowSize;
 		int P1;
 		int P2;
-		int disp12MaxDiff;
+		int dispMaxDiff;
 		int preFilterCap;
 		int uniquenessRatio;
 		int speckleWindowSize;

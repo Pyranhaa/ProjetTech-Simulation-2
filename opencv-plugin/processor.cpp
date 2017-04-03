@@ -37,7 +37,7 @@ void tex2Mat(int tex_id, int width, int height, cv::Mat& target){
 
 extern "C"{
   EXPORT void display_texture(int tex_id, int width, int height){
-    cv::Mat tex;
+    cv::Mat tex; 
     tex2Mat(tex_id, width, height, tex);
     cv::imshow("display", tex);
     //cv::waitKey(0);
@@ -56,7 +56,19 @@ extern "C"{
       return 1;
     if (right.empty())
       return 2;
-    cv::Mat img = disparityMap(left, right, StereoMode::STEREO_MODE_SGBM);
+    
+    StereoProperties properties;
+    properties.minDisparity = -3;
+    properties.numDisparity = 64;
+    properties.SadWindowSize = 21;
+    properties.P1 = 0;
+    properties.P2 = 0;
+    properties.dispMaxDiff = -1;
+    properties.preFilterCap = 0;
+    properties.uniquenessRatio = 0;
+    properties.speckleWindowSize = 79;
+    
+    cv::Mat img = disparityMap(left, right, properties);
     if (img.empty())
       return 3;
     display_img(img, "Ma carte de disp !");
@@ -134,7 +146,7 @@ extern "C"{
 		sgbm.SADWindowSize = properties.SadWindowSize;
 		sgbm.P1 = properties.P1;
 		sgbm.P2 = properties.P2;
-		sgbm.disp12MaxDiff = properties.disp12MaxDiff;
+		sgbm.disp12MaxDiff = properties.dispMaxDiff;
 		sgbm.preFilterCap = properties.preFilterCap;
 		sgbm.uniquenessRatio = properties.uniquenessRatio;
 		sgbm.speckleWindowSize = properties.speckleWindowSize;
