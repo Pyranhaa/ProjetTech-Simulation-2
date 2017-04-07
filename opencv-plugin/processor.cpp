@@ -165,6 +165,22 @@ extern "C"{
     return disp16;
   }
 
+  void depthMap(const cv::Mat& disparityMap,  cv::Mat& out, 
+                float baseline, //Distance entre les centres des deux caméras
+                float focal,    //Distance focale de la lentille
+                float sensorSize//Taille du capteur de la caméra
+  ) {
+    cv::Mat depth(disparityMap.rows, disparityMap.cols, CV_8UC1);
+
+    for (int y = 0; y < depth.rows; y++) {
+      for (int x = 0; x < depth.cols; x++) {
+        depth.at<unsigned char>(y, x) = ((baseline * focal) / (disparityMap.at<unsigned char>(y, x) * sensorSize));
+      }
+    }
+
+    depth.copyTo(out);
+  }
+
   /*
 	cv::Mat create3Dimage(cv::Mat& dispMat, cv::Mat& Q, bool handleMissingValues=false, int ddepth){
 		cv::Mat 3D_img = cv::Mat(dispMat.rows, dispMat.cols, CV_32FC3);

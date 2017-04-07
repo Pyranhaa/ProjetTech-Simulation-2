@@ -23,7 +23,7 @@ DisparityProcessor::DisparityProcessor() {
     prop.SadWindowSize = 21;
     prop.P1 = 8 * prop.SadWindowSize * prop.SadWindowSize;
     prop.P2 = 32 * prop.SadWindowSize * prop.SadWindowSize;
-    prop.disp12MaxDiff = -1;
+    prop.dispMaxDiff = -1;
     prop.preFilterCap = 31;
     prop.uniquenessRatio = 0;
     prop.speckleWindowSize = 0;

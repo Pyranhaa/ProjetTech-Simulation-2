@@ -49,6 +49,12 @@ extern "C" {
     */
     cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoProperties properties);
 
+
+    /*
+    Creates depthmap from disparity map and cameras parameters
+    */
+    void depthMap(const cv::Mat& disparityMap,  cv::Mat& out, float baseline, float focal, float sensorSize);
+
 	//cv::Mat create3Dimage(cv::Mat& dispMat, cv::Mat& Q, bool handleMissingValues=false, int ddepth=-1);
 
     /*

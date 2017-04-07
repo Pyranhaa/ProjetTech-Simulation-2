@@ -18,7 +18,7 @@ class DistanceProcessor : public GenericProcessor {
         bool doSave() { return true; }
 
     private:
-        unsigned char calculateDepth(unsigned char disp);
+        float calculateDepth(unsigned char disp, int imgsize);
         DisparityProcessor proc;
 
         float baseline;
