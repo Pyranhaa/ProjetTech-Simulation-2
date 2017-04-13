@@ -7,33 +7,33 @@
 using namespace std;
 using namespace cv;
 
+Mat depth2;
+
 DistanceProcessor::DistanceProcessor(float bl, float f, float ss)
                 :   baseline(bl),
                     focal(f),
-                    sensorSize(ss) {
-    
-}
+                    sensorSize(ss) {}
 
 void DistanceProcessor::process(cv::Mat& img, const std::string& fileName) {
     proc.process(img, fileName);
 
-    imshow("0", img);
-    waitKey(0);
     Mat depth(img.rows, img.cols, CV_32FC1);
 
     for (int y = 0; y < depth.rows; y++) {
       for (int x = 0; x < depth.cols; x++) {
         depth.at<float>(y, x) = calculateDepth(img.at<unsigned char>(y, x), img.cols);
+        cout << (int) img.at<unsigned char>(y, x);
       }
     }
 
-    imshow("", depth);
+    imshow("win", depth);
     waitKey(0);
-
+    
     depth.copyTo(img);
 }
 
 float DistanceProcessor::calculateDepth(unsigned char disp, int imgsize) {
-	//Where is the distance ?
-    return ((baseline * focal) / ((disp/(float) imgsize) * sensorSize));
+	  //Where is the distance ?
+	  if (disp == 0) return 0;
+    return ((baseline * focal) / (( (float) disp/(float) imgsize) * sensorSize)) / 1000;
 }
