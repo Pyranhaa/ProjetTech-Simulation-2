@@ -181,43 +181,4 @@ extern "C"{
     depth.copyTo(out);
   }
 
-  /*
-	cv::Mat create3Dimage(cv::Mat& dispMat, cv::Mat& Q, bool handleMissingValues=false, int ddepth){
-		cv::Mat 3D_img = cv::Mat(dispMat.rows, dispMat.cols, CV_32FC3);
-		cv::reprojectImageTo3D(dispMat, 3D_img, Q, handleMissingValues, ddepth);
-		return 3D_img;
-	}
-  */
-
-  bool getPOI(const cv::Mat& img, const cv::Size& boardSize, std::vector<cv::Point2f>& POI) {
-    cv::Mat viewGray;
-    cv::cvtColor(img, viewGray, CV_BGR2GRAY);
-
-    bool found = cv::findChessboardCorners(viewGray, boardSize, POI, CV_CALIB_CB_FAST_CHECK);//, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS | //_CALIB_CB_FAST_CHECK);
-    if (!found) return false;
-
-    cv::cornerSubPix( viewGray, POI, cv::Size(11,11), cv::Size(-1,-1), cv::TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.1 ));
-
-    return true;
-  }
-
-  bool runCalibration(const cv::Size& size, const cv::Size& boardSize, const float squareSize,
-                      cv::Mat& cameraMatrixL, cv::Mat& distCoeffsL, std::vector<std::vector<cv::Point2f>>& imagePointsL,
-                      cv::Mat& cameraMatrixR, cv::Mat& distCoeffsR, std::vector<std::vector<cv::Point2f>>& imagePointsR,
-                      cv::Mat& R, cv::Mat& T) {
-    std::vector<cv::Point2f> pointBufL, pointBufR;
-
-    std::vector<std::vector<cv::Point3f>> objectPoints(1);
-    //Fokin wot? Je sais pas trop pourquoi
-    for( int i = 0; i < boardSize.height; ++i )
-      for( int j = 0; j < boardSize.width; ++j )
-        objectPoints[0].push_back(cv::Point3f(float( j*squareSize ), float( i*squareSize ), 0));
-
-    objectPoints.resize(imagePointsL.size(),objectPoints[0]);
-    
-    cv::Mat E, F; //Essential and fundamental matrices (wot)
-    cv::stereoCalibrate(objectPoints, imagePointsL, imagePointsR, cameraMatrixL, distCoeffsL, cameraMatrixR, distCoeffsR, size, R, T, E, F);
-    return true;
-  }
-
 }
