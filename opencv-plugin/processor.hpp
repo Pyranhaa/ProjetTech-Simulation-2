@@ -1,5 +1,4 @@
-#ifndef _PROCESSOR_HPP
-#define _PROCESSOR_HPP
+#pragma once
 
 #include <opencv2/core/core.hpp>
 
@@ -56,4 +55,4 @@ extern "C" {
     void depthMap(const cv::Mat& disparityMap,  cv::Mat& out, float baseline, float focal, float sensorSize);
 
 }
-#endif
+
