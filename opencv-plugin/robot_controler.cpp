@@ -1,37 +1,44 @@
 #include "robot_controler.h"
 #include "processor.hpp"
-#include "string"
+
+#include <string>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+
 void Robot_controler::process(const cv::Mat & left_img, const cv::Mat & right_img, float * vx, float * vy, float * omega){
     
-    std::string compteur = std::to_string(compteur++);
+    std::string cpt = std::to_string(compteur);
+    compteur++;
     
     cv::Mat img;
     merge(left_img, right_img, img);
     
-    std::string img_nom = "img_" + compteur + ".png";
+    std::string img_nom = "img_" + cpt + ".png";
     cv::imwrite(img_nom.c_str(), img);
     
-    std::string disp_nom = "disp_" + compteur + ".png";
+    std::string disp_nom = "disp_" + cpt + ".png";
     
-    cv::Mat disp = disparityMap(left_img, right_img, &prop);
+    cv::Mat disp;
+    disp = disparityMap(left_img, right_img, prop);
     cv::imwrite(disp_nom.c_str(), disp);
     
-    std::string dist_name "dist" + compteur + "png";
+    std::string dist_nom = "dist" + cpt + "png";
     
-    cv::Mat dist = cv::Mat(disp.rows, disp.cols);    
-    depthMap(&disp, &dist, 80, 3.5, 6);
+    cv::Mat dist;
+    depthMap(disp, dist, 80, 3.5, 6);
     
     cv::imwrite(dist_nom.c_str(), dist);
 }
 
 Robot_controler::Robot_controler(){
-    properties.minDisparity = -3;
-    properties.numDisparity = 64;
-    properties.SadWindowSize = 21;
-    properties.P1 = 0;
-    properties.P2 = 0;
-    properties.dispMaxDiff = -1;
-    properties.preFilterCap = 0;
-    properties.uniquenessRatio = 0;
-    properties.speckleWindowSize = 79;
+    prop.minDisparity = -3;
+    prop.numDisparity = 64;
+    prop.SadWindowSize = 21;
+    prop.P1 = 0;
+    prop.P2 = 0;
+    prop.dispMaxDiff = -1;
+    prop.preFilterCap = 0;
+    prop.uniquenessRatio = 0;
+    prop.speckleWindowSize = 79;
 }

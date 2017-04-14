@@ -1,13 +1,14 @@
 CXXFLAGS=-shared -fPIC -std=c++11
-#LDFLAGS=-L/usr/local/opencv-2.4.13/lib
 LDLIBS=-lopencv_core -lopencv_highgui -lopencv_calib3d#-lGL
-
+LDFLAGS=-L.
 
 SRC=processor.cpp
+CNTRLSRC=robot_controler.cpp
+CNTRLOBJ=$(CNTRLSRC:%.cpp=%.o)
 
 TARGET=lib$(SRC:%.cpp=%.so)
 
-all: unity
+all: strip
 
 .PHONY: unity
 unity: $(SRC)
@@ -21,6 +22,8 @@ strip: $(SRC) #Même build mais en unset UNITY
 automate: strip
 	make -C auto/ install
 
+controler: $(CNTRLOBJ) | strip
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) -lprocessor -o $@ $^
 	
 .PHONY: clean
 clean:
