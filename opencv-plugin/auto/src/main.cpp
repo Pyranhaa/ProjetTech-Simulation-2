@@ -25,10 +25,6 @@ void registerProcessors(processormap& map) {
     map.emplace(action_arg_display, new DisplayProcessor()); //(key, value)
     map.emplace(action_arg_sgbm, new DisparityProcessor());
     map.emplace(action_arg_dist, new DistanceProcessor(80, 3.5, 6)); //En mm, SensorSize 1/3" == 6mm
-    
-    map.emplace(action_arg_poi, new TestPOIProcessor(cv::Size(14, 9)));
-    map.emplace(action_arg_calibrate, new CalibrateProcessor(cv::Size(14, 8), 1)); //TODO Changer les tailles / les configurer en paramètres (voir doc constructeur)
-
 }
 
 int main(int argc, char** argv) {
