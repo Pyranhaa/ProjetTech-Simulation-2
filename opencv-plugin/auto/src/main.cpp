@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
         
 
         //Ouverture d'image
-        cv::Mat img = cv::imread(inputFile.c_str());
+        cv::Mat img = cv::imread(inputFile);
         if (img.data == NULL) {
             cerr << "Erreur lecture du fichier " << inputFile << ". Ignoré." << endl;
             continue;
@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
 
         if (processors[args.action_arg]->doSave()) {
             cout << "Saving to " << outputFile << endl;
-            if (!cv::imwrite(outputFile.c_str(), img))
+            if (!cv::imwrite(outputFile, img))
                 cerr << "Erreur ? Enregistrement image." << endl;
         }
     }
