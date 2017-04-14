@@ -174,7 +174,7 @@ extern "C"{
 
     for (int y = 0; y < depth.rows; y++) {
       for (int x = 0; x < depth.cols; x++) {
-        depth.at<unsigned char>(y, x) = ((baseline * focal) / (disparityMap.at<unsigned char>(y, x) * sensorSize));
+        depth.at<unsigned char>(y, x) = ((baseline * focal) / ((disparityMap.at<unsigned char>(y, x)/disparityMap.cols) * sensorSize));
       }
     }
 
