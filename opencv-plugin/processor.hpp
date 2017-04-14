@@ -1,5 +1,4 @@
-#ifndef _PROCESSOR_HPP
-#define _PROCESSOR_HPP
+#pragma once
 
 #include <opencv2/core/core.hpp>
 
@@ -74,4 +73,4 @@ extern "C" {
                       cv::Mat& R, cv::Mat& T);
 
 }
-#endif
+
