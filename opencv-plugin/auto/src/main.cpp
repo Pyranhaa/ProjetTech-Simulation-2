@@ -10,8 +10,6 @@
 #include "displayprocessor.hpp"
 #include "disparityprocessor.hpp"
 #include "distanceprocessor.hpp"
-#include "testpoiprocessor.hpp"
-#include "calibrateprocessor.hpp"
 
 using namespace std;
 
