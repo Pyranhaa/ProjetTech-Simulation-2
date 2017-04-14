@@ -170,11 +170,10 @@ extern "C"{
                 float focal,    //Distance focale de la lentille
                 float sensorSize//Taille du capteur de la caméra
   ) {
-    cv::Mat depth(disparityMap.rows, disparityMap.cols, CV_8UC1);
-
+    cv::Mat depth(disparityMap.rows, disparityMap.cols, CV_32FC1);
     for (int y = 0; y < depth.rows; y++) {
       for (int x = 0; x < depth.cols; x++) {
-        depth.at<unsigned char>(y, x) = ((baseline * focal) / ((disparityMap.at<unsigned char>(y, x)/disparityMap.cols) * sensorSize));
+        depth.at<float>(y, x) = ((baseline * focal) / (((float) disparityMap.at<unsigned char>(y, x)/(float)disparityMap.cols) * sensorSize)) / 1000; //On divise par 1000 pour passer en mètres
       }
     }
 
