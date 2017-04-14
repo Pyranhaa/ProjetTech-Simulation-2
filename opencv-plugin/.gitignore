@@ -1,6 +1,8 @@
 *.so
 
 automate
+controler
+
 *.o
 
 *.tar.gz
