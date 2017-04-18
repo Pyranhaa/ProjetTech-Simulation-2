@@ -2,101 +2,9 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/legacy/legacy.hpp>
-
-
 #include <string>
-#ifndef UNITY
-#include <iostream>
-#endif
 
 #include "processor.hpp"
-
-#ifdef UNITY
-
-#define EXPORT __attribute__((visibility("default")))
-
-#include <GL/gl.h>
-
-static cv::Mat left;
-static cv::Mat right;
-
-
-void tex2Mat(int tex_id, int width, int height, cv::Mat& target){
-  glBindTexture(GL_TEXTURE_2D, tex_id);
-  int nb_c = 3; // RGB
-
-  unsigned char* data = (unsigned char*) malloc(sizeof(unsigned char) * width * height * nb_c);
-
-  glGetTexImage(GL_TEXTURE_2D, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-
-  cv::Mat img(width, height, CV_8UC3, data);
-
-  cv::flip(img, target, 0);
-}
-
-
-extern "C"{
-  EXPORT void display_texture(int tex_id, int width, int height){
-    cv::Mat tex; 
-    tex2Mat(tex_id, width, height, tex);
-    cv::imshow("display", tex);
-    //cv::waitKey(0);
-  }
-
-  EXPORT void load_left(int tex_id, int width, int height) {
-    tex2Mat(tex_id, width, height, left);
-  }
-
-  EXPORT void load_right(int tex_id, int width, int height) {
-    tex2Mat(tex_id, width, height, right);
-  }
-
-  EXPORT int display_disparity() {
-    if (left.empty())
-      return 1;
-    if (right.empty())
-      return 2;
-    
-    StereoProperties properties;
-    properties.minDisparity = -3;
-    properties.numDisparity = 64;
-    properties.SadWindowSize = 21;
-    properties.P1 = 0;
-    properties.P2 = 0;
-    properties.dispMaxDiff = -1;
-    properties.preFilterCap = 0;
-    properties.uniquenessRatio = 0;
-    properties.speckleWindowSize = 79;
-    
-    cv::Mat img = disparityMap(left, right, properties);
-    if (img.empty())
-      return 3;
-    display_img(img, "Ma carte de disp !");
-    return 0;
-  }
-
-  EXPORT int display_cams() {
-    if (left.empty())
-      return 1;
-    if (right.empty())
-      return 2;
-    cv::Mat img;
-    merge(left, right, img);
-    if (img.empty())
-      return 3;
-    display_img(img, "Display");
-    return 0;
-  }
-
-  //Sauvegarde l'image des cams (visiblement fait crash l'editeur, probablement à cause du context, opencv ne doit pas réussir à save)
-  EXPORT void dump_left(char* name) {
-    cv::imwrite(name, left);
-  }
-  EXPORT void dump_right(char* name) {
-    cv::imwrite(name, right);
-  }
-}
-#endif /* UNITY */
 
 extern "C"{
   void display_img(cv::Mat img, const std::string& title) { //tmp
@@ -179,5 +87,4 @@ extern "C"{
 
     depth.copyTo(out);
   }
-
 }
