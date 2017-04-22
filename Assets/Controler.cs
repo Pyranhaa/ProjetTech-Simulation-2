@@ -12,6 +12,7 @@ public class Controler : MonoBehaviour {
     protected static extern void process(int tex_left, int tex_right, int width, int height, float vx, float vy, float omega);
 
     protected const int updateRate = 1; //Fréquence de rafraichissement en Hz
+    protected float timeSinceLastUpdate = 0; //En s
     protected Camera cg, cd;
     protected static int width = 640; //Dimesions des images du vrai robot
 	protected static int height = 480;
@@ -34,7 +35,8 @@ public class Controler : MonoBehaviour {
 
     void Update() {
         //deltaTime: temps écoulé depuis la dernière trame
-        if (Time.deltaTime < 1/updateRate) // Lambda = 1/Frequence
+        timeSinceLastUpdate += Time.deltaTime;
+        if (timeSinceLastUpdate < 1/updateRate) // Lambda = 1/Frequence
             return;
         Rigidbody rb = GetComponent<Rigidbody>();
         Vector3 v = rb.velocity;

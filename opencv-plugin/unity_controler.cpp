@@ -6,6 +6,7 @@
 #include <GL/gl.h>
 
 #include "robot_controler.h"
+#include "processor.hpp"
 
 /**
  * Contient les infos à récupèrer par Unity après un appel à process
@@ -17,7 +18,7 @@ typedef struct {
 } robotMvmt;
 
 static robotMvmt mvmt;
-static Robot_controler robot(1, 1, 1);
+static Robot_controler robot(80, 1, 1);
 
 /**
  *  Converti texture opengl en Mat
@@ -41,6 +42,15 @@ extern "C" {
         mvmt.vy = vy;
         mvmt.omega = omega;
         robot.process(left, right, &mvmt.vx, &mvmt.vy, &mvmt.omega);
+    }
+
+    void print_mats(int tex_left, int tex_right, int w, int h) {
+        cv::Mat left, right;
+        tex2Mat(tex_left, w, h, left);
+        tex2Mat(tex_right, w, h, right);
+
+        robot.print_disparity(left, right);
+        robot.print_depth(left, right);
     }
 }
 

@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 496163247}
   - component: {fileID: 496163248}
   - component: {fileID: 496163249}
+  - component: {fileID: 496163251}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -318,7 +319,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 496163240}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 631de751c0d644c41a218952452c19bd, type: 3}
   m_Name: 
@@ -360,6 +361,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &496163251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 496163240}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158d88ca3d5d944148754ac8847c03cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617662969
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +466,6 @@ GameObject:
   - component: {fileID: 626143282}
   - component: {fileID: 626143281}
   - component: {fileID: 626143280}
-  - component: {fileID: 626143284}
   m_Layer: 0
   m_Name: Camera_gauche
   m_TagString: Untagged
@@ -532,17 +543,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!114 &626143284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 626143278}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4739c22ef73ad62488fe344c8fe9addd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &874440230
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,7 +925,6 @@ GameObject:
   - component: {fileID: 1755533341}
   - component: {fileID: 1755533340}
   - component: {fileID: 1755533339}
-  - component: {fileID: 1755533343}
   m_Layer: 0
   m_Name: Camera_droite
   m_TagString: Untagged
@@ -1003,17 +1002,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!114 &1755533343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1755533337}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4739c22ef73ad62488fe344c8fe9addd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1758340144
 GameObject:
   m_ObjectHideFlags: 0

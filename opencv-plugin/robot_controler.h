@@ -12,6 +12,9 @@ public:
   void process(const cv::Mat & left_img,
                        const cv::Mat & right_img,
                        float * vx, float * vy, float * omega);
+
+  void print_disparity(const cv::Mat & left_img, const cv::Mat & right_img);
+  void print_depth(const cv::Mat & left_img, const cv::Mat & right_img);
   
   
 private:
@@ -21,9 +24,11 @@ private:
   float focal;
   float sensorSize;
 
+  /*
   std::vector<cv::Mat> l_image_droite;     
   std::vector<cv::Mat> l_image_gauche;
   std::vector<cv::Mat> l_depth_map;
+  */
   
   StereoProperties prop;
   unsigned int compteur = 0;
