@@ -5,33 +5,18 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-
-void Robot_controler::process(const cv::Mat & left_img, const cv::Mat & right_img, float * vx, float * vy, float * omega){
-    
-    std::string cpt = std::to_string(compteur);
-    compteur++;
-    
-    cv::Mat img;
-    merge(left_img, right_img, img);
-    
-    std::string img_nom = "img_" + cpt + ".png";
-    cv::imwrite(img_nom, img);
-    
-    std::string disp_nom = "disp_" + cpt + ".png";
-    
-    cv::Mat disp;
-    disp = disparityMap(left_img, right_img, prop);
-    cv::imwrite(disp_nom, disp);
-    
-    std::string dist_nom = "dist" + cpt + "png";
-    
-    cv::Mat dist;
-    depthMap(disp, dist, 80, 3.5, 6);
-    
-    cv::imwrite(dist_nom, dist);
-}
+using namespace cv;
 
 Robot_controler::Robot_controler(){
+    Robot_controler(80, 3.5, 6);
+}
+
+Robot_controler::Robot_controler(float bl, float f, float ss)
+    : baseline(bl), focal(f), sensorSize(ss) {
+    initProp();
+}
+
+void Robot_controler::initProp() {
     prop.minDisparity = -3;
     prop.numDisparity = 64;
     prop.SadWindowSize = 21;
@@ -42,3 +27,11 @@ Robot_controler::Robot_controler(){
     prop.uniquenessRatio = 0;
     prop.speckleWindowSize = 79;
 }
+
+void Robot_controler::process(const Mat & left_img, const Mat & right_img, float * vx, float * vy, float * omega){
+    //Disparity
+    Mat disp = disparityMap(left_img, right_img, prop);
+    //Depth
+
+}
+

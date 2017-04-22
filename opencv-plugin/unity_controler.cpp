@@ -17,7 +17,7 @@ typedef struct {
 } robotMvmt;
 
 static robotMvmt mvmt;
-static Robot_controler robot;
+static Robot_controler robot(1, 1, 1);
 
 /**
  *  Converti texture opengl en Mat
