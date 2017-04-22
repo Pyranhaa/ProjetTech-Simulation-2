@@ -19,8 +19,8 @@ public class Controler : MonoBehaviour {
 
     void Start () {
         print("Start Controler");
-        cg = GameObject.Find("/Robot/LeftCamera_container/Camera_gauche").GetComponent(typeof(Camera)) as Camera;
- 		cd = GameObject.Find("/Robot/RightCamera_container/Camera_droite").GetComponent(typeof(Camera)) as Camera;
+        cg = GameObject.Find("/Robot/LeftCamera_Container/Camera_gauche").GetComponent(typeof(Camera)) as Camera;
+ 		cd = GameObject.Find("/Robot/RightCamera_Container/Camera_droite").GetComponent(typeof(Camera)) as Camera;
 
 		print ("Attaching render textures to cameras");
 		RenderTexture gauche = new RenderTexture (width, height, depth);
