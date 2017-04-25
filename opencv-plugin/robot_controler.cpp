@@ -30,9 +30,13 @@ void Robot_controler::initProp() {
 void Robot_controler::process(const cv::Mat& left_img, const cv::Mat& right_img, float* vx, float* vy, float* omega){
     cv::Mat disp;
     disparityMap(left_img, right_img, disp, this->prop);
+    cv::imshow("Disp", disp);
     cv::Mat depth;
     depthMap(disp, depth, baseline, focal, sensorSize);
+    cv::imshow("depth", depth);    
 
-    double m = cv::mean(depth)(4);
-    *omega = m;
+    double m = cv::mean(depth).val[0];
+    if (m < 1) {
+        *vx = 0.5;
+    }
 }

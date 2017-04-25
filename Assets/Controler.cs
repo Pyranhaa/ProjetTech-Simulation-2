@@ -18,11 +18,6 @@ public class Controler : MonoBehaviour {
 	protected static int height = 480;
 	protected static int depth = 1; //Je sais pas ce que c'est
 
-    //Déplacements
-    protected float vx = 0;
-    protected float vy = 0;
-    protected float omega = 0;
-
     void Start () {
         print("Start Controler");
         cg = GameObject.Find("/Robot/LeftCamera_Container/Camera_gauche").GetComponent(typeof(Camera)) as Camera;
@@ -56,7 +51,7 @@ public class Controler : MonoBehaviour {
         Vector3 f = ((new Vector3(-getVx(), 0, -getVy()) - v) / Time.deltaTime) * rb.mass;
         rb.AddForce(f);
         //Couple à appliquer accélération angulaire * m = F; C = F*rayon
-        /*
+        //*
         Vector3 c = ((new Vector3(0, -getOmega(), 0) - rb.angularVelocity) / Time.deltaTime) * rb.mass * (transform.localScale.z/2); //A vérifier ?
         rb.AddTorque(c);
         //*/

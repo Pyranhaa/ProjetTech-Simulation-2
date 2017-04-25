@@ -47,7 +47,7 @@ extern "C" {
         mvmt.vx = vx;
         mvmt.vy = vy;
         mvmt.omega = omega;
-        //robot.process(left, right, &mvmt.vx, &mvmt.vy, &mvmt.omega);
+        robot.process(left, right, &mvmt.vx, &mvmt.vy, &mvmt.omega);
         cv::Mat img;
         merge(left, right, img);
         cv::imshow("HELLOO", img);
