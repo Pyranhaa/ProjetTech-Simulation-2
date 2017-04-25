@@ -11,7 +11,7 @@ public class export_screen : MonoBehaviour {
 
 	protected Camera cg, cd;
 	
-	[DllImport ("opencv-plugin/unity_controler.so")]
+	[DllImport ("unity_controler")]
     private extern static void print_mats(int left, int right, int w, int h);
 
 	// Use this for initialization
@@ -33,6 +33,7 @@ public class export_screen : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.F12)) {
 			print_mats((int) cg.targetTexture.GetNativeTexturePtr(), (int) cd.targetTexture.GetNativeTexturePtr(), width, height);
+			//print((int) cg.targetTexture.GetNativeTexturePtr() + " " + (int) cd.targetTexture.GetNativeTexturePtr());
 		}
 	}
 }

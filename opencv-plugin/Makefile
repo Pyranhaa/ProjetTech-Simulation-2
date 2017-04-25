@@ -3,14 +3,17 @@ LDLIBS=-lopencv_core -lopencv_highgui -lopencv_calib3d
 LDFLAGS=-L.
 
 SRC=processor.cpp
+OBJ=$(SRC:%.cpp=%.o)
 CNTRLSRC=robot_controler.cpp
 CNTRLOBJ=$(CNTRLSRC:%.cpp=%.o)
 UNITYSRC=unity_controler.cpp
 UNITYOBJ=$(UNITYSRC:%.cpp=%.o)
 
+PLUGINSFOLDER=../Assets/Plugins
+
 TARGET=lib$(SRC:%.cpp=%.so)
 TARGETCNTRL=$(CNTRLSRC:%.cpp=%)
-TARGETUNITY=$(UNITYSRC:%.cpp=%.so)
+TARGETUNITY=lib$(UNITYSRC:%.cpp=%.so)
 
 TARGETS = $(TARGET) $(TARGETCNTRL) $(TARGETUNITY) automate
 
@@ -22,13 +25,19 @@ $(TARGET): $(SRC)
 automate: $(TARGET)
 	make -C auto/ install
 
-$(TARGETCNTRL): $(CNTRLOBJ)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lprocessor -o $@ $^
+$(TARGETCNTRL): $(CNTRLOBJ) $(OBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) -o $@ $^
 
-$(TARGETUNITY): $(UNITYOBJ) $(CNTRLOBJ)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lGL -o $@ $^
+$(TARGETUNITY): $(UNITYOBJ) $(CNTRLOBJ) | $(PLUGINSFOLDER)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) -lGL -o $@ $^
+	cp $@ $(PLUGINSFOLDER)
+
+$(PLUGINSFOLDER):
+	mkdir -p $@
+
 
 .PHONY: clean
 clean:
 	rm -f $(TARGETS) *.o
-	make -C auto/ clean 
+	make -C auto/ clean
+	rm -rf $(PLUGINSFOLDER)
