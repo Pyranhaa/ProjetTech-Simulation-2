@@ -129,7 +129,7 @@ La formule permettant de calculer la carte de profondeur à partir de la carte d
 Figure 2.2.3 Formule de la carte de profondeur.\\
 
 \begin{huge}
-$\text{depth} = \frac{\frac{\text{baseline} * \text{focal}}{\frac{\text{disp}}{\text{width}} * \text{sensor size}}}{\text{référence}}$\\
+$\text{depth} = \frac{\text{baseline} * \text{focal}}{\frac{\text{disp}}{\text{width}} * \text{sensor size}} / \text{référence}$\\
 \end{huge}
 \end{center}
 \paragraph{Légende : }
@@ -190,6 +190,7 @@ Cette partie nous à permis de prendre en main le c++ ainsi que la bibliothèque
 Grâce à ce petit outil, nous avons tester les deux algorithmes permettant de générer des cartes de disparité. Nous avons ainsi retenu \textit{stereosgbm} qui est plus performant et plus simple à utiliser. Cela nous à permis de choisir des paramètres de \textit{stereosgbm} jugés bon.\\
 
 Le logiciel Qt prend aussi en charge diverse fonction propre à Qt et non d'OpenCV tel que le redimensionnement des images, grâce à la méthode cropImage() ou encore la possibilité de zoomer dans l'image.
+
 \section{Simulation et test}
 %partie Unity
 Durant le second semestre, l'objectif était d'implémenter les algorithmes précédent pour les utiliser sur le robot. Le but est de créer une carte de profondeur grâce aux images du robot pour lui permettre de ce déplacer en fonction de la personne.\\
@@ -208,7 +209,8 @@ Le logiciel est performant pour créer des petites scènes 3d mais il est très 
 
 \section{Création de la bibliothèque}
 Pour faire la transition entre les algorithmes, l'implémentation du robot et la simulation nous avons décidé de faire une bibliothèque externe contenant tous le code.
-Cette bibliothèque a pour tâche d'être utilisée comme simple fichier objet dans le robot, relié grâce à l'édition des liens. Mais elle a aussi pour tâche d'être compilée sous forme d'une bibliothèque partagée (.so) et chargée dans Unity. Les scripts c\# d'Unity se charge juste d'appeler les fonctions c++.
+Cette bibliothèque a pour tâche d'être utilisée comme simple fichier objet dans le robot, relié grâce à l'édition des liens. Mais elle a aussi pour tâche d'être compilée sous forme d'une bibliothèque partagée (.so) et chargée dans Unity. Les scripts c\# d'Unity se charge juste d'appeler les fonctions c++.\\
+Dans cette bibliothèque, nous avons décider d'implémenter uniquement la \textit{stereoSGBM}, en effet après \textit{stereoBM} est sensiblement plus lent et le résultat est aussi moins bon.\\
 
 Voici ci-dessous une représentation des interactions entre Unity et la bibliothèque.
 \begin{center}
@@ -260,7 +262,7 @@ Sur certaine station de travail (au Crémi), Unity ne se lancait même pas, ce q
 
 \paragraph{Solutions envisagés}
 Nous avons décidé de créer en parallèle de l'intégration à Unity un automate écrit en c++ permettant de tester les algorithmes. Un script c\# se charge de prendre une capture d'écran des deux caméras et de les écrire sur le disque. L'automate quant à lui prend en entrée les différentes images et utilise les algorithmes pour produire la carte de disparité et la carte de profondeurs.\\
-L'automate est un petit programme écrit en c++ en utilisant l'outil GNU gengetopt pour gérer les argument de commande. Par exemple :\\
+L'automate est un petit programme écrit en c++ en utilisant l'outil GNU \textit{gengetopt} pour gérer les argument de commande. Par exemple :\\
 
 \begin{lstlisting}{Language=Bash}
 ./automate -i path/to/images -a dist
@@ -275,10 +277,62 @@ Usage :
 \item[] -a action "L'action a effectuer sur chaque fichier : disp, sgbm, dist"
 \end{enumerate}
 
+\chapter{Le robot}
+
+\section{Caractéristique}
+Le robot possède deux caméras Blackfly\footnote{\url{https://eu.ptgrey.com/blackfly-12-mp-color-gige-poe-aptina-ar0134-16-eu}} de 1.2 méga-pixel de la marque FLIR$^{\text{®}}$. La taille du capteur est de 6 mm.\\
+La lentille est une Lensagon\footnote{\url{https://www.lensation.de/product/BM3516NDC/}} et possède une focal de 3.5 mm. 
+\\Enfin le robot possède une unité de calculs intégré, c'est un micro ordinateur équipé d'un APU AMD$^{\text{®}}$ A10 Micro-6700T Quad core\footnote{\url{http://products.amd.com/en-us/search/APU/AMD-A-Series-Processors/AMD-A10-Series-APU-for-Laptops/A10-Micro-6700T-with-Radeon\%E2\%84\%A2-R6-Graphics/18}}  cadencé à 1.2 GHz et équipé du wifi.
+
+\section{Résultats}
+Pour la création de la carte de disparité, nous avons utilisé la fonction \textit{stereosgbm} d'OpenCV. Cette dernière prend de nombreux paramètres : 
+\begin{enumerate}
+\item[-] minDisparity : valeur minimal possible de la carte de disparité.\\
+Paramètre choisit : 0
+\item[-] numDisparities : soustraction entre la valeur maximum et la valeur minimum de la carte de disparité, cette valeur doit être multiple de 16.\\
+Paramètre choisit : 64
+\item[-] SADWindowSize : taille des blocs de correspondance, doit être un nombre impaire situé entre 3 et 11.\\
+Paramètre choisit : 21
+\item[-] P1 et P2 : contrôle le lissage de la carte de disparité.\\
+Paramètres choisis : 8 * SADWindowSize * SADWindowSize et 32 * SADWindowSize * SADWindowSize
+\item[-] disp12MaxDiff : différence maximal pendant la vérification.\\
+Paramètre choisit : -1
+\item[-] preFilterCap : valeur de troncature pour les pixels d'image pré-filtrés.\\
+Paramètre choisit : 31
+\item[-] uniquenessRatio : marge en pourcentage.\\
+Paramètre choisit : 0
+\item[-] speckleWindowSize : Taille maximum de la région du lissage, permet d'éviter le bruit.\\
+Paramètre choisit : 0
+\item[-] speckleRange : variation maximal entre chaque composante connecté.
+Paramètre choisit : 2
+\end{enumerate}
+
+Nous avons créé une structure prenant en compte tous les paramètres présentés plus haut et nous la passons en argument de la méthode \textit{disparityMap} implémentée dans la bibliothèque.\\
+
+\begin{center}
+		\includegraphics[scale=0.32]{img_0.png}\\
+		Figure 4.1.1 Image stéréoscopique de teste.
+\end{center}
+
+\begin{center}
+\begin{tabular}{cc}
+  \vspace{0pt} \includegraphics[width=0.49\textwidth]{Carte_de_disparite.png} &
+  \vspace{0pt} \includegraphics[width=0.49\textwidth]{Carte_de_profondeur.png} \\
+    
+	Figure 4.1.2 Carte de disparité & Figure 4.1.3 Carte de profondeur
+\end{tabular}
+\end{center}
+
+Pour tester notre implémentation, nous avons pris des photos issue des caméras du robot. La figure 4.1.1 est l'une d'entre elle. Puis nous avons créé une carte de disparité et une carte de profondeur. 
+
+\section{Faire bouger le robot}
+Il faut à présent utiliser la carte de profondeur pour permettre au robot de prendre un décision. Pour cela, nous avons décider de récupérer une ligne horizontale de pixels en son centre, pour ensuite faire une moyenne et comparer avec la même moyenne prise d'une carte de profondeur de référence capturer au démarrage du robot. Si la moyenne courante est plus petite que la moyenne de référence, cela veut dire que le le robot est plus proche de la personne et donc il doit ralentir.\\
+Il suffit de faire le même raisonnement lorsque la personne est plus loin.
+
+\paragraph{Critique}
+Cette méthode possède comme défaut d'être très imprécise. Si une personne passe devant les objectifs, le robot aura des difficultés à garder la trajectoire. De même, elle ne permet pas au robot de tourner et donc de suivre une personne qui passerait hors champs.
+
 \chapter{Conclusion}
-%Test
-
-
 
 
 \end{document}
