@@ -61,11 +61,11 @@
 
 L'objectif de ce projet est de développer un outil implémenté sur un robot lui permettant de suivre à un mètre une personne grâce à deux caméras.\\\\
 
-Le projet est divisé en deux parties indépendante, effectué sur les deux semestres. 
+Le projet est divisé en deux parties indépendantes, effectuées sur les deux semestres. 
 La première partie a pour but de prendre en main les outils utilisés au cours de l'année, à savoir le langage c++ (à travers qt) et la bibliothèque openCV.
 Durant cette première partie sera développé un mini programme de traitement d'images. 
 
-La deuxième partie à pour objectif de programmer le robot et d'effectuer des simulations grâce au logiciel Unity. En effet, comme le robot n'est pas forcement accessible aux membres du groupe, il est préférable de faire appelle à une simulation pour pouvoir tester les algorithmes n'importe quand.\\\\
+La deuxième partie a pour objectif de programmer le robot et d'effectuer des simulations grâce au logiciel Unity. En effet, comme le robot n'est pas forcement accessible aux membres du groupe, il est préférable de faire appelle à une simulation pour pouvoir tester les algorithmes n'importe quand.\\\\
 
 Qt est une bibliothèque logicielle d'interface graphique, nous utiliserons cet outil pour développer l'interface du logiciel.\\
 
@@ -74,22 +74,22 @@ OpenCV (open computer vision) est un bibliothèque d'algorithmes de traitement d
 
 %Petite explication de la procédure de comment fonctionne la stereovision ...
 \section{Cahier des charges}
-Le cahier des charges s'oriente uniquement sur l'objectif du projet, c'est à dire sur la deuxième parties du semestre.
+Le cahier des charges s'oriente uniquement sur l'objectif du projet, c'est à dire sur la deuxième partie du semestre.
 \subsection{Besoin fonctionnels}
 	%Identifie une personne
 	%Se meut
 	%Calcule une distance
-	Le logiciel doit prendre en entré deux images au format png représentant les images gauche et droite.
-	Grâce à ces images, nous générerons la carte de disparité puis grâce à cette dernière et que caractéristique des caméras, nous pourrons générer la carte de profondeur. C'est à dire que chaque pixel de cette image correspondrons à la distance entre l'objet et les caméras.
-	En fonction de cette carte de profondeur, nous serons dans la capacités de faire mouvoir le robot.
-	Il sera nécessaire d'avoir une image de référence de la personne à suivre à travers une phase d'initialisation. Dans ce cas, la première image prise par le robot sera considérée comme la référence. Il faut donc que le robot soit bien placé à un mètre de la personne lors de son démarrage et que cette dernière soit la seul dans le cadre des caméras.
+	Le logiciel doit prendre en entré deux images au format png représentant les images gauche et droite de deux caméras.
+	Ces images vont nous permettre de créer une carte de disparité de la scène.\\	
+	Cette dernière additionnée aux caractéristiques de la caméra va nous permettre de créer une carte de profondeur. Qui sera ensuite utilisée pour permettre au robot de bouger.\\
+	Il sera cependant nécessaire d'avoir une carte de profondeur de référence de la personne à suivre à travers une phase d'initialisation. Dans ce cas, la première image prise par le robot permettra de créer la première carte de profondeur qui sera considérée comme la référence. Il faut donc que le robot soit bien placé à un mètre de la personne lors du démarrage et que cette dernière soit la seul dans le cadre des caméras.
 \subsection{Besoin non fonctionnels}
 	%Robuste aux chagement de luminosité
 	%changement de personne
 	%chagement d'environnement
-	La carte de disparité est fortement liée aux images d'entrées, de ce faite, les changements de luminosité et d'environnement peuvent poser des problèmes à cause notamment de l'utilisation d'une référence.
+	La carte de disparité est fortement liée aux images d'entrées, de ce faite, les changements de luminosité et d'environnement peuvent poser des problèmes à cause notamment de l'utilisation d'une référence.\\
 	Le programme doit donc être robuste à ces différents changement.\\
-	Le robot doit être aussi capable de suivre la bonne personne même si une autre personne parasite rentre dans le cadre.
+	Le robot doit être aussi capable de suivre la bonne personne même si une autre personne rentre dans le cadre.
 	
 \chapter{Théorie et définitions}
 %capture des images
@@ -97,7 +97,7 @@ Le cahier des charges s'oriente uniquement sur l'objectif du projet, c'est à di
 %création de la carte de profondeur + def et formule
 %mouvement du robot
 
-Comme montré dans la figurer 2.1.1, le projet se structure autour d'une notion clés : Pour repérer les jambes d'une personne afin de la suivre, une carte de profondeur doit être calculée. Cette carte quand à elle est créé grâce à une carte de disparité. 
+Comme montré dans la figure 2.1.1, le projet se structure autour d'une notion clés : Pour repérer les jambes d'une personne afin de la suivre, une carte de profondeur doit être calculée. Cette carte est créé grâce à une carte de disparité. 
 
 \begin{center}
 \begin{tikzpicture}
@@ -120,10 +120,10 @@ Un carte de disparité est une image où chaque pixel correspond au déplacement
 \end{center}
 
 Comme représenté dans la figure 2.1.2, la valeur du pixel X représente le déplacement du pixel.
-Les deux images sont représentées par O et O' la longueur en cm entre ces dernières par la baseline B.
+Les deux images sont représentées par O et O' et la longueur en cm entre elles par la baseline B.
 \paragraph{Carte de profondeur}
-La carte de profondeur est une image où chaque pixel représente la distance entre la caméra et le point dans le monde réel. Une carte de profondeur est très similaire à une carte de disparité, elle inclue cependant une référence au monde réel.\\
-La formule permettant de calculer la carte de profondeur à partir de la carte de disparité résulte de l'utilisation du théorème de thalès.\\
+La carte de profondeur est une image où chaque pixel représente la distance entre la caméra et le point dans le monde réel. Une carte de profondeur est très similaire à une carte de disparité, elle inclue cependant une référence mesurable au monde réel.\\
+La formule permettant de calculer la carte de profondeur à partir de la carte de disparité résulte de l'utilisation du théorème de Thalès.\\
 
 \begin{center}
 Figure 2.2.3 Formule de la carte de profondeur.\\
@@ -144,7 +144,7 @@ $\text{depth} = \frac{\text{baseline} * \text{focal}}{\frac{\text{disp}}{\text{w
 \end{enumerate}
 \end{small}
 
-On peut calculer une carte de profondeur en utilisant la formule ci-dessus sur chaque pixel ou bien utiliser une fonction d'openCV :  
+On peut calculer une carte de profondeur en utilisant la formule ci-dessus sur chaque pixel ou bien utiliser une fonction d'OpenCV :  
 
 \begin{lstlisting}{Language=C++}
 void reprojectImageTo3D(InputArray disp, 
@@ -155,14 +155,14 @@ void reprojectImageTo3D(InputArray disp,
 \end{lstlisting}
 
 \paragraph{Problème rencontrés}
-L'utilisation de la reprojectImageTo3D implique de devoir au préalable calibrer les caméras et rectifier les images, étapes longue et non obligatoire car les caméras fournis sont suffisamment fiable. Donc nous avons opté pour la première méthode.\\
+L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable calibrer les caméras et rectifier les images, étapes longue et non obligatoire car les caméras fournis sont suffisamment fiable. Donc nous avons décidé de ne pas l'utiliser.
 
 \chapter{Implémentation}
 
 \section{Logiciel QT}
 %Partie Qt
-Le premier semestre c'est orienté autour du développement d'un petit programme de traitement d'image. Le programme affiche une fenêtre ainsi que plusieurs menu, l'un deux permet d'ouvrir un fichier au format png.
-Le fichier doit nécessairement contenir les deux images juxtaposées pour que les algorithmes implémenté fonctionnes. On peut ensuite couper l'image en deux, on peut flouté l'image grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différent algorithme comme l'algorithme de Sobel, comme présenté sur les figures ci contre.
+Le premier semestre c'est orienté autour du développement d'un petit programme de traitement d'image. Le programme affiche une fenêtre ainsi que plusieurs menus, l'un d'eux permet d'ouvrir un fichier au format png.
+Le fichier doit nécessairement contenir les deux images juxtaposées pour que les algorithmes implémentés fonctionnent. On peut ensuite couper l'image en deux, la flouté grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différents algorithmes comme l'algorithme de Sobel ou encore celui de Canny tous deux permettent de faire de la détection de contours, présenté sur les figures ci contre.
 \begin{center}
 \begin{tabular}{cc}
   \vspace{0pt} \includegraphics[width=0.49\textwidth]{sobel.jpg} &
@@ -174,14 +174,14 @@ Le fichier doit nécessairement contenir les deux images juxtaposées pour que l
 
 Ces différentes méthodes on été implémentées dans le but de comprendre comment opencv fonctionnait, ainsi que de développer et de tester une première esquisse des fonctions que nous utiliserons dans le robot.
 
-Il a fallu créer des méthodes de conversion d'images entre les images de qt et les images de opencv. Deux méthodes ont donc été développées,
+Il a fallu créer des méthodes de conversion d'images entre les images de qt et les images de opencv. Deux méthodes ont donc été développées : 
 
 \begin{lstlisting}{Language=C++}
 cv::Mat ImageTools::imageToMat(QImage const& src);
 QImage ImageTools::cvMatToImage(const cv::Mat& inMat);
 \end{lstlisting}
 
-Toutes les méthodes en rapport avec le traitement d'image ont été implémentées dans la classe \textit{imagetools}. Au début, nous conservions les images sous forme de QImage ce qui nous obligeais à convertir à chaque fois. On a fini par réécrire le programme avec des matrices opencv en images membre et la classe \textit{imagetools} sous forme d'un singleton, simplifiant le code.\\
+Toutes les méthodes en rapport avec le traitement d'image ont été implémentées dans la classe \textit{imagetools}. Au début, nous conservions les images sous forme de QImage ce qui nous obligeais à les convertir à chaque fois que l'on voulait appliquer un filtre. On a fini par réécrire entièrement le programme, où l'on conserve les images sous forme de matrices OpenCV en images membres et la classe \textit{imagetools} sous forme d'un singleton, simplifiant le code.\\
 Le logiciel permet aussi de faire de la reconnaissance de paternes grâce aux algorithmes de \textit{flann} et de surf. Cependant ce dernier n'est pas open source donc la méthode \textit{flann} est implémenté entre \textit{\#define} et n'est pas forcement proposé à l'utilisateur final.\\
 Enfin, le logiciel permet de créer une carte de disparité grâce à l'algorithme \textit{stereosgbm} ou à l'algorithme \textit{stereobm}.\\
 
