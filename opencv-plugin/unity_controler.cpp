@@ -12,8 +12,6 @@
 
 #define EXPORT __attribute__((visibility("default")))
 
-using namespace cv;
-
 /**
  * Contient les infos à récupèrer par Unity après un appel à process
 **/
@@ -40,10 +38,10 @@ extern "C" {
      * Interface avec le robot, prend les IDs des textures des caméras en entrée ainsi que les infos du robots et stock les valeurs finales dans mvmt
     **/
     EXPORT void process(int tex_left, int tex_right, int width, int height, float vx, float vy, float omega) {
-        Mat left, right;
+        cv::Mat left, right;
         tex2Mat(tex_left, width, height, left);
         tex2Mat(tex_right, width, height, right);
-
+        
         mvmt.vx = vx;
         mvmt.vy = vy;
         mvmt.omega = omega;
@@ -51,16 +49,16 @@ extern "C" {
     }
 
     EXPORT void print_mats(int tex_left, int tex_right, int w, int h) {
-        Mat left, right, img;
+        cv::Mat left, right, img;
         tex2Mat(tex_left, w, h, left);
         tex2Mat(tex_right, w, h, right);
 
         merge(left, right, img);
-        imshow("HELLOO", img);
+        cv::imshow("HELLOO", img);
     }
 }
 
-void tex2Mat(int tex_id, int width, int height, Mat& target){
+void tex2Mat(int tex_id, int width, int height, cv::Mat& target){
     glBindTexture(GL_TEXTURE_2D, tex_id);
     int nb_c = 3; // RGB
 
@@ -68,7 +66,7 @@ void tex2Mat(int tex_id, int width, int height, Mat& target){
 
     glGetTexImage(GL_TEXTURE_2D, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 
-    Mat img(width, height, CV_8UC3, data);
+    cv::Mat img(width, height, CV_8UC3, data);
 
-    flip(img, target, 0);
+    cv::flip(img, target, 0);
 }
