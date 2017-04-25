@@ -80,7 +80,15 @@ void depthMap(const cv::Mat& disparityMap,  cv::Mat& out,
   cv::Mat depth(disparityMap.rows, disparityMap.cols, CV_32FC1);
   for (int y = 0; y < depth.rows; y++) {
     for (int x = 0; x < depth.cols; x++) {
-      depth.at<float>(y, x) = ((baseline * focal) / (((float) disparityMap.at<unsigned char>(y, x)/(float)disparityMap.cols) * sensorSize)) / 1000; //On divise par 1000 pour passer en mètres
+        float disparity = (float) disparityMap.at<unsigned char>(y, x);
+        if (disparity == 0)
+          depth.at<float>(y, x) = 0;
+        else {
+          float val = ((baseline * focal) / ((disparity/(float)disparityMap.cols) * sensorSize)) / 1000; //On divise par 1000 pour passer en mètres
+          if (val >= 20)
+            val = 20;
+          depth.at<float>(y, x) = val;
+        }
     }
   }
 
