@@ -45,7 +45,7 @@ void merge(const cv::Mat& left, const cv::Mat& right, cv::Mat& output);
 /*
 Returns a disparity map from two images
 */
-cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoProperties properties);
+void disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, cv::Mat& output, StereoProperties properties);
 
 
 /*

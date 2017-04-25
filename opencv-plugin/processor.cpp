@@ -35,7 +35,7 @@ void merge(const cv::Mat& left, const cv::Mat& right, cv::Mat& output) {
   tmp.copyTo(output);
 }
 
-cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, StereoProperties properties) {
+void disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, cv::Mat& output, StereoProperties properties) {
   cv::Mat disp16 = cv::Mat(leftImage.rows, leftImage.cols, CV_16S);
   //cv::Mat disp8 = cv::Mat(leftImage.rows, leftImage.cols, CV_8UC1); //Voir normalize en bas de la fonction
   cv::Mat lImg, dImg;
@@ -69,7 +69,7 @@ cv::Mat disparityMap(const cv::Mat& leftImage, const cv::Mat& rightImage, Stereo
   //cv::cvtColor(disp16, disp16, CV_GRAY2BGR);
   //cv::normalize(disp16, disp8, 0, 255, CV_MINMAX, CV_8U); //Ne sert à rien si on ne retourne pas disp8
   
-  return disp16;
+  disp16.copyTo(output);
 }
 
 void depthMap(const cv::Mat& disparityMap,  cv::Mat& out, 
