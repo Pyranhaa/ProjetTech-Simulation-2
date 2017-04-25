@@ -5,8 +5,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-using namespace cv;
-
 Robot_controler::Robot_controler(){
     Robot_controler(80, 3.5, 6);
 }
@@ -28,10 +26,11 @@ void Robot_controler::initProp() {
     prop.speckleWindowSize = 79;
 }
 
-void Robot_controler::process(const Mat & left_img, const Mat & right_img, float * vx, float * vy, float * omega){
-    Mat disp = disparityMap(left_img, right_img, prop);
+void Robot_controler::process(const cv::Mat& left_img, const cv::Mat& right_img, float* vx, float* vy, float* omega){
+    cv::Mat disp;
+    disparityMap(left_img, right_img, disp, prop);
     /*
-    Mat depth;
+    cv::Mat depth;
     depthMap(disp, depth, baseline, focal, sensorSize);
     //*/
     //moyenne distance 

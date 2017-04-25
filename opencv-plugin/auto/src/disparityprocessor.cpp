@@ -47,5 +47,5 @@ DisparityProcessor::DisparityProcessor() {
 void DisparityProcessor::process(Mat& img, const std::string& fileName) {
     Mat left, right;
     split(img, left, right);
-    img = disparityMap(left, right, prop);
+    disparityMap(left, right, img, prop);
 }
