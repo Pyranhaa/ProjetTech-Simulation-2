@@ -32,6 +32,7 @@ public class export_screen : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.F12)) {
+			print("Ping");
 			print_mats((int) cg.targetTexture.GetNativeTexturePtr(), (int) cd.targetTexture.GetNativeTexturePtr(), width, height);
 			//print((int) cg.targetTexture.GetNativeTexturePtr() + " " + (int) cd.targetTexture.GetNativeTexturePtr());
 		}

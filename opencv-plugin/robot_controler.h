@@ -13,9 +13,6 @@ public:
                        const cv::Mat & right_img,
                        float * vx, float * vy, float * omega);
 
-  void print_disparity(const cv::Mat & left_img, const cv::Mat & right_img);
-  void print_depth(const cv::Mat & left_img, const cv::Mat & right_img);
-  
   
 private:
   void initProp();

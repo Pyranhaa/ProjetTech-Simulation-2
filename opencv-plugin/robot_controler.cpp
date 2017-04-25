@@ -29,23 +29,10 @@ void Robot_controler::initProp() {
 }
 
 void Robot_controler::process(const Mat & left_img, const Mat & right_img, float * vx, float * vy, float * omega){
+    Mat disp = disparityMap(left_img, right_img, prop);
     /*
-    Mat disp = disparityMap(left_img, right_img, prop);
     Mat depth;
     depthMap(disp, depth, baseline, focal, sensorSize);
-    */
+    //*/
     //moyenne distance 
-}
-
-//TODO Del
-void Robot_controler::print_disparity(const cv::Mat & left_img, const cv::Mat & right_img) {
-    Mat disp = disparityMap(left_img, right_img, prop);
-    imshow("", disp);
-}
-//TODO Del
-void Robot_controler::print_depth(const cv::Mat & left_img, const cv::Mat & right_img) {
-    Mat disp = disparityMap(left_img, right_img, prop);
-    Mat depth;
-    depthMap(disp, depth, baseline, focal, sensorSize);
-    imshow("", depth);
 }
