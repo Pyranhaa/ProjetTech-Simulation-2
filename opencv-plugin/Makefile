@@ -12,12 +12,12 @@ UNITYOBJ=$(UNITYSRC:%.cpp=%.o)
 PLUGINSFOLDER=../Assets/Plugins
 
 TARGET=lib$(SRC:%.cpp=%.so)
-TARGETCNTRL=$(CNTRLSRC:%.cpp=%)
+TARGETCNTRL=$(CNTRLSRC:%.cpp=%.so)
 TARGETUNITY=$(UNITYSRC:%.cpp=%.so)
 
 TARGETS = $(TARGET) $(TARGETCNTRL) $(TARGETUNITY) automate
 
-all: $(TARGET)
+all: | $(TARGETS)
 
 $(TARGET): $(SRC)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) -o $@ $<
