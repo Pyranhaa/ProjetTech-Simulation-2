@@ -5,6 +5,8 @@
 
 #include <GL/gl.h>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/core/core.hpp>
+
 
 #include "robot_controler.h"
 #include "processor.hpp"
@@ -45,7 +47,10 @@ extern "C" {
         mvmt.vx = vx;
         mvmt.vy = vy;
         mvmt.omega = omega;
-        robot.process(left, right, &mvmt.vx, &mvmt.vy, &mvmt.omega);
+        //robot.process(left, right, &mvmt.vx, &mvmt.vy, &mvmt.omega);
+        cv::Mat img;
+        merge(left, right, img);
+        cv::imshow("HELLOO", img);
     }
 
     EXPORT void print_mats(int tex_left, int tex_right, int w, int h) {

@@ -7,7 +7,7 @@ public class export_screen : MonoBehaviour {
 
 	protected static int width = 640;
 	protected static int height = 480;
-	protected static int depth = 24; //Je sais pas ce que c'est
+	protected static int depth = 1; //Je sais pas ce que c'est
 
 	protected Camera cg, cd;
 	
