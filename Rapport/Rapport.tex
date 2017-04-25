@@ -182,7 +182,7 @@ QImage ImageTools::cvMatToImage(const cv::Mat& inMat);
 \end{lstlisting}
 
 Toutes les méthodes en rapport avec le traitement d'image ont été implémentées dans la classe \textit{imagetools}. Au début, nous conservions les images sous forme de QImage ce qui nous obligeais à les convertir à chaque fois que l'on voulait appliquer un filtre. On a fini par réécrire entièrement le programme, où l'on conserve les images sous forme de matrices OpenCV en images membres et la classe \textit{imagetools} sous forme d'un singleton, simplifiant le code.\\
-Le logiciel permet aussi de faire de la reconnaissance de paternes grâce aux algorithmes de \textit{flann} et de surf. Cependant ce dernier n'est pas open source donc la méthode \textit{flann} est implémenté entre \textit{\#define} et n'est pas forcement proposé à l'utilisateur final.\\
+Le logiciel permet aussi de faire de la reconnaissance de paternes grâce aux algorithmes de \textit{flann} et de \textit{surf}. Cependant ce dernier n'est pas open source donc la méthode \textit{flann} est implémenté entre \textit{\#define} et n'est pas forcement proposé à l'utilisateur final.\\
 Enfin, le logiciel permet de créer une carte de disparité grâce à l'algorithme \textit{stereosgbm} ou à l'algorithme \textit{stereobm}.\\
 
 Cette partie nous à permis de prendre en main le c++ ainsi que la bibliothèque opencv. 
@@ -197,7 +197,7 @@ Durant le second semestre, l'objectif était d'implémenter les algorithmes pré
 Comme nous n'avons forcement pas accès au robot, nous avons décidé de faire une simulation simple sur le logiciel Unity.\\
 
 Unity est un outils qui permet dans sa fonction principale de créer des applications 3D en temps réel tel que des jeux vidéo. Il permet grâce à une interface de placer des objets dans une scènes, permet de placer une ou plusieurs caméras. Le logiciel inclus aussi une gestion avancées des interactions physique entre les objets de la scène, le tous très paramétrables grâce aux scripts. Il existe deux langages de scripts implémentés dans le logiciel, le c\# et le javascript. Durant ce projet nous avons fait le choix d'utiliser le c\#.
-Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme windows. Mais qui dans ce cas présent, est utilisé en temps que langage de scripts grâce à son implémentation libre Mono. Le c\# à une syntaxe proche du java. Mais est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de bloque "unsafe"\footnote{Gestion des pointeurs en c\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}}.
+Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme windows. Mais qui dans ce cas présent, est utilisé en temps que langage de scripts grâce à son implémentation libre Mono. Le c\# à une syntaxe proche du java. Mais est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de blocs "unsafe"\footnote{Gestion des pointeurs en c\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}} mais son utilisation sous Unity n'est pas convaincante .
 
 	\begin{center}
 		\includegraphics[scale=0.5]{Screenshot_skybox.png}
@@ -210,7 +210,7 @@ Le logiciel est performant pour créer des petites scènes 3d mais il est très 
 \section{Création de la bibliothèque}
 Pour faire la transition entre les algorithmes, l'implémentation du robot et la simulation nous avons décidé de faire une bibliothèque externe contenant tous le code.
 Cette bibliothèque a pour tâche d'être utilisée comme simple fichier objet dans le robot, relié grâce à l'édition des liens. Mais elle a aussi pour tâche d'être compilée sous forme d'une bibliothèque partagée (.so) et chargée dans Unity. Les scripts c\# d'Unity se charge juste d'appeler les fonctions c++.\\
-Dans cette bibliothèque, nous avons décider d'implémenter uniquement la \textit{stereoSGBM}, en effet après \textit{stereoBM} est sensiblement plus lent et le résultat est aussi moins bon.\\
+Dans cette bibliothèque, nous avons décidé d'implémenter uniquement la \textit{stereoSGBM}, en effet après \textit{stereoBM} est sensiblement plus lent et le résultat est aussi moins bon.\\
 
 Voici ci-dessous une représentation des interactions entre Unity et la bibliothèque.
 \begin{center}
