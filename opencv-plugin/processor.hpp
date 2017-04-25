@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <opencv2/core/core.hpp>
 
@@ -53,6 +53,7 @@ extern "C" {
     Creates depthmap from disparity map and cameras parameters
     */
     void depthMap(const cv::Mat& disparityMap,  cv::Mat& out, float baseline, float focal, float sensorSize);
-
+    
+    float distanceMoyenne(cv::Mat depth);
 }
 

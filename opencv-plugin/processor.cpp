@@ -181,3 +181,12 @@ extern "C"{
   }
 
 }
+
+float distanceMoyenne(cv::Mat depth){
+  float moyenne = 0;
+  for (int x = 0; x<depth.cols; x++){
+    moyenne += depth.at<float>(depth.rows/2 ,x);
+  }
+  return moyenne/depth.cols;
+}
+
