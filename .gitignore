@@ -34,3 +34,6 @@ sysinfo.txt
 *.jpeg
 ![Aa]ssets/[Tt]extures/*
 /bin/
+
+**/.vscode
+**/.directory
