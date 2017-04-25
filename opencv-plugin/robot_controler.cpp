@@ -6,11 +6,11 @@
 #include <opencv2/highgui/highgui.hpp>
 
 Robot_controler::Robot_controler(){
-    Robot_controler(80, 3.5, 6);
+    Robot_controler(80, 3.5, 6, 1);
 }
 
-Robot_controler::Robot_controler(float bl, float f, float ss)
-    : baseline(bl), focal(f), sensorSize(ss) {
+Robot_controler::Robot_controler(float bl, float f, float ss, float d)
+    : baseline(bl), focal(f), sensorSize(ss), distance(d) {
     initProp();
 }
 
@@ -30,13 +30,19 @@ void Robot_controler::initProp() {
 void Robot_controler::process(const cv::Mat& left_img, const cv::Mat& right_img, float* vx, float* vy, float* omega){
     cv::Mat disp;
     disparityMap(left_img, right_img, disp, this->prop);
-    cv::imshow("Disp", disp);
+    //cv::imshow("Disp", disp);
     cv::Mat depth;
     depthMap(disp, depth, baseline, focal, sensorSize);
-    cv::imshow("depth", depth);    
 
     double m = cv::mean(depth).val[0];
-    if (m < 1) {
-        *vx = 0.5;
+    //cv::imshow("Distance moyenne: " + std::to_string(m), depth);    
+    if (m < distance) {
+        *vx = 0.5f;
+        *vy = 0.0f;
+        *omega = 0.0f;
+    } else {
+        *omega = 0.2f;
+        *vx = 0.0f;
+        *vy = 0.0f;
     }
 }
