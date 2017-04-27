@@ -34,15 +34,38 @@ void Robot_controler::process(const cv::Mat& left_img, const cv::Mat& right_img,
     cv::Mat depth;
     depthMap(disp, depth, baseline, focal, sensorSize);
 
-    double m = cv::mean(depth).val[0];
-    //cv::imshow("Distance moyenne: " + std::to_string(m), depth);    
-    if (m < distance) {
-        *vx = 0.5f;
-        *vy = 0.0f;
-        *omega = 0.0f;
-    } else {
-        *omega = 0.2f;
-        *vx = 0.0f;
-        *vy = 0.0f;
+    //On découpe la carte en trois verticalement
+    int t = depth.cols/3;
+    cv::Range third(0, t);
+    cv::Mat left = depth(cv::Range::all(), third);
+    third.start += t; third.end += t;
+    cv::Mat center = depth(cv::Range::all(), third);
+    third.start += t; third.end += t;    
+    cv::Mat right = depth(cv::Range::all(), third);
+
+    /*
+    cv::imshow("left", left);
+    cv::imshow("center", center);
+    cv::imshow("right", right);
+    //*/
+
+    double mleft = cv::mean(left).val[0];
+    double mcenter = cv::mean(center).val[0];
+    double mright = cv::mean(right).val[0];
+
+    //*
+    if (mleft < mcenter && mleft < mright && mleft < distance) {
+        //On tourne vers la gauche
+        *omega = 0.5f;
+        *vx = 0.f;
+    } else if (mright < mcenter && mright < mleft && mright < distance) {
+        //On tourne vers la droite
+        *omega = -0.5f;
+        *vx = 0.f;
+    } else if (mcenter < mleft && mcenter < mright && mcenter < distance) {
+        //EN AVANT !
+        *omega = 0.f;
+        *vx = 1.f;
     }
+    //*/
 }
