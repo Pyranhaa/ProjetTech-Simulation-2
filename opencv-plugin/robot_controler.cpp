@@ -40,7 +40,7 @@ void Robot_controler::process(const cv::Mat& left_img, const cv::Mat& right_img,
     cv::Mat left = depth(cv::Range::all(), third);
     third.start += t; third.end += t;
     cv::Mat center = depth(cv::Range::all(), third);
-    third.start += t; third.end += t;    
+    third.start += t; third.end += t;
     cv::Mat right = depth(cv::Range::all(), third);
 
     /*
@@ -54,18 +54,22 @@ void Robot_controler::process(const cv::Mat& left_img, const cv::Mat& right_img,
     double mright = cv::mean(right).val[0];
 
     //*
-    if (mleft < mcenter && mleft < mright && mleft < distance) {
+    if (mleft < mcenter && mleft < mright && mleft > distance && mleft < distance * 2) {
         //On tourne vers la gauche
         *omega = 0.5f;
         *vx = 0.f;
-    } else if (mright < mcenter && mright < mleft && mright < distance) {
+    } else if (mright < mcenter && mright < mleft && mright > distance  && mright < distance * 2) {
         //On tourne vers la droite
         *omega = -0.5f;
         *vx = 0.f;
-    } else if (mcenter < mleft && mcenter < mright && mcenter < distance) {
+    } else if (mcenter < mleft && mcenter < mright && mcenter > distance  && mcenter < distance * 2) {
         //EN AVANT !
         *omega = 0.f;
-        *vx = 1.f;
+        *vx = 0.5f;
+    }
+    else {
+      *omega = 0.f;
+      *vx = 0.f;
     }
     //*/
 }

@@ -24,7 +24,7 @@ typedef struct {
 } robotMvmt;
 
 static robotMvmt mvmt;
-static Robot_controler robot(80, 1, 1, 2);
+static Robot_controler robot(80, 1, 1, 3);
 
 /**
  *  Converti texture opengl en Mat
@@ -43,7 +43,7 @@ extern "C" {
         cv::Mat left, right;
         tex2Mat(tex_left, width, height, left);
         tex2Mat(tex_right, width, height, right);
-        
+
         mvmt.vx = vx;
         mvmt.vy = vy;
         mvmt.omega = omega;
