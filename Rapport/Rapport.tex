@@ -154,15 +154,15 @@ void reprojectImageTo3D(InputArray disp,
 			int ddepth);
 \end{lstlisting}
 
-\paragraph{Problème rencontrés}
-L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable calibrer les caméras et rectifier les images, étapes longues et non obligatoires car les caméras fournis sont suffisamment fiable. Donc nous avons décidé de ne pas l'utiliser.
+\paragraph{Problèmes rencontrés}
+L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable calibrer les caméras et rectifier les images, étapes longues et non obligatoires car les caméras fournis sont suffisamment fiables. Donc nous avons décidé de ne pas l'utiliser.
 
 \chapter{Implémentation}
 
 \section{Logiciel QT}
 %Partie Qt
-Le premier semestre c'est orienté autour du développement d'un petit programme de traitement d'image. Le programme affiche une fenêtre ainsi que plusieurs menus, l'un d'eux permet d'ouvrir un fichier au format png.
-Le fichier doit nécessairement contenir les deux images juxtaposées pour que les algorithmes implémentés fonctionnent. On peut ensuite couper l'image en deux, la flouté grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différents algorithmes comme l'algorithme de Sobel ou encore celui de Canny tous deux permettent de faire de la détection de contours, présenté sur les figures ci contre.
+Le premier semestre s'est orienté autour du développement d'un petit programme de traitement d'image. Le programme affiche une fenêtre ainsi que plusieurs menus, l'un d'eux permet d'ouvrir un fichier dans l'un des formats supportés par OpenCV.
+Le fichier doit nécessairement contenir les deux images juxtaposées pour que les algorithmes implémentés fonctionnent. On peut ensuite couper l'image en deux, la flouter grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différents algorithmes comme l'algorithme de Sobel ou encore celui de Canny tous deux permettent de faire de la détection de contours, présenté sur les figures ci contre.
 \begin{center}
 \begin{tabular}{cc}
   \vspace{0pt} \includegraphics[width=0.49\textwidth]{sobel.jpg} &
@@ -185,19 +185,19 @@ Toutes les méthodes en rapport avec le traitement d'image ont été implément�
 Le logiciel permet aussi de faire de la reconnaissance de paternes grâce aux algorithmes de \textit{flann} et de \textit{surf}. Cependant ce dernier n'est pas open source donc la méthode \textit{flann} est implémenté entre \textit{\#define} et n'est pas forcement proposé à l'utilisateur final.\\
 Enfin, le logiciel permet de créer une carte de disparité grâce à l'algorithme \textit{stereosgbm} ou à l'algorithme \textit{stereobm}.\\
 
-Cette partie nous à permis de prendre en main le c++ ainsi que la bibliothèque opencv. 
+Cette partie nous à permis de prendre en main le C++ ainsi que la bibliothèque OpenCV. 
 
-Grâce à ce petit outil, nous avons tester les deux algorithmes permettant de générer des cartes de disparité. Nous avons ainsi retenu \textit{stereosgbm} qui est plus performant et plus simple à utiliser. Cela nous à permis de choisir des paramètres de \textit{stereosgbm} jugés bons.\\
+Grâce à ce petit outil, nous avons tester les deux algorithmes permettant de générer des cartes de disparité. Nous avons ainsi retenu \textit{stereosgbm} qui est moins performant mais plus simple à utiliser et crée moins de bruit. Cela nous à permis de choisir des paramètres de \textit{stereosgbm} jugés bons.\\
 
-Le logiciel Qt prend aussi en charge diverse fonction propre à Qt et non d'OpenCV tel que le redimensionnement des images, grâce à la méthode cropImage() ou encore la possibilité de zoomer dans l'image.
+Le logiciel Qt prend aussi en charge diverse fonctions propre à Qt et non d'OpenCV tel que le redimensionnement des images, grâce à la méthode cropImage() ou encore la possibilité de zoomer dans l'image.
 
 \section{Simulation et test}
 %partie Unity
-Durant le second semestre, l'objectif était d'implémenter les algorithmes précédent pour les utiliser sur le robot. Le but est de créer une carte de profondeur grâce aux images du robot pour lui permettre de ce déplacer en fonction de la personne.\\
+Durant le second semestre, l'objectif était d'implémenter les algorithmes précédent pour les utiliser sur le robot. Le but est de créer une carte de profondeur grâce aux images du robot pour lui permettre de se déplacer en fonction de la personne.\\
 Comme nous n'avons forcement pas accès au robot, nous avons décidé de faire une simulation simple sur le logiciel Unity.\\
 
-Unity est un outils qui permet dans sa fonction principale de créer des applications 3D en temps réel tel que des jeux vidéo. Il permet grâce à une interface de placer des objets dans une scène, permet de placer une ou plusieurs caméras. Le logiciel inclus aussi une gestion avancées des interactions physiques entre les objets de la scène, le tout très paramétrable grâce aux scripts. Il existe deux langages de scripts implémentés dans le logiciel, le c\# et le javascript. Durant ce projet nous avons fait le choix d'utiliser le c\#.
-Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme windows. Mais qui dans ce cas présent, est utilisé en temps que langage de scripts grâce à son implémentation libre Mono. Le c\# à une syntaxe proche du java. Mais il est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de blocs "unsafe"\footnote{Gestion des pointeurs en c\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}} mais son utilisation sous Unity n'est pas convaincante .
+Unity est un outil qui permet dans sa fonction principale de créer des applications 3D en temps réel tel que des jeux vidéo. Il permet grâce à une interface de placer des objets dans une scène et une ou plusieurs caméras. Le logiciel inclus aussi une gestion avancées des interactions physiques entre les objets de la scène, le tout très paramétrable grâce aux scripts. Il existe deux langages de scripts implémentés dans le logiciel, le C\# et le Javascript. Durant ce projet nous avons fait le choix d'utiliser le C\# car l'API est plus complète que celle du JS.
+Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme Windows, mais qui dans ce cas présent est utilisé en temps que langage de scripts grâce à son implémentation libre Mono. Le C\# a une syntaxe proche du Java. Mais il est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de blocs "unsafe"\footnote{Gestion des pointeurs en C\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}} mais son utilisation sous Unity n'est pas convaincante .
 
 	\begin{center}
 		\includegraphics[scale=0.5]{Screenshot_skybox.png}
@@ -205,14 +205,14 @@ Ce langage de script est à la base un langage de programmation de haut niveau d
 	\end{center}
  	
 \paragraph{Problèmes rencontrés}
-Le logiciel est performant pour créer des petites scènes 3d mais il est très difficilement intégrable dans git ce qui pose des problèmes pour travailler simultanément sur la simulation.
+Le logiciel est performant pour créer des petites scènes 3D mais il est très difficilement intégrable dans git ce qui pose des problèmes pour travailler simultanément sur la simulation. La version Linux de l'éditeur est aussi très instable, nous avons très souvent rencontré des bugs de l'éditeur.
 
 \section{Création de la bibliothèque}
-Pour faire la transition entre les algorithmes, l'implémentation du robot et la simulation nous avons décidé de faire une bibliothèque externe contenant tous le code.
-Cette bibliothèque a pour tâche d'être utilisée comme simple fichier objet dans le robot, reliée grâce à l'édition des liens. Mais elle a aussi pour tâche d'être compilée sous forme d'une bibliothèque partagée (.so) et chargée dans Unity. Les scripts c\# d'Unity se chargent juste d'appeler les fonctions c++.\\
-Dans cette bibliothèque, nous avons décidé d'implémenter uniquement la \textit{stereoSGBM}, en effet \textit{stereoBM} est sensiblement plus lent et produit un résultat légèrement moins bon.
+Pour faire la transition entre les algorithmes, l'implémentation du robot et la simulation nous avons décidé de faire une bibliothèque externe contenant tout les algorithmes.
+Cette bibliothèque est liée statiquement avec le contrôleur du robot et l'interface unity du contrôleur. Les scripts C\# d'Unity se chargent d'appeler les fonctions C++ des contrôleurs et de répercuter les actions sur la scène.\\
+Dans cette bibliothèque, nous avons décidé d'implémenter uniquement la \textit{stereoSGBM}, en effet \textit{stereoBM} produit un résultat légèrement moins bon.
 
-Voici ci-dessous une représentation des interactions entre Unity et la bibliothèque.
+Voici ci-dessous une représentation des interactions entre Unity et la bibliothèque. %TODO Rémy
 \begin{center}
 \begin{tikzpicture}
   	\node[draw] (camera) 	at (0, 0) 	{caméras};
@@ -235,7 +235,7 @@ Voici ci-dessous une représentation des interactions entre Unity et la biblioth
    	\node (dll)		at (7, -4.05)	{Code c++};
    	
 	\draw (5, 0) to (6, 0);
-	\node (script)	at (7, 0) {Script c\#,};
+	\node (script)	at (7, 0) {Script C\#,};
 	\node at (8.2, -0.5) {GetNativeTexturePtr()$^1$;};
 		
 	\draw[<-, dashed, draw opacity=0.5] (camera) to (-3.5, 0);
@@ -249,11 +249,11 @@ Voici ci-dessous une représentation des interactions entre Unity et la biblioth
 Figure 3.3.1 Interaction entre Unity et la bibliothèque.\\
 \end{center}
 \begin{small}
-1) GetNativeTexturePtr() est une méthode c\# permettant grâce à un objet texture de récupérer sont pointeur OpengGl dans la mémoire vive.
+1) GetNativeTexturePtr() est une méthode Unity permettant de récupérer le pointeur de resource OpengGl d'une texture. Cela nous a permis de récupérer ce que voient les caméras.
 \end{small}
 
 \subsection{Conversion vers une structure Opencv}
-La méthode GetNativeTexturePtr() renvoie un pointeur vers une image au format OpenGL (sous linux, l'image sera au format directX) dans la mémoire, c'est à dire un id OpenGL. Pour convertir cette donnée vers une matrice OpenCV, il faut dans un premier temps lier cette donnée à une texture OpenGL grâce à la fonction include dans "GL/gl.h" glBindTexture(). Ensuite il suffit de copier les données dans un tableau au au format OpenCV, c'est à dire un taille égale à la taille de la texture et une profondeur de taille 1 octet * le nombre de canaux.\\
+La méthode GetNativeTexturePtr() renvoie un pointeur vers une image au format OpenGL (sous Windows, l'image sera au format directX) dans la mémoire, c'est à dire un id OpenGL. Pour convertir cette donnée vers une matrice OpenCV, il faut dans un premier temps lier cette donnée à une texture OpenGL grâce à la fonction include dans "GL/gl.h" glBindTexture(). Ensuite il suffit de copier les données dans un tableau au au format OpenCV, c'est à dire un taille égale à la taille de la texture et une profondeur de taille 1 octet * le nombre de canaux.\\
 Comme représenté sur la figure 3.3.2, le standard OpenGL est de représenter l'image codée sous forme RGB et dans le sens informatique c'est à dire, le début de l'image se situe est en haut à gauche avec les Y vers la droite et les X vers le bas. Alors que le format OpenCV est de stocker l'image sous format BGR dans le sens mathématique, c'est à dire le début de l'image se situe en bas à droite avec les Y vers la droite et les X vers le haut.\\
 
 \begin{center}
@@ -273,12 +273,11 @@ Figure 3.3.2 Représentation d'un pixel OpenGL et OpenCV
 \end{center}
 
 \paragraph{Problèmes rencontrés}
-Des problèmes ont été rencontrés lors de l'utilisation de la bibliothèque externe sous Unity. Ce dernier s'arrête brusquement de temps en temps de manière obscure. (Probablement à cause de la version très précoce de Unity sous linux). Cependant malgré les problèmes, nous avons décidé de continuer l'intégration dans Unity tout en ayant une solution de replie.\\
-Sur certaine stations de travail (au Crémi), Unity ne se lancait même pas, ce qui à fortement handicapé les membres concerné (Rémy et Jérémi) et ralenti le projet. De plus, Unity ne permet pas d'utiliser un système métrique, ce qui veut dire que nous ne pouvons pas tester la carte de profondeur depuis le logiciel car les distances entre les caméras ne sont pas compatible avec les méthodes OpenCV.
+Des problèmes ont été rencontrés lors de l'utilisation de la bibliothèque externe sous Unity. En effet, s'il y a un problème à l'exécution d'une des méthodes de la bibliothèque, l'éditeur s'arrête brusquement sans message d'erreur, rendant le débogage difficile. Nous avons aussi rencontré des problèmes avec l'éditeur au CREMI, en effet pour Rémy et Jérémi l'édtiteur ne se lance même plus. Nous avons aussi des problèmes avec l'exportation des textures des caméras. Il peut arriver que les images récupérées soient déformées et donc unitilisable par nos algorithmes.
 
 \paragraph{Solutions envisagés}
-Nous avons décidé de créer en parallèle de l'intégration à Unity un automate écrit en c++ permettant de tester les algorithmes. Un script c\# se charge de prendre une capture d'écran des deux caméras et de les écrire sur le disque. L'automate quant à lui prend en entrée les différentes images et utilise les algorithmes pour produire la carte de disparité et la carte de profondeurs.\\
-L'automate est un petit programme écrit en c++ en utilisant l'outil GNU \textit{gengetopt} pour gérer les argument de commande. Par exemple :\\
+Nous avons décidé de créer en parallèle de l'intégration à Unity un automate écrit en C++ permettant de tester les algorithmes. Un script C\# se charge de prendre une capture d'écran des deux caméras et de les écrire sur le disque. L'automate quant à lui prend en entrée les différentes images et utilise les algorithmes pour produire la carte de disparité et la carte de profondeurs.\\
+L'automate est un petit programme écrit en C++ en utilisant l'outil GNU \textit{gengetopt} pour gérer les arguments de commandes. Par exemple :\\
 
 \begin{lstlisting}{Language=Bash}
 ./automate -i path/to/images -a dist
@@ -287,9 +286,11 @@ L'automate est un petit programme écrit en c++ en utilisant l'outil GNU \textit
 
 Usage :
 \begin{enumerate}
+\item[] --help
+\item[] --detailed-help
 \item[] -i input "Le dossier contenant les images à traiter"
 \item[] -o output "Le dossier qui contiendra les images traitées"
-\item[] -p préfixe "Préfixe à appliquer aux noms de fichiers à sauvegarder"
+\item[] -p préfixe "Préfixe à appliquer aux noms des fichiers à sauvegarder"
 \item[] -a action "L'action a effectuer sur chaque fichier : disp, sgbm, dist"
 \end{enumerate}
 
@@ -327,7 +328,7 @@ Nous avons créé une structure prenant en compte tous les paramètres présent�
 
 \begin{center}
 		\includegraphics[scale=0.32]{img_0.png}\\
-		Figure 4.1.1 Image stéréoscopique de teste.
+		Figure 4.1.1 Image stéréoscopique de test.
 \end{center}
 
 \begin{center}
@@ -339,21 +340,24 @@ Nous avons créé une structure prenant en compte tous les paramètres présent�
 \end{tabular}
 \end{center}
 
-Pour tester notre implémentation, nous avons pris des photos issue des caméras du robot. La figure 4.1.1 est l'une d'entre elle. Puis nous avons créé une carte de disparité et une carte de profondeur. 
+Pour tester notre implémentation, nous avons pris des photos issues des caméras du robot. La figure 4.1.1 est l'une d'entre elle. Puis nous avons créé une carte de disparité et une carte de profondeur. 
 
 \section{Faire bouger le robot}
-Il faut à présent utiliser la carte de profondeur pour permettre au robot de prendre un décision. Pour cela, nous avons décider de récupérer une ligne horizontale de pixels en son centre, pour ensuite faire une moyenne et comparer avec la même moyenne prise d'une carte de profondeur de référence capturer au démarrage du robot. Si la moyenne courante est plus petite que la moyenne de référence, cela veut dire que le le robot est plus proche de la personne et donc il doit ralentir.\\
-Il suffit de faire le même raisonnement lorsque la personne s'éloigne.\\
+Il faut à présent utiliser la carte de profondeur pour permettre au robot de prendre une décision. Pour cela, nous avons décider de découper la carte de disparité en trois parties verticalement. Nous calculons ensuite la moyenne de chaque partie. Nous choisissons ensuite la moyenne la plus petite, et le robot se dirige dans cette direction. Si il faut aller à gauche ou à droite, le robot s'arrête et tourne dans la direction voulue. Si il faut aller tout droit le robot arrête de tourner et avance.\\
 
 Dans la carte de profondeur (figure 4.1.3), chaque pixel représente une distance. Plus la distance est importante plus la valeur du pixel est élevé et donc plus il sera blanc. Dans le cas contraire, plus la distance est proche, plus la valeur du pixel est basse et donc plus le pixel apparaitra sombre.\\
 On peut par exemple voir que dans la figure 4.1.3, les jambes sont plus proches que le mur en arrière plan ; elles sont donc plus sombres.\\
+Il faut noter que lorsqu'on affiche une carte de profondeur, le gradient de gris est entre les valeurs 0 et 1 inclus. Cependant, dans nos cartes de profondeurs les valeurs peuvent aller jusqu'à 20, distance que nous considérons infinie.
 
 \paragraph{Problèmes rencontrés}
-Cette méthode possède comme défaut d'être très imprécise. Si une personne passe devant les objectifs, le robot aura des difficultés à garder sa trajectoire. De même, elle ne lui permet pas de tourner et donc de suivre une personne qui passerait hors champs.
+Cette méthode possède comme défaut d'être très imprécise. Si une personne passe devant les objectifs, le robot aura des difficultés à garder sa trajectoire. Le robot ne s'oriente pas tout à fait correctement non plus.
 
+\begin{comment} %Meh
 \paragraph{Solutions envisagé}
 Pour suivre les trajectoires, le même raisonnement a été proposé mais de manière vertical. C'est à dire que nous découpons la carte de profondeur en trois bandes égales puis nous faisons leur moyenne. Si la bande de gauche à une moyenne plus faible que celle du centre, cela veut dire que la personne à suivre c'est déplacée vers la gauche et donc il suffit de faire tourner le robot jusqu'à ce que la bande du milieu récupère une moyenne plus basse. On applique le même raisonnement sur la bande de droite.\\
 \\
+\end{comment}
+
 
 \chapter{Conclusion}
 
