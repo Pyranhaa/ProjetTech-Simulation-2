@@ -1,5 +1,5 @@
 CXXFLAGS=-shared -fPIC -std=c++11
-LDLIBS=-lopencv_core -lopencv_highgui -lopencv_calib3d -libopencv_imgproc
+LDLIBS=-lopencv_core -lopencv_highgui -lopencv_calib3d -lopencv_imgproc
 
 PROCSRC=processor.cpp
 PROCOBJ=$(PROCSRC:%.cpp=%.o)
