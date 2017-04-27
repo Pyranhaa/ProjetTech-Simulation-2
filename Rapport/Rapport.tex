@@ -62,28 +62,28 @@
 L'objectif de ce projet est de développer un outil implémenté sur un robot lui permettant de suivre à un mètre une personne grâce à deux caméras.\\\\
 
 Le projet est divisé en deux parties indépendantes, effectuées sur les deux semestres. 
-La première partie a pour but de prendre en main les outils utilisés au cours de l'année, à savoir le langage C++ (à travers Qt) et la bibliothèque openCV.
+La première partie a pour but de prendre en main les outils utilisés au cours de l'année, à savoir le langage C++ (à travers Qt) et la bibliothèque OpenCV.
 Durant cette première partie sera développé un mini programme de traitement d'images. 
 
-La deuxième partie a pour objectif de programmer le robot et d'effectuer des simulations grâce au logiciel Unity. En effet, comme le robot n'est pas forcement accessible aux membres du groupe, il est préférable de faire appel à une simulation pour pouvoir tester les algorithmes n'importe quand.\\\\
+La deuxième partie a pour objectif de programmer le robot et d'effectuer des simulations grâce au logiciel Unity. En effet, comme le robot n'est pas forcément accessible aux membres du groupe, il est préférable de faire appel à une simulation pour pouvoir tester les algorithmes n'importe quand.\\\\
 
 Qt est une bibliothèque logicielle d'interface graphique, nous utiliserons cet outil pour développer l'interface du logicielle.\\
 
-OpenCV (open computer vision) est un bibliothèque d'algorithmes de traitement d'images, de vidéos et autres. Ici elle sera utilisée pour programmer les fonctions du logiciel en rapport avec les images.\\
+OpenCV (open computer vision) est un bibliothèque pincipalement d'algorithmes de traitement d'images et de vidéos. Ici elle sera utilisée pour programmer les fonctions du logiciel en rapport avec les images.\\
 
 
 %Petite explication de la procédure de comment fonctionne la stereovision ...
 \section{Cahier des charges}
 Le cahier des charges s'oriente uniquement sur l'objectif du projet, c'est à dire sur la deuxième partie du semestre.
-\subsection{Besoin fonctionnels}
+\subsection{Besoins fonctionnels}
 	%Identifie une personne
 	%Se meut
 	%Calcule une distance
-	Le logiciel doit prendre en entrée deux images au format \textit{png} représentant les images gauche et droite de deux caméras.
+	Le logiciel doit prendre en entrée deux images au format \textit{PNG} représentant les images gauche et droite de deux caméras.
 	Ces images vont nous permettre de créer une carte de disparité de la scène.\\	
 	Cette dernière additionnée aux caractéristiques de la caméra va nous permettre de créer une carte de profondeur. Qui sera ensuite utilisée pour permettre au robot de se déplacer.\\
 	Il sera cependant nécessaire d'avoir une carte de profondeur de référence de la personne à suivre à travers une phase d'initialisation. Dans ce cas, la première image prise par le robot permettra de créer la première carte de profondeur qui sera considérée comme la référence. Il faut donc que le robot soit bien placé à un mètre de la personne lors du démarrage et que cette dernière soit la seule dans le cadre des caméras.
-\subsection{Besoin non fonctionnels}
+\subsection{Besoins non fonctionnels}
 	%Robuste aux chagement de luminosité
 	%changement de personne
 	%chagement d'environnement
@@ -97,7 +97,7 @@ Le cahier des charges s'oriente uniquement sur l'objectif du projet, c'est à di
 %création de la carte de profondeur + def et formule
 %mouvement du robot
 
-Comme montré dans la figure 2.1.1, le projet se structure autour d'une notion clé : Pour repérer les jambes d'une personne afin de la suivre, une carte de profondeur doit être calculée. Cette carte est créée grâce à une carte de disparité. 
+Comme montré dans la figure 2.1.1, le projet se structure autour d'une notion clef : Pour repérer les jambes d'une personne afin de la suivre, une carte de profondeur doit être calculée. Cette carte est créée grâce à une carte de disparité. 
 
 \begin{center}
 \begin{tikzpicture}
@@ -112,18 +112,18 @@ Figure 2.1.1 Fils rouge du projet.
 \end{center}
 
 \paragraph{Carte de disparité}
-Un carte de disparité est une image où chaque pixel correspond au déplacement entre un même point dans deux images différentes. 
+Un carte de disparité est une image où chaque pixel correspond au déplacement d'un même point dans deux images différentes. 
 
 \begin{center}
 	\includegraphics[scale=0.5]{disparity.jpg}\\
-	Figure 2.1.2 Schéma du calcul de la carte de disparité.\footnote{Source : \url{http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_calib3d/py_depthmap/py_depthmap.html}}\\
+	Figure 2.1.2 Schéma du calcul de la carte de disparité.\footnote{Source : \url{http://docs.OpenCV.org/3.0-beta/doc/py_tutorials/py_calib3d/py_depthmap/py_depthmap.html}}\\
 \end{center}
 
 Comme représentée dans la figure 2.1.2, la valeur du pixel X représente le déplacement du pixel.
 Les deux images sont représentées par O et O' et la longueur en cm entre elles par la baseline B.
 \paragraph{Carte de profondeur}
-La carte de profondeur est une image où chaque pixel représente la distance entre la caméra et le point dans le monde réel. Une carte de profondeur est très similaire à une carte de disparité, elle inclue cependant une référence mesurable au monde réel.\\
-La formule permettant de calculer la carte de profondeur à partir de la carte de disparité résulte de l'utilisation du théorème de Thalès.\\
+La carte de profondeur est une image où chaque pixel représente la distance entre le robot et le point dans le monde réel. Cette distance est exprimable en mètres.\\
+La formule permettant de calculer la carte de profondeur à partir de la carte de disparité est une application du théorème de Thalès.\\
 
 \begin{center}
 Figure 2.2.3 Formule de la carte de profondeur.\\
@@ -135,12 +135,12 @@ $\text{depth} = \frac{\text{baseline} * \text{focal}}{\frac{\text{disp}}{\text{w
 \paragraph{Légende : }
 \begin{small}
 \begin{enumerate}
-\item[-] baseline : distance entre les deux caméras.\\
+\item[-] baseline : distance entre les centres des deux caméras.\\
 \item[-] focal : focal de l'objectif.\\
 \item[-] disp : valeur du pixel de la carte de disparité.\\
 \item[-] width : largeur de l'image.\\
 \item[-] sensor size : taille du capteur.\\
-\item[-] référence : distance voulu (dans le cadre de ce projet, en mètres donc 1000).\\
+\item[-] référence : distance voulue (dans le cadre de ce projet, en mètres donc 1000).\\
 \end{enumerate}
 \end{small}
 
@@ -155,14 +155,14 @@ void reprojectImageTo3D(InputArray disp,
 \end{lstlisting}
 
 \paragraph{Problèmes rencontrés}
-L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable calibrer les caméras et rectifier les images, étapes longues et non obligatoires car les caméras fournis sont suffisamment fiables. Donc nous avons décidé de ne pas l'utiliser.
+L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable calibrer les caméras et rectifier les images, étapes longues et non obligatoires car les caméras fournies sont suffisamment fiables. Donc nous avons décidé de ne pas l'utiliser.
 
 \chapter{Implémentation}
 
 \section{Logiciel Qt}
 %Partie Qt
 Le premier semestre s'est orienté autour du développement d'un petit programme de traitement d'image. Le programme affiche une fenêtre ainsi que plusieurs menus, l'un d'eux permet d'ouvrir un fichier dans l'un des formats supportés par OpenCV.
-Le fichier doit nécessairement contenir les deux images juxtaposées pour que les algorithmes implémentés fonctionnent. On peut ensuite couper l'image en deux, la flouter grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différents algorithmes comme l'algorithme de Sobel ou encore celui de Canny tous deux permettent de faire de la détection de contours, présenté sur les figures ci contre.
+Le fichier doit nécessairement contenir les deux images juxtaposées pour que notre programme fonctionne. On peut ensuite couper l'image en deux, la flouter grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différents algorithmes comme celui de Sobel ou encore celui de Canny tous deux permettent de faire de la détection de contours, présenté sur les figures ci contre.
 \begin{center}
 \begin{tabular}{cc}
   \vspace{0pt} \includegraphics[width=0.49\textwidth]{sobel.jpg} &
@@ -172,17 +172,17 @@ Le fichier doit nécessairement contenir les deux images juxtaposées pour que l
 \end{tabular}
 \end{center}
 
-Ces différentes méthodes on été implémentées dans le but de comprendre comment opencv fonctionnait, ainsi que de développer et de tester une première esquisse des fonctions que nous utiliserons dans le robot.
+Ces différentes méthodes ont été implémentées dans le but de comprendre le fonctionnement d'OpenCV, ainsi que de développer et de tester une première esquisse des fonctions que nous utiliserons dans le robot.
 
-Il a fallu créer des méthodes de conversion d'images entre les images de Qt et les images de opencv. Deux méthodes ont donc été développées : 
+Il a fallu créer des méthodes de conversion d'images entre les images de Qt et les images de OpenCV. Deux méthodes ont donc été développées : 
 
 \begin{lstlisting}{Language=C++}
 cv::Mat ImageTools::imageToMat(QImage const& src);
 QImage ImageTools::cvMatToImage(const cv::Mat& inMat);
 \end{lstlisting}
 
-Toutes les méthodes en rapport avec le traitement d'image ont été implémentées dans la classe \textit{imagetools}. Au début, nous conservions les images sous forme de QImage ce qui nous obligeais à les convertir à chaque fois que l'on voulait appliquer un filtre. On a fini par réécrire entièrement le programme, où l'on conserve les images sous forme de matrices OpenCV en images membres et la classe \textit{imagetools} sous forme d'un singleton, simplifiant le code.\\
-Le logiciel permet aussi de faire de la reconnaissance de paternes grâce aux algorithmes de \textit{flann} et de \textit{surf}. Cependant ce dernier n'est pas open source donc la méthode \textit{flann} est implémenté entre \textit{\#define} et n'est pas forcement proposé à l'utilisateur final.\\
+Toutes les méthodes en rapport avec le traitement d'image ont été implémentées dans la classe \textit{imagetools}. Au début, nous conservions les images sous forme de QImage ce qui nous obligeait à les convertir à chaque fois que l'on voulait appliquer un filtre. On a fini par réécrire entièrement le programme, où l'on conserve les images sous forme de matrices OpenCV en images membres et la classe \textit{imagetools} sous forme d'un singleton, simplifiant le code.\\
+Le logiciel permet aussi de faire de la reconnaissance de formes grâce aux algorithmes de \textit{flann} et de \textit{surf}. Cependant ce dernier n'est pas open source donc la méthode \textit{flann} est implémenté entre \textit{\#define} et n'est pas forcément proposé à l'utilisateur final.\\
 Enfin, le logiciel permet de créer une carte de disparité grâce à l'algorithme \textit{stereosgbm} ou à l'algorithme \textit{stereobm}.\\
 
 Cette partie nous à permis de prendre en main le C++ ainsi que la bibliothèque OpenCV. 
@@ -194,7 +194,7 @@ Le logiciel Qt prend aussi en charge diverse fonctions propre à Qt et non d'Ope
 \section{Simulation et test}
 %partie Unity
 Durant le second semestre, l'objectif était d'implémenter les algorithmes précédent pour les utiliser sur le robot. Le but est de créer une carte de profondeur grâce aux images du robot pour lui permettre de se déplacer en fonction de la personne.\\
-Comme nous n'avons forcement pas accès au robot, nous avons décidé de faire une simulation simple sur le logiciel Unity.\\
+Comme nous n'avons forcément pas accès au robot, nous avons décidé de faire une simulation simple sur le logiciel Unity.\\
 
 Unity est un outil qui permet dans sa fonction principale de créer des applications 3D en temps réel tel que des jeux vidéo. Il permet grâce à une interface de placer des objets dans une scène et une ou plusieurs caméras. Le logiciel inclus aussi une gestion avancées des interactions physiques entre les objets de la scène, le tout très paramétrable grâce aux scripts. Il existe deux langages de scripts implémentés dans le logiciel, le C\# et le Javascript. Durant ce projet nous avons fait le choix d'utiliser le C\# car l'API est plus complète que celle du JS.
 Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme Windows, mais qui dans ce cas présent est utilisé en temps que langage de scripts grâce à son implémentation libre Mono. Le C\# a une syntaxe proche du Java. Mais il est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de blocs "unsafe"\footnote{Gestion des pointeurs en C\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}} mais son utilisation sous Unity n'est pas convaincante .
@@ -216,7 +216,7 @@ Voici ci-dessous une représentation des interactions entre Unity et la biblioth
 \begin{center}
 \begin{tikzpicture}
   	\node[draw] (camera) 	at (0, 0) 	{caméras};
-  	\node[draw] (conv) 		at (0, -2) 	{Conversion vers une structure Opencv};
+  	\node[draw] (conv) 		at (0, -2) 	{Conversion vers une structure OpenCV};
 	\node[draw] (disp) 		at (0, -4) 	{Calcul de la carte de disparité};
 	\node[draw] (depth)		at (0, -6)	{Calcul de la carte de profondeur};
   	\node[draw]	(robot)		at (0, -8)	{Gestion du mouvement du robot};
@@ -252,7 +252,7 @@ Figure 3.3.1 Interaction entre Unity et la bibliothèque.\\
 1) GetNativeTexturePtr() est une méthode Unity permettant de récupérer le pointeur de resource OpengGl d'une texture. Cela nous a permis de récupérer ce que voient les caméras.
 \end{small}
 
-\subsection{Conversion vers une structure Opencv}
+\subsection{Conversion vers une structure OpenCV}
 La méthode GetNativeTexturePtr() renvoie un pointeur vers une image au format OpenGL (sous Windows, l'image sera au format directX) dans la mémoire, c'est à dire un id OpenGL. Pour convertir cette donnée vers une matrice OpenCV, il faut dans un premier temps lier cette donnée à une texture OpenGL grâce à la fonction include dans "GL/gl.h" glBindTexture(). Ensuite il suffit de copier les données dans un tableau au au format OpenCV, c'est à dire un taille égale à la taille de la texture et une profondeur de taille 1 octet * le nombre de canaux.\\
 Comme représenté sur la figure 3.3.2, le standard OpenGL est de représenter l'image codée sous forme RGB et dans le sens informatique c'est à dire, le début de l'image se situe est en haut à gauche avec les Y vers la droite et les X vers le bas. Alors que le format OpenCV est de stocker l'image sous format BGR dans le sens mathématique, c'est à dire le début de l'image se situe en bas à droite avec les Y vers la droite et les X vers le haut.\\
 
