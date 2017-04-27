@@ -62,7 +62,7 @@
 L'objectif de ce projet est de développer un outil implémenté sur un robot lui permettant de suivre à un mètre une personne grâce à deux caméras.\\\\
 
 Le projet est divisé en deux parties indépendantes, effectuées sur les deux semestres. 
-La première partie a pour but de prendre en main les outils utilisés au cours de l'année, à savoir le langage c++ (à travers qt) et la bibliothèque openCV.
+La première partie a pour but de prendre en main les outils utilisés au cours de l'année, à savoir le langage C++ (à travers Qt) et la bibliothèque openCV.
 Durant cette première partie sera développé un mini programme de traitement d'images. 
 
 La deuxième partie a pour objectif de programmer le robot et d'effectuer des simulations grâce au logiciel Unity. En effet, comme le robot n'est pas forcement accessible aux membres du groupe, il est préférable de faire appel à une simulation pour pouvoir tester les algorithmes n'importe quand.\\\\
@@ -159,7 +159,7 @@ L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable
 
 \chapter{Implémentation}
 
-\section{Logiciel QT}
+\section{Logiciel Qt}
 %Partie Qt
 Le premier semestre s'est orienté autour du développement d'un petit programme de traitement d'image. Le programme affiche une fenêtre ainsi que plusieurs menus, l'un d'eux permet d'ouvrir un fichier dans l'un des formats supportés par OpenCV.
 Le fichier doit nécessairement contenir les deux images juxtaposées pour que les algorithmes implémentés fonctionnent. On peut ensuite couper l'image en deux, la flouter grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différents algorithmes comme l'algorithme de Sobel ou encore celui de Canny tous deux permettent de faire de la détection de contours, présenté sur les figures ci contre.
@@ -174,7 +174,7 @@ Le fichier doit nécessairement contenir les deux images juxtaposées pour que l
 
 Ces différentes méthodes on été implémentées dans le but de comprendre comment opencv fonctionnait, ainsi que de développer et de tester une première esquisse des fonctions que nous utiliserons dans le robot.
 
-Il a fallu créer des méthodes de conversion d'images entre les images de qt et les images de opencv. Deux méthodes ont donc été développées : 
+Il a fallu créer des méthodes de conversion d'images entre les images de Qt et les images de opencv. Deux méthodes ont donc été développées : 
 
 \begin{lstlisting}{Language=C++}
 cv::Mat ImageTools::imageToMat(QImage const& src);
@@ -209,7 +209,7 @@ Le logiciel est performant pour créer des petites scènes 3D mais il est très 
 
 \section{Création de la bibliothèque}
 Pour faire la transition entre les algorithmes, l'implémentation du robot et la simulation nous avons décidé de faire une bibliothèque externe contenant tout les algorithmes.
-Cette bibliothèque est liée statiquement avec le contrôleur du robot et l'interface unity du contrôleur. Les scripts C\# d'Unity se chargent d'appeler les fonctions C++ des contrôleurs et de répercuter les actions sur la scène.\\
+Cette bibliothèque est liée statiquement avec le contrôleur du robot et l'interface Unity du contrôleur. Les scripts C\# d'Unity se chargent d'appeler les fonctions C++ des contrôleurs et de répercuter les actions sur la scène.\\
 Dans cette bibliothèque, nous avons décidé d'implémenter uniquement la \textit{stereoSGBM}, en effet \textit{stereoBM} produit un résultat légèrement moins bon.
 
 Voici ci-dessous une représentation des interactions entre Unity et la bibliothèque. %TODO Rémy
@@ -232,7 +232,7 @@ Voici ci-dessous une représentation des interactions entre Unity et la biblioth
 	\draw (5.5,-2) to (5.5, -6);
 	\draw (5,-6) to (5.5,-6);
 	\draw (5.5,-4) to (6,-4);
-   	\node (dll)		at (7, -4.05)	{Code c++};
+   	\node (dll)		at (7, -4.05)	{Code C++};
    	
 	\draw (5, 0) to (6, 0);
 	\node (script)	at (7, 0) {Script C\#,};
