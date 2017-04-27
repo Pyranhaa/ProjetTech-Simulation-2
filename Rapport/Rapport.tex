@@ -65,9 +65,9 @@ Le projet est divisé en deux parties indépendantes, effectuées sur les deux s
 La première partie a pour but de prendre en main les outils utilisés au cours de l'année, à savoir le langage c++ (à travers qt) et la bibliothèque openCV.
 Durant cette première partie sera développé un mini programme de traitement d'images. 
 
-La deuxième partie a pour objectif de programmer le robot et d'effectuer des simulations grâce au logiciel Unity. En effet, comme le robot n'est pas forcement accessible aux membres du groupe, il est préférable de faire appelle à une simulation pour pouvoir tester les algorithmes n'importe quand.\\\\
+La deuxième partie a pour objectif de programmer le robot et d'effectuer des simulations grâce au logiciel Unity. En effet, comme le robot n'est pas forcement accessible aux membres du groupe, il est préférable de faire appel à une simulation pour pouvoir tester les algorithmes n'importe quand.\\\\
 
-Qt est une bibliothèque logicielle d'interface graphique, nous utiliserons cet outil pour développer l'interface du logiciel.\\
+Qt est une bibliothèque logicielle d'interface graphique, nous utiliserons cet outil pour développer l'interface du logicielle.\\
 
 OpenCV (open computer vision) est un bibliothèque d'algorithmes de traitement d'images, de vidéos et autres. Ici elle sera utilisée pour programmer les fonctions du logiciel en rapport avec les images.\\
 
@@ -79,15 +79,15 @@ Le cahier des charges s'oriente uniquement sur l'objectif du projet, c'est à di
 	%Identifie une personne
 	%Se meut
 	%Calcule une distance
-	Le logiciel doit prendre en entré deux images au format png représentant les images gauche et droite de deux caméras.
+	Le logiciel doit prendre en entrée deux images au format \textit{png} représentant les images gauche et droite de deux caméras.
 	Ces images vont nous permettre de créer une carte de disparité de la scène.\\	
-	Cette dernière additionnée aux caractéristiques de la caméra va nous permettre de créer une carte de profondeur. Qui sera ensuite utilisée pour permettre au robot de bouger.\\
-	Il sera cependant nécessaire d'avoir une carte de profondeur de référence de la personne à suivre à travers une phase d'initialisation. Dans ce cas, la première image prise par le robot permettra de créer la première carte de profondeur qui sera considérée comme la référence. Il faut donc que le robot soit bien placé à un mètre de la personne lors du démarrage et que cette dernière soit la seul dans le cadre des caméras.
+	Cette dernière additionnée aux caractéristiques de la caméra va nous permettre de créer une carte de profondeur. Qui sera ensuite utilisée pour permettre au robot de se déplacer.\\
+	Il sera cependant nécessaire d'avoir une carte de profondeur de référence de la personne à suivre à travers une phase d'initialisation. Dans ce cas, la première image prise par le robot permettra de créer la première carte de profondeur qui sera considérée comme la référence. Il faut donc que le robot soit bien placé à un mètre de la personne lors du démarrage et que cette dernière soit la seule dans le cadre des caméras.
 \subsection{Besoin non fonctionnels}
 	%Robuste aux chagement de luminosité
 	%changement de personne
 	%chagement d'environnement
-	La carte de disparité est fortement liée aux images d'entrées, de ce faite, les changements de luminosité et d'environnement peuvent poser des problèmes à cause notamment de l'utilisation d'une référence.\\
+	La carte de disparité est fortement liée aux images d'entrées, de ce fait, les changements de luminosité et d'environnement peuvent poser des problèmes à cause notamment de l'utilisation d'une référence, nécessaire pour reconnaitre la personne.\\
 	Le programme doit donc être robuste à ces différents changement.\\
 	Le robot doit être aussi capable de suivre la bonne personne même si une autre personne rentre dans le cadre.
 	
@@ -97,7 +97,7 @@ Le cahier des charges s'oriente uniquement sur l'objectif du projet, c'est à di
 %création de la carte de profondeur + def et formule
 %mouvement du robot
 
-Comme montré dans la figure 2.1.1, le projet se structure autour d'une notion clés : Pour repérer les jambes d'une personne afin de la suivre, une carte de profondeur doit être calculée. Cette carte est créé grâce à une carte de disparité. 
+Comme montré dans la figure 2.1.1, le projet se structure autour d'une notion clé : Pour repérer les jambes d'une personne afin de la suivre, une carte de profondeur doit être calculée. Cette carte est créée grâce à une carte de disparité. 
 
 \begin{center}
 \begin{tikzpicture}
@@ -119,7 +119,7 @@ Un carte de disparité est une image où chaque pixel correspond au déplacement
 	Figure 2.1.2 Schéma du calcul de la carte de disparité.\footnote{Source : \url{http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_calib3d/py_depthmap/py_depthmap.html}}\\
 \end{center}
 
-Comme représenté dans la figure 2.1.2, la valeur du pixel X représente le déplacement du pixel.
+Comme représentée dans la figure 2.1.2, la valeur du pixel X représente le déplacement du pixel.
 Les deux images sont représentées par O et O' et la longueur en cm entre elles par la baseline B.
 \paragraph{Carte de profondeur}
 La carte de profondeur est une image où chaque pixel représente la distance entre la caméra et le point dans le monde réel. Une carte de profondeur est très similaire à une carte de disparité, elle inclue cependant une référence mesurable au monde réel.\\
@@ -155,7 +155,7 @@ void reprojectImageTo3D(InputArray disp,
 \end{lstlisting}
 
 \paragraph{Problème rencontrés}
-L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable calibrer les caméras et rectifier les images, étapes longue et non obligatoire car les caméras fournis sont suffisamment fiable. Donc nous avons décidé de ne pas l'utiliser.
+L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable calibrer les caméras et rectifier les images, étapes longues et non obligatoires car les caméras fournis sont suffisamment fiable. Donc nous avons décidé de ne pas l'utiliser.
 
 \chapter{Implémentation}
 
@@ -187,7 +187,7 @@ Enfin, le logiciel permet de créer une carte de disparité grâce à l'algorith
 
 Cette partie nous à permis de prendre en main le c++ ainsi que la bibliothèque opencv. 
 
-Grâce à ce petit outil, nous avons tester les deux algorithmes permettant de générer des cartes de disparité. Nous avons ainsi retenu \textit{stereosgbm} qui est plus performant et plus simple à utiliser. Cela nous à permis de choisir des paramètres de \textit{stereosgbm} jugés bon.\\
+Grâce à ce petit outil, nous avons tester les deux algorithmes permettant de générer des cartes de disparité. Nous avons ainsi retenu \textit{stereosgbm} qui est plus performant et plus simple à utiliser. Cela nous à permis de choisir des paramètres de \textit{stereosgbm} jugés bons.\\
 
 Le logiciel Qt prend aussi en charge diverse fonction propre à Qt et non d'OpenCV tel que le redimensionnement des images, grâce à la méthode cropImage() ou encore la possibilité de zoomer dans l'image.
 
@@ -196,8 +196,8 @@ Le logiciel Qt prend aussi en charge diverse fonction propre à Qt et non d'Open
 Durant le second semestre, l'objectif était d'implémenter les algorithmes précédent pour les utiliser sur le robot. Le but est de créer une carte de profondeur grâce aux images du robot pour lui permettre de ce déplacer en fonction de la personne.\\
 Comme nous n'avons forcement pas accès au robot, nous avons décidé de faire une simulation simple sur le logiciel Unity.\\
 
-Unity est un outils qui permet dans sa fonction principale de créer des applications 3D en temps réel tel que des jeux vidéo. Il permet grâce à une interface de placer des objets dans une scènes, permet de placer une ou plusieurs caméras. Le logiciel inclus aussi une gestion avancées des interactions physique entre les objets de la scène, le tous très paramétrables grâce aux scripts. Il existe deux langages de scripts implémentés dans le logiciel, le c\# et le javascript. Durant ce projet nous avons fait le choix d'utiliser le c\#.
-Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme windows. Mais qui dans ce cas présent, est utilisé en temps que langage de scripts grâce à son implémentation libre Mono. Le c\# à une syntaxe proche du java. Mais est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de blocs "unsafe"\footnote{Gestion des pointeurs en c\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}} mais son utilisation sous Unity n'est pas convaincante .
+Unity est un outils qui permet dans sa fonction principale de créer des applications 3D en temps réel tel que des jeux vidéo. Il permet grâce à une interface de placer des objets dans une scène, permet de placer une ou plusieurs caméras. Le logiciel inclus aussi une gestion avancées des interactions physiques entre les objets de la scène, le tout très paramétrable grâce aux scripts. Il existe deux langages de scripts implémentés dans le logiciel, le c\# et le javascript. Durant ce projet nous avons fait le choix d'utiliser le c\#.
+Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme windows. Mais qui dans ce cas présent, est utilisé en temps que langage de scripts grâce à son implémentation libre Mono. Le c\# à une syntaxe proche du java. Mais il est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de blocs "unsafe"\footnote{Gestion des pointeurs en c\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}} mais son utilisation sous Unity n'est pas convaincante .
 
 	\begin{center}
 		\includegraphics[scale=0.5]{Screenshot_skybox.png}
@@ -209,8 +209,8 @@ Le logiciel est performant pour créer des petites scènes 3d mais il est très 
 
 \section{Création de la bibliothèque}
 Pour faire la transition entre les algorithmes, l'implémentation du robot et la simulation nous avons décidé de faire une bibliothèque externe contenant tous le code.
-Cette bibliothèque a pour tâche d'être utilisée comme simple fichier objet dans le robot, relié grâce à l'édition des liens. Mais elle a aussi pour tâche d'être compilée sous forme d'une bibliothèque partagée (.so) et chargée dans Unity. Les scripts c\# d'Unity se charge juste d'appeler les fonctions c++.\\
-Dans cette bibliothèque, nous avons décidé d'implémenter uniquement la \textit{stereoSGBM}, en effet après \textit{stereoBM} est sensiblement plus lent et le résultat est aussi moins bon.\\
+Cette bibliothèque a pour tâche d'être utilisée comme simple fichier objet dans le robot, reliée grâce à l'édition des liens. Mais elle a aussi pour tâche d'être compilée sous forme d'une bibliothèque partagée (.so) et chargée dans Unity. Les scripts c\# d'Unity se chargent juste d'appeler les fonctions c++.\\
+Dans cette bibliothèque, nous avons décidé d'implémenter uniquement la \textit{stereoSGBM}, en effet \textit{stereoBM} est sensiblement plus lent et produit un résultat légèrement moins bon.
 
 Voici ci-dessous une représentation des interactions entre Unity et la bibliothèque.
 \begin{center}
@@ -239,7 +239,7 @@ Voici ci-dessous une représentation des interactions entre Unity et la biblioth
 	\node at (8.2, -0.5) {GetNativeTexturePtr()$^1$;};
 		
 	\draw[<-, dashed, draw opacity=0.5] (camera) to (-3.5, 0);
-	\draw[dashed, draw opacity=0.5] (depth) to (-3.5, -6);
+	\draw[ 	, draw opacity=0.5] (depth) to (-3.5, -6);
 	\draw[black, dashed] (-3.5, -6) to[in=180, out=180] (-3.5, 0);
 
 	\node[fill=white]	(update)	at (-5.2,-3) {update()};
@@ -253,12 +253,28 @@ Figure 3.3.1 Interaction entre Unity et la bibliothèque.\\
 \end{small}
 
 \subsection{Conversion vers une structure Opencv}
-La méthode GetNativeTexturePtr() renvoie un pointeur vers une image au format OpenGL (sous linux, l'image sera au format directX) dans la mémoire, c'est à dire un id OpenGL. Pour convertir cette donnée vers une matrice OpenCV, il faut dans un premier temps lié cette donnée à une texture OpenGL grâce à la fonction include dans "GL/gl.h" glBindTexture(). Ensuite il suffit de copier les données dans un tableau au au format OpenCV, c'est à dire un taille égale à la taille de la texture et une profondeur de taille 1 octet * le nombre de canaux.\\
-Le standard OpenGL est de représenter l'image codée sous forme RGB et dans le sens informatique c'est à dire, le (0,0) est en haut à gauche avec les Y vers la droite et les X vers le bas. Alors que le format OpenCV est de stocker l'image sous format BGR dans le sens mathématique, c'est à dire le (0,0) en bas à droite avec les Y vers la droite et les X vers le haut.
+La méthode GetNativeTexturePtr() renvoie un pointeur vers une image au format OpenGL (sous linux, l'image sera au format directX) dans la mémoire, c'est à dire un id OpenGL. Pour convertir cette donnée vers une matrice OpenCV, il faut dans un premier temps lier cette donnée à une texture OpenGL grâce à la fonction include dans "GL/gl.h" glBindTexture(). Ensuite il suffit de copier les données dans un tableau au au format OpenCV, c'est à dire un taille égale à la taille de la texture et une profondeur de taille 1 octet * le nombre de canaux.\\
+Comme représenté sur la figure 3.3.2, le standard OpenGL est de représenter l'image codée sous forme RGB et dans le sens informatique c'est à dire, le début de l'image se situe est en haut à gauche avec les Y vers la droite et les X vers le bas. Alors que le format OpenCV est de stocker l'image sous format BGR dans le sens mathématique, c'est à dire le début de l'image se situe en bas à droite avec les Y vers la droite et les X vers le haut.\\
+
+\begin{center}
+\begin{tikzpicture}
+	\node (OpenGL) at (-1.5, 0.2) {OpenGL};
+	\draw[fill=red] (0,0) rectangle (0.5,0.5);
+	\draw[fill=green] (0.5,0) rectangle (1,0.5);
+	\draw[fill=blue] (1,0) rectangle (1.5,0.5);
+
+	\node (OpenCV) at (-1.5, -0.8) {OpenCV};
+	\draw[fill=blue] (0,-1) rectangle (0.5,-0.5);
+	\draw[fill=green] (0.5,-1) rectangle (1,-0.5);
+	\draw[fill=red] (1,-1) rectangle (1.5,-0.5);
+\end{tikzpicture}
+
+Figure 3.3.2 Représentation d'un pixel OpenGL et OpenCV
+\end{center}
 
 \paragraph{Problèmes rencontrés}
-Des problèmes ont été rencontrés lors de l'utilisation de la bibliothèque externe sous Unity. Ce dernier plante de temps en temps de manière obscure. (Probablement à cause de la version très précoce de Unity sous linux). Cependant malgré les nous avons décidés de continue l'intégration dans Unity tout en ayant une solution de replie.\\
-Sur certaine station de travail (au Crémi), Unity ne se lancait même pas, ce qui à fortement handicapé les membres consterné (Rémy et Jérémi) et ralenti le projet.
+Des problèmes ont été rencontrés lors de l'utilisation de la bibliothèque externe sous Unity. Ce dernier s'arrête brusquement de temps en temps de manière obscure. (Probablement à cause de la version très précoce de Unity sous linux). Cependant malgré les problèmes, nous avons décidé de continuer l'intégration dans Unity tout en ayant une solution de replie.\\
+Sur certaine stations de travail (au Crémi), Unity ne se lancait même pas, ce qui à fortement handicapé les membres concerné (Rémy et Jérémi) et ralenti le projet. De plus, Unity ne permet pas d'utiliser un système métrique, ce qui veut dire que nous ne pouvons pas tester la carte de profondeur depuis le logiciel car les distances entre les caméras ne sont pas compatible avec les méthodes OpenCV.
 
 \paragraph{Solutions envisagés}
 Nous avons décidé de créer en parallèle de l'intégration à Unity un automate écrit en c++ permettant de tester les algorithmes. Un script c\# se charge de prendre une capture d'écran des deux caméras et de les écrire sur le disque. L'automate quant à lui prend en entrée les différentes images et utilise les algorithmes pour produire la carte de disparité et la carte de profondeurs.\\
@@ -281,8 +297,8 @@ Usage :
 
 \section{Caractéristique}
 Le robot possède deux caméras Blackfly\footnote{\url{https://eu.ptgrey.com/blackfly-12-mp-color-gige-poe-aptina-ar0134-16-eu}} de 1.2 méga-pixel de la marque FLIR$^{\text{®}}$. La taille du capteur est de 6 mm.\\
-La lentille est une Lensagon\footnote{\url{https://www.lensation.de/product/BM3516NDC/}} et possède une focal de 3.5 mm. 
-\\Enfin le robot possède une unité de calculs intégré, c'est un micro ordinateur équipé d'un APU AMD$^{\text{®}}$ A10 Micro-6700T Quad core\footnote{\url{http://products.amd.com/en-us/search/APU/AMD-A-Series-Processors/AMD-A10-Series-APU-for-Laptops/A10-Micro-6700T-with-Radeon\%E2\%84\%A2-R6-Graphics/18}}  cadencé à 1.2 GHz et équipé du wifi.
+La lentille est une Lensagon\footnote{\url{https://www.lensation.de/product/BM3516NDC/}} et possède une focale de 3.5 mm. 
+\\Enfin le robot possède une unité de calculs intégrés, c'est un micro ordinateur équipé d'un APU AMD$^{\text{®}}$ A10 Micro-6700T Quad core\footnote{\url{http://products.amd.com/en-us/search/APU/AMD-A-Series-Processors/AMD-A10-Series-APU-for-Laptops/A10-Micro-6700T-with-Radeon\%E2\%84\%A2-R6-Graphics/18}}  cadencé à 1.2 GHz et équipé du wifi haut débit.
 
 \section{Résultats}
 Pour la création de la carte de disparité, nous avons utilisé la fonction \textit{stereosgbm} d'OpenCV. Cette dernière prend de nombreux paramètres : 
@@ -327,12 +343,21 @@ Pour tester notre implémentation, nous avons pris des photos issue des caméras
 
 \section{Faire bouger le robot}
 Il faut à présent utiliser la carte de profondeur pour permettre au robot de prendre un décision. Pour cela, nous avons décider de récupérer une ligne horizontale de pixels en son centre, pour ensuite faire une moyenne et comparer avec la même moyenne prise d'une carte de profondeur de référence capturer au démarrage du robot. Si la moyenne courante est plus petite que la moyenne de référence, cela veut dire que le le robot est plus proche de la personne et donc il doit ralentir.\\
-Il suffit de faire le même raisonnement lorsque la personne est plus loin.
+Il suffit de faire le même raisonnement lorsque la personne s'éloigne.\\
 
-\paragraph{Critique}
-Cette méthode possède comme défaut d'être très imprécise. Si une personne passe devant les objectifs, le robot aura des difficultés à garder la trajectoire. De même, elle ne permet pas au robot de tourner et donc de suivre une personne qui passerait hors champs.
+Dans la carte de profondeur (figure 4.1.3), chaque pixel représente une distance. Plus la distance est importante plus la valeur du pixel est élevé et donc plus il sera blanc. Dans le cas contraire, plus la distance est proche, plus la valeur du pixel est basse et donc plus le pixel apparaitra sombre.\\
+On peut par exemple voir que dans la figure 4.1.3, les jambes sont plus proches que le mur en arrière plan ; elles sont donc plus sombres.\\
+
+\paragraph{Problèmes rencontrés}
+Cette méthode possède comme défaut d'être très imprécise. Si une personne passe devant les objectifs, le robot aura des difficultés à garder sa trajectoire. De même, elle ne lui permet pas de tourner et donc de suivre une personne qui passerait hors champs.
+
+\paragraph{Solutions envisagé}
+Pour suivre les trajectoires, le même raisonnement a été proposé mais de manière vertical. C'est à dire que nous découpons la carte de profondeur en trois bandes égales puis nous faisons leur moyenne. Si la bande de gauche à une moyenne plus faible que celle du centre, cela veut dire que la personne à suivre c'est déplacée vers la gauche et donc il suffit de faire tourner le robot jusqu'à ce que la bande du milieu récupère une moyenne plus basse. On applique le même raisonnement sur la bande de droite.\\
+\\
 
 \chapter{Conclusion}
 
+Pour conclure, les objectifs fixés par le cahier des charges ont presque tous été atteins. Durant la majorité du temps, nous avons travaillé sur la simulation et nous avons malheureusement pas eu assez de temps pour pouvoir tester l'implémentation sur le robot. De plus Unity ne prend pas en charge les unités de distances donc la simulation ne  nous permet pas de dire si le robot fonctionnera correctement.\\
+Il reste cependant encore des problèmes a résoudre. Premièrement, la difficulté de définir des paramètres pour le calcul de la carte de disparité font que le programme est sensible aux fluctuations de luminosité. Une solution apportée serait de trouver dynamiquement des paramètres. Enfin, avec l'implémentation actuel et le fait que faute de temps le programme n'a pas été testé dans des conditions réel, il est difficile à dire comment il se comportera dans ses conditions. Et donc nous ne pouvons pas certifier que le robot suivra la bonne cible si une autre passe devant les objectifs. Dans le futur certaines perspectives d'amélioration pourraient donc être faite.
 
 \end{document}
