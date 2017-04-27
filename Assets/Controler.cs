@@ -47,7 +47,7 @@ public class Controler : MonoBehaviour {
             Vector3 mv = gameObject.transform.forward * getVx() - gameObject.transform.right * getVy();
             mv = mv.normalized*maxSpeed - v; //J'enlève la vitesse actuelle pour ne pas accèlerer à l'infinie
             rb.AddForce(mv, ForceMode.Impulse);
-            print("Mvmnt: "+mv);
+            //print("Mvmnt: "+mv);
 
             Vector3 ro = - gameObject.transform.up * (getOmega() - rb.angularVelocity.y);
             ro = ro*maxSpeed/2; //Je normalise pas le vecteur puisqu'il a qu'une composante, la valeur de celle ci serait 1, donc un produit en croix c'est pareil
