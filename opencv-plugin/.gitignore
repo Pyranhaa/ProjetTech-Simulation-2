@@ -6,3 +6,8 @@ controler
 *.o
 
 *.tar.gz
+
+test
+tmp
+data
+input

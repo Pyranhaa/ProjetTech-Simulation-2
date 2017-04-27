@@ -5,33 +5,19 @@ using System.Runtime.InteropServices;
 
 public class export_screen : MonoBehaviour {
 
-	protected static int width = 700;
-	protected static int height = 700;
-	protected static int depth = 24; //Je sais pas ce que c'est
+	protected static int width = 640;
+	protected static int height = 480;
+	protected static int depth = 1; //Je sais pas ce que c'est
 
 	protected Camera cg, cd;
-
-	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern void display_texture (int tex_id, int width, int height);
-	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern void load_left(int tex_id, int width, int height);
-	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern void load_right(int tex_id, int width, int height);
-	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern int display_disparity();
-	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern int display_cams();
-	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern void dump_left(char[] name);
-	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern void dump_right(char[] name);
-	[DllImport ("opencv-plugin/libprocessor.so")]
-	protected static extern void test_undistort();
+	
+	[DllImport ("unity_controler")]
+    private extern static void print_mats(int left, int right, int w, int h);
 
 	// Use this for initialization
 	void Start () {
-		cg = GameObject.Find("/Robot/Camera_gauche").GetComponent(typeof(Camera)) as Camera;
- 		cd = GameObject.Find("/Robot/Camera_droite").GetComponent(typeof(Camera)) as Camera;
+		cg = GameObject.Find("/Robot/LeftCamera_Container/Camera_gauche").GetComponent(typeof(Camera)) as Camera;
+ 		cd = GameObject.Find("/Robot/RightCamera_Container/Camera_droite").GetComponent(typeof(Camera)) as Camera;
 
 		print ("Attaching render textures to cameras");
 		RenderTexture gauche = new RenderTexture (width, height, depth);
@@ -45,26 +31,10 @@ public class export_screen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//print("Spam");
 		if (Input.GetKeyDown (KeyCode.F12)) {
-			print("Display");
-			//*
-			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
-			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
-			print(display_cams());
-		}
-		if (Input.GetKeyDown (KeyCode.F11)) {
-			print("Disparity");
-			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
-			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
-			print(display_disparity());
-		}
-		if (Input.GetKeyDown (KeyCode.N)) {
-			/* //TODO implémenter undistort, créer une fonction pour charger les deux images
-			load_left( (int) cg.targetTexture.GetNativeTexturePtr (), width, height);
-			load_right( (int) cd.targetTexture.GetNativeTexturePtr (), width, height);
-			test_undistort();
-			*/
+			print("Ping");
+			print_mats((int) cg.targetTexture.GetNativeTexturePtr(), (int) cd.targetTexture.GetNativeTexturePtr(), width, height);
+			//print((int) cg.targetTexture.GetNativeTexturePtr() + " " + (int) cd.targetTexture.GetNativeTexturePtr());
 		}
 	}
 }
