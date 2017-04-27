@@ -1,8 +1,5 @@
-CC=g++
-
-CXXFLAGS=-fpermissive -std=c++11 -I.. -Iinclude -g
-LDFLAGS=-L/usr/local/opencv-2.4.13/lib -L.. -L. -Wl,-rpath=.
-LDLIBS=-lopencv_core -lopencv_highgui -lprocessor
+CXXFLAGS=-fpermissive -std=c++11 -I.. -Iinclude
+LDLIBS=-lopencv_core -lopencv_highgui -lopencv_calib3d -lopencv_imgproc
 
 PARSER=src/cmdline.cpp
 SRC=$(filter-out $(PARSER), $(wildcard src/*.cpp)) $(PARSER) #Si le parser est déjà généré, on l'ignore et on réajoute le fichier derrière
@@ -14,7 +11,7 @@ TARGET=automate
 
 all: $(TARGET)
 
-$(TARGET): $(OBJ)
+$(TARGET): $(OBJ) ../processor.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) -o $@ $^
 
 $(OBJ): %.o: src/%.cpp | $(PARSER)
