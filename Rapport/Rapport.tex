@@ -2,6 +2,7 @@
 \usepackage[frenchb]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[export]{adjustbox}
+\usepackage[margin=2cm]{geometry}
 \usepackage{verbatim}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -87,8 +88,8 @@ Le cahier des charges s'oriente uniquement sur l'objectif du projet, c'est à di
 	%Robuste aux chagement de luminosité
 	%changement de personne
 	%chagement d'environnement
-	La carte de disparité est fortement liée aux images d'entrées, de ce fait, les changements de luminosité et d'environnement peuvent poser des problèmes à cause notamment de l'utilisation d'une référence, nécessaire pour reconnaitre la personne.\\
-	Le programme doit donc être robuste à ces différents changement.\\
+	La carte de disparité est fortement liée aux images d'entrée, de ce fait, les changements de luminosité et d'environnement peuvent poser des problèmes à cause notamment de l'utilisation d'une référence, nécessaire pour reconnaître la personne.\\
+	Le programme doit donc être robuste à ces différents changements.\\
 	Le robot doit être aussi capable de suivre la bonne personne même si une autre personne rentre dans le cadre.
 	
 \chapter{Théorie et définitions}
@@ -108,7 +109,7 @@ Comme montré dans la figure 2.1.1, le projet se structure autour d'une notion c
 	\draw[->]	(capture) to (disp);
 	\draw[->]	(disp) to (depth);
 \end{tikzpicture}\\
-Figure 2.1.1 Fils rouge du projet.
+Figure 2.1.1 Fil rouge du projet.
 \end{center}
 
 \paragraph{Carte de disparité}
@@ -162,7 +163,7 @@ L'utilisation de la \textit{reprojectImageTo3D} implique de devoir au préalable
 \section{Logiciel Qt}
 %Partie Qt
 Le premier semestre s'est orienté autour du développement d'un petit programme de traitement d'image. Le programme affiche une fenêtre ainsi que plusieurs menus, l'un d'eux permet d'ouvrir un fichier dans l'un des formats supportés par OpenCV.
-Le fichier doit nécessairement contenir les deux images juxtaposées pour que notre programme fonctionne. On peut ensuite couper l'image en deux, la flouter grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différents algorithmes comme celui de Sobel ou encore celui de Canny tous deux permettent de faire de la détection de contours, présenté sur les figures ci contre.
+Le fichier doit nécessairement contenir les deux images juxtaposées pour que notre programme fonctionne. On peut ensuite couper l'image en deux, la flouter grâce à la méthode "blur" d'OpenCV. On peut aussi appliquer à l'image différents algorithmes comme celui de Sobel ou encore celui de Canny tous deux permettent de faire de la détection de contours, présentés sur les figures ci contre.
 \begin{center}
 \begin{tabular}{cc}
   \vspace{0pt} \includegraphics[width=0.49\textwidth]{sobel.jpg} &
@@ -185,22 +186,22 @@ Toutes les méthodes en rapport avec le traitement d'image ont été implément�
 Le logiciel permet aussi de faire de la reconnaissance de formes grâce aux algorithmes de \textit{flann} et de \textit{surf}. Cependant ce dernier n'est pas open source donc la méthode \textit{flann} est implémenté entre \textit{\#define} et n'est pas forcément proposé à l'utilisateur final.\\
 Enfin, le logiciel permet de créer une carte de disparité grâce à l'algorithme \textit{stereosgbm} ou à l'algorithme \textit{stereobm}.\\
 
-Cette partie nous à permis de prendre en main le C++ ainsi que la bibliothèque OpenCV. 
+Cette partie nous a permis de prendre en main le C++ ainsi que la bibliothèque OpenCV.\\
 
-Grâce à ce petit outil, nous avons tester les deux algorithmes permettant de générer des cartes de disparité. Nous avons ainsi retenu \textit{stereosgbm} qui est moins performant mais plus simple à utiliser et crée moins de bruit. Cela nous à permis de choisir des paramètres de \textit{stereosgbm} jugés bons.\\
+Grâce à ce petit outil, nous avons testé les deux algorithmes permettant de générer des cartes de disparité. Nous avons ainsi retenu \textit{stereosgbm} qui est moins performant mais plus simple à utiliser et crée moins de bruit. Cela nous a permis de choisir des paramètres de \textit{stereosgbm} jugés bons.\\
 
-Le logiciel Qt prend aussi en charge diverse fonctions propre à Qt et non d'OpenCV tel que le redimensionnement des images, grâce à la méthode cropImage() ou encore la possibilité de zoomer dans l'image.
+Le logiciel Qt prend aussi en charge diverses fonctions propres à Qt et non d'OpenCV tel que le redimensionnement des images, grâce à la méthode cropImage() ou encore la possibilité de zoomer dans l'image.
 
 \section{Simulation et test}
 %partie Unity
-Durant le second semestre, l'objectif était d'implémenter les algorithmes précédent pour les utiliser sur le robot. Le but est de créer une carte de profondeur grâce aux images du robot pour lui permettre de se déplacer en fonction de la personne.\\
-Comme nous n'avons forcément pas accès au robot, nous avons décidé de faire une simulation simple sur le logiciel Unity.\\
+Durant le second semestre, l'objectif était d'implémenter les algorithmes précédents pour les utiliser sur le robot. Le but est de créer une carte de profondeur grâce aux images du robot pour lui permettre de se déplacer en fonction de la position de la personne.\\
+Comme nous n'avons pas forcément accès au robot, nous avons décidé de faire une simulation simple sur le logiciel Unity.\\
 
-Unity est un outil qui permet dans sa fonction principale de créer des applications 3D en temps réel tel que des jeux vidéo. Il permet grâce à une interface de placer des objets dans une scène et une ou plusieurs caméras. Le logiciel inclus aussi une gestion avancées des interactions physiques entre les objets de la scène, le tout très paramétrable grâce aux scripts. Il existe deux langages de scripts implémentés dans le logiciel, le C\# et le Javascript. Durant ce projet nous avons fait le choix d'utiliser le C\# car l'API est plus complète que celle du JS.
-Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme Windows, mais qui dans ce cas présent est utilisé en temps que langage de scripts grâce à son implémentation libre Mono. Le C\# a une syntaxe proche du Java. Mais il est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de blocs "unsafe"\footnote{Gestion des pointeurs en C\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}} mais son utilisation sous Unity n'est pas convaincante .
+Unity est un outil qui permet dans sa fonction principale de créer des applications 3D telles que des jeux vidéo. Il permet grâce à une interface de placer des objets dans une scène et une ou plusieurs caméras. Le logiciel inclut aussi une gestion avancée des interactions physiques entre les objets de la scène, le tout très paramétrable grâce aux scripts. Il existe deux langages de script implémentés dans le logiciel, le C\# et le Javascript. Durant ce projet nous avons fait le choix d'utiliser le C\# car l'API est plus complète que celle du JS.
+Ce langage de script est à la base un langage de programmation de haut niveau développé par Microsoft dans les années 2000 exclusivement pour la plateforme Windows, mais qui dans ce cas présent est utilisé en temps que langage de script grâce à son implémentation libre Mono. Le C\# a une syntaxe proche du Java. Mais il est quand même plus souple car il prend en charge les systèmes de "namespace" ainsi que la gestion de la surcharge d'opérateurs. Le langage permet même d'utiliser des pointeurs sous forme de blocs "unsafe"\footnote{Gestion des pointeurs en C\# : \url{https://msdn.microsoft.com/en-us/library/y31yhkeb.aspx}} mais son utilisation sous Unity n'est pas convaincante.
 
 	\begin{center}
-		\includegraphics[scale=0.5]{Screenshot_skybox.png}
+		\includegraphics[scale=0.5]{Screenshot_skybox.png}\\
 		Figure 3.2.1 Image issue de Unity\\
 	\end{center}
  	
@@ -253,8 +254,8 @@ Figure 3.3.1 Interaction entre Unity et la bibliothèque.\\
 \end{small}
 
 \subsection{Conversion vers une structure OpenCV}
-La méthode GetNativeTexturePtr() renvoie un pointeur vers une image au format OpenGL (sous Windows, l'image sera au format directX) dans la mémoire, c'est à dire un id OpenGL. Pour convertir cette donnée vers une matrice OpenCV, il faut dans un premier temps lier cette donnée à une texture OpenGL grâce à la fonction include dans "GL/gl.h" glBindTexture(). Ensuite il suffit de copier les données dans un tableau au au format OpenCV, c'est à dire un taille égale à la taille de la texture et une profondeur de taille 1 octet * le nombre de canaux.\\
-Comme représenté sur la figure 3.3.2, le standard OpenGL est de représenter l'image codée sous forme RGB et dans le sens informatique c'est à dire, le début de l'image se situe est en haut à gauche avec les Y vers la droite et les X vers le bas. Alors que le format OpenCV est de stocker l'image sous format BGR dans le sens mathématique, c'est à dire le début de l'image se situe en bas à droite avec les Y vers la droite et les X vers le haut.\\
+La méthode GetNativeTexturePtr() renvoie un pointeur vers une image au format OpenGL (sous Windows, l'image sera au format directX) dans la mémoire, c'est à dire un id OpenGL. Pour convertir cette donnée vers une matrice OpenCV, il faut dans un premier temps lier cette donnée à une texture OpenGL grâce à la fonction incluse depuis "GL/gl.h" glBindTexture(). Ensuite il suffit de copier les données dans un tableau au format OpenCV, c'est à dire une taille égale à la taille de la texture et une profondeur de taille égale à 1 octet * le nombre de canaux.\\
+Comme représenté sur la figure 3.3.2, le standard OpenGL est de représenter l'image codée sous forme RGB et dans le sens informatique c'est à dire, le début de l'image se situe en haut à gauche avec les Y vers la droite et les X vers le bas. Alors que le format OpenCV est de stocker l'image sous format BGR dans le sens mathématique, c'est à dire le début de l'image se situe en bas à droite avec les Y vers la droite et les X vers le haut.\\
 
 \begin{center}
 \begin{tikzpicture}
@@ -273,10 +274,10 @@ Figure 3.3.2 Représentation d'un pixel OpenGL et OpenCV
 \end{center}
 
 \paragraph{Problèmes rencontrés}
-Des problèmes ont été rencontrés lors de l'utilisation de la bibliothèque externe sous Unity. En effet, s'il y a un problème à l'exécution d'une des méthodes de la bibliothèque, l'éditeur s'arrête brusquement sans message d'erreur, rendant le débogage difficile. Nous avons aussi rencontré des problèmes avec l'éditeur au CREMI, en effet pour Rémy et Jérémi l'édtiteur ne se lance même plus. Nous avons aussi des problèmes avec l'exportation des textures des caméras. Il peut arriver que les images récupérées soient déformées et donc unitilisable par nos algorithmes.
+Des problèmes ont été rencontrés lors de l'utilisation de la bibliothèque externe sous Unity. En effet, s'il y a un problème à l'exécution d'une des méthodes de la bibliothèque, l'éditeur s'arrête brusquement sans message d'erreur, rendant le débogage difficile. Nous avons aussi rencontré des problèmes avec l'éditeur au CREMI, en effet pour Rémy et Jérémi l'éditeur ne se lance même plus. Nous avons aussi des problèmes avec l'exportation des textures des caméras. Il peut arriver que les images récupérées soient déformées et donc inutilisables par nos algorithmes.
 
 \paragraph{Solutions envisagés}
-Nous avons décidé de créer en parallèle de l'intégration à Unity un automate écrit en C++ permettant de tester les algorithmes. Un script C\# se charge de prendre une capture d'écran des deux caméras et de les écrire sur le disque. L'automate quant à lui prend en entrée les différentes images et utilise les algorithmes pour produire la carte de disparité et la carte de profondeurs.\\
+Nous avons décidé de créer en parallèle de l'intégration à Unity un automate écrit en C++ permettant de tester les algorithmes. Un script C\# se charge de prendre une capture d'écran des deux caméras et de les écrire sur le disque. L'automate quant à lui prend en entrée les différentes images et utilise les algorithmes pour produire la carte de disparité et la carte de profondeur.\\
 L'automate est un petit programme écrit en C++ en utilisant l'outil GNU \textit{gengetopt} pour gérer les arguments de commandes. Par exemple :\\
 
 \begin{lstlisting}{Language=Bash}
@@ -291,7 +292,7 @@ Usage :
 \item[] -i input "Le dossier contenant les images à traiter"
 \item[] -o output "Le dossier qui contiendra les images traitées"
 \item[] -p préfixe "Préfixe à appliquer aux noms des fichiers à sauvegarder"
-\item[] -a action "L'action a effectuer sur chaque fichier : disp, sgbm, dist"
+\item[] -a action "L'action à effectuer sur chaque fichier : disp, sgbm, dist"
 \end{enumerate}
 
 \chapter{Le robot}
@@ -299,29 +300,29 @@ Usage :
 \section{Caractéristique}
 Le robot possède deux caméras Blackfly\footnote{\url{https://eu.ptgrey.com/blackfly-12-mp-color-gige-poe-aptina-ar0134-16-eu}} de 1.2 méga-pixel de la marque FLIR$^{\text{®}}$. La taille du capteur est de 6 mm.\\
 La lentille est une Lensagon\footnote{\url{https://www.lensation.de/product/BM3516NDC/}} et possède une focale de 3.5 mm. 
-\\Enfin le robot possède une unité de calculs intégrés, c'est un micro ordinateur équipé d'un APU AMD$^{\text{®}}$ A10 Micro-6700T Quad core\footnote{\url{http://products.amd.com/en-us/search/APU/AMD-A-Series-Processors/AMD-A10-Series-APU-for-Laptops/A10-Micro-6700T-with-Radeon\%E2\%84\%A2-R6-Graphics/18}}  cadencé à 1.2 GHz et équipé du wifi haut débit.
+\\Enfin le robot possède une unité de calculs intégrée, c'est un micro ordinateur équipé d'un APU AMD$^{\text{®}}$ A10 Micro-6700T Quad core\footnote{\url{http://products.amd.com/en-us/search/APU/AMD-A-Series-Processors/AMD-A10-Series-APU-for-Laptops/A10-Micro-6700T-with-Radeon\%E2\%84\%A2-R6-Graphics/18}}  cadencé à 1.2 GHz et équipé du wifi haut débit.
 
 \section{Résultats}
 Pour la création de la carte de disparité, nous avons utilisé la fonction \textit{stereosgbm} d'OpenCV. Cette dernière prend de nombreux paramètres : 
 \begin{enumerate}
-\item[-] minDisparity : valeur minimal possible de la carte de disparité.\\
-Paramètre choisit : 0
+\item[-] minDisparity : valeur minimale possible de la carte de disparité.\\
+Paramètre choisi : 0
 \item[-] numDisparities : soustraction entre la valeur maximum et la valeur minimum de la carte de disparité, cette valeur doit être multiple de 16.\\
-Paramètre choisit : 64
-\item[-] SADWindowSize : taille des blocs de correspondance, doit être un nombre impaire situé entre 3 et 11.\\
-Paramètre choisit : 21
+Paramètre choisi : 64
+\item[-] SADWindowSize : taille des blocs de correspondance, doit être un nombre impaire.\\
+Paramètre choisi : 21
 \item[-] P1 et P2 : contrôle le lissage de la carte de disparité.\\
 Paramètres choisis : 8 * SADWindowSize * SADWindowSize et 32 * SADWindowSize * SADWindowSize
-\item[-] disp12MaxDiff : différence maximal pendant la vérification.\\
-Paramètre choisit : -1
+\item[-] disp12MaxDiff : différence maximale pendant la vérification.\\
+Paramètre choisi : -1
 \item[-] preFilterCap : valeur de troncature pour les pixels d'image pré-filtrés.\\
-Paramètre choisit : 31
+Paramètre choisi : 31
 \item[-] uniquenessRatio : marge en pourcentage.\\
-Paramètre choisit : 0
+Paramètre choisi : 0
 \item[-] speckleWindowSize : Taille maximum de la région du lissage, permet d'éviter le bruit.\\
-Paramètre choisit : 0
-\item[-] speckleRange : variation maximal entre chaque composante connecté.
-Paramètre choisit : 2
+Paramètre choisi : 0
+\item[-] speckleRange : variation maximale entre chaque composante connecté.
+Paramètre choisi : 2
 \end{enumerate}
 
 Nous avons créé une structure prenant en compte tous les paramètres présentés plus haut et nous la passons en argument de la méthode \textit{disparityMap} implémentée dans la bibliothèque.\\
@@ -345,9 +346,9 @@ Pour tester notre implémentation, nous avons pris des photos issues des caméra
 \section{Faire bouger le robot}
 Il faut à présent utiliser la carte de profondeur pour permettre au robot de prendre une décision. Pour cela, nous avons décider de découper la carte de disparité en trois parties verticalement. Nous calculons ensuite la moyenne de chaque partie. Nous choisissons ensuite la moyenne la plus petite, et le robot se dirige dans cette direction. Si il faut aller à gauche ou à droite, le robot s'arrête et tourne dans la direction voulue. Si il faut aller tout droit le robot arrête de tourner et avance.\\
 
-Dans la carte de profondeur (figure 4.1.3), chaque pixel représente une distance. Plus la distance est importante plus la valeur du pixel est élevé et donc plus il sera blanc. Dans le cas contraire, plus la distance est proche, plus la valeur du pixel est basse et donc plus le pixel apparaitra sombre.\\
+Dans la carte de profondeur (figure 4.1.3), chaque pixel représente une distance. Plus la distance est importante plus la valeur du pixel est élevée et donc plus il sera blanc. Dans le cas contraire, plus la distance est proche, plus la valeur du pixel est basse et donc plus le pixel apparaitra sombre.\\
 On peut par exemple voir que dans la figure 4.1.3, les jambes sont plus proches que le mur en arrière plan ; elles sont donc plus sombres.\\
-Il faut noter que lorsqu'on affiche une carte de profondeur, le gradient de gris est entre les valeurs 0 et 1 inclus. Cependant, dans nos cartes de profondeurs les valeurs peuvent aller jusqu'à 20, distance que nous considérons infinie.
+Il faut noter que lorsqu'on affiche une carte de profondeur, le gradient de gris est entre les valeurs 0 et 1 inclus. Cependant, dans nos cartes de profondeur les valeurs peuvent aller jusqu'à 20, distance que nous considérons infinie.
 
 \paragraph{Problèmes rencontrés}
 Cette méthode possède comme défaut d'être très imprécise. Si une personne passe devant les objectifs, le robot aura des difficultés à garder sa trajectoire. Le robot ne s'oriente pas tout à fait correctement non plus.
@@ -361,7 +362,7 @@ Pour suivre les trajectoires, le même raisonnement a été proposé mais de man
 
 \chapter{Conclusion}
 
-Pour conclure, les objectifs fixés par le cahier des charges ont presque tous été atteins. Durant la majorité du temps, nous avons travaillé sur la simulation et nous avons malheureusement pas eu assez de temps pour pouvoir tester l'implémentation sur le robot. De plus Unity ne prend pas en charge les unités de distances donc la simulation ne  nous permet pas de dire si le robot fonctionnera correctement.\\
-Il reste cependant encore des problèmes a résoudre. Premièrement, la difficulté de définir des paramètres pour le calcul de la carte de disparité font que le programme est sensible aux fluctuations de luminosité. Une solution apportée serait de trouver dynamiquement des paramètres. Enfin, avec l'implémentation actuel et le fait que faute de temps le programme n'a pas été testé dans des conditions réel, il est difficile à dire comment il se comportera dans ses conditions. Et donc nous ne pouvons pas certifier que le robot suivra la bonne cible si une autre passe devant les objectifs. Dans le futur certaines perspectives d'amélioration pourraient donc être faite.
+Pour conclure, les objectifs fixés par le cahier des charges ont presque tous été atteinds. Durant la majorité du temps, nous avons travaillé sur la simulation mais nous n'avons malheureusement pas eu assez de temps pour pouvoir tester l'implémentation sur le robot. De plus Unity ne prend pas en charge les unités de distances donc la simulation ne  nous permet pas de dire si le robot fonctionnera correctement.\\
+Il reste cependant encore des problèmes à résoudre. Premièrement, la difficulté de définir des paramètres pour le calcul de la carte de disparité font que le programme est sensible aux fluctuations de luminosité. Une solution apportée serait de trouver dynamiquement des paramètres. Enfin, avec l'implémentation actuelle et le fait que faute de temps le programme n'a pas été testé dans des conditions réelles, il est difficile de dire comment il se comportera dans ces conditions. Et donc nous ne pouvons pas certifier que le robot suivra la bonne cible si une autre passe devant les objectifs. Dans le futur certaines perspectives d'amélioration pourraient donc être faite.
 
 \end{document}
