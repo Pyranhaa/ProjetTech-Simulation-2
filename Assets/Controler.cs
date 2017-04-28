@@ -49,8 +49,8 @@ public class Controler : MonoBehaviour {
             rb.AddForce(mv, ForceMode.Impulse);
             print("Mvmnt: "+mv);
 
-            Vector3 ro = gameObject.transform.up * (getOmega() - rb.angularVelocity.y);
-			ro = ro*maxSpeed/2 - rb.angularVelocity; //Je normalise pas le vecteur puisqu'il a qu'une composante, la valeur de celle ci serait 1, donc un produit en croix c'est pareil
+            Vector3 ro = - gameObject.transform.up * (getOmega() + rb.angularVelocity.y);
+			ro = ro*maxSpeed/2; //Je normalise pas le vecteur puisqu'il a qu'une composante, la valeur de celle ci serait 1, donc un produit en croix c'est pareil
             rb.AddTorque(ro, ForceMode.Impulse);
             //print("Rot: "+ro);        
         }

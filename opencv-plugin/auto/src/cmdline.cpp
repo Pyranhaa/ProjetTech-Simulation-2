@@ -40,7 +40,7 @@ const char *gengetopt_args_info_detailed_help[] = {
   "  -i, --input=STRING   Le dossier contenant les images à traiter",
   "  -o, --output=STRING  Le dossier qui contiendra les images traitées\n                         (default=`.')",
   "  -p, --prefix=STRING  Prefix à appliquer aux noms de fichiers à sauvegarder\n                         (default=`')",
-  "  -a, --action=ENUM    L'action a effectuer sur chaque fichier  (possible\n                         values=\"display\", \"sgbm\", \"calibrate\", \"dist\",\n                         \"poi\" default=`display')",
+  "  -a, --action=ENUM    L'action à effectuer sur chaque fichier  (possible\n                         values=\"display\", \"sgbm\", \"calibrate\", \"dist\",\n                         \"poi\" default=`display')",
   "  display: affiche chaque image dans une fenêtre\n  sgbm: génère une carte de disparité avec l'algorithme StereoSGBM\n  calibrate: calibre les caméras à partir d'images contenant un échiquier et\n  enregistre le résultat dans le fichier de config opencv cal.yaml",
     0
 };
@@ -646,7 +646,7 @@ cmdline_parser_internal (
             goto failure;
         
           break;
-        case 'a':	/* L'action a effectuer sur chaque fichier.  */
+        case 'a':	/* L'action à effectuer sur chaque fichier.  */
         
         
           if (update_arg( (void *)&(args_info->action_arg), 

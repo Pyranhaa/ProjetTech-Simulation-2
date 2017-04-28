@@ -58,8 +58,10 @@ extern "C" {
         tex2Mat(tex_left, w, h, left);
         tex2Mat(tex_right, w, h, right);
 
-        merge(left, right, img);
-        cv::imshow("HELLOO", img);
+        //merge(left, right, img);
+        //cv::imshow("HELLOO", img);
+        cv::imshow("HELLOO", left);
+        cv::imshow("HELLOO", right);
     }
 }
 

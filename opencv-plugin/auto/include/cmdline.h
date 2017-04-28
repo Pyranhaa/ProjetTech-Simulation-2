@@ -51,9 +51,9 @@ struct gengetopt_args_info
   char * prefix_arg;	/**< @brief Prefix à appliquer aux noms de fichiers à sauvegarder (default='').  */
   char * prefix_orig;	/**< @brief Prefix à appliquer aux noms de fichiers à sauvegarder original value given at command line.  */
   const char *prefix_help; /**< @brief Prefix à appliquer aux noms de fichiers à sauvegarder help description.  */
-  enum enum_action action_arg;	/**< @brief L'action a effectuer sur chaque fichier (default='display').  */
-  char * action_orig;	/**< @brief L'action a effectuer sur chaque fichier original value given at command line.  */
-  const char *action_help; /**< @brief L'action a effectuer sur chaque fichier help description.  */
+  enum enum_action action_arg;	/**< @brief L'action à effectuer sur chaque fichier (default='display').  */
+  char * action_orig;	/**< @brief L'action à effectuer sur chaque fichier original value given at command line.  */
+  const char *action_help; /**< @brief L'action à effectuer sur chaque fichier help description.  */
   
   unsigned int help_given ;	/**< @brief Whether help was given.  */
   unsigned int detailed_help_given ;	/**< @brief Whether detailed-help was given.  */
